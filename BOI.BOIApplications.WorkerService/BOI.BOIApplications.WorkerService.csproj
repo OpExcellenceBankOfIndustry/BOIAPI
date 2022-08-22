@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>dotnet-BOI.BOIApplications.WorkerService-D7B961CD-C3BA-4B89-814D-565E240B304A</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BOI.BOIApplications.IdentityManagement\BOI.BOIApplications.IdentityManagement.csproj" />
+    <ProjectReference Include="..\BOI.BOIApplications.Infrastructure\BOI.BOIApplications.Infrastructure.csproj" />
+    <ProjectReference Include="..\BOI.BOIApplications.Legacy.Persistence\BOI.BOIApplications.Legacy.Persistence.csproj" />
+    <ProjectReference Include="..\BOI.BOIApplications.Persistence\BOI.BOIApplications.Persistence.csproj" />
+  </ItemGroup>
+</Project>

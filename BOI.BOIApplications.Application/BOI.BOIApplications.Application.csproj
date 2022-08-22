@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;CS8604;CS8618;CS8625</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;CS8604;CS8618;CS8625</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\API\GeoInformation\Cities\**" />
+    <EmbeddedResource Remove="Features\API\GeoInformation\Cities\**" />
+    <None Remove="Features\API\GeoInformation\Cities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BOI.BOIApplications.Domain\BOI.BOIApplications.Domain.csproj" />
+    <ProjectReference Include="..\BOI.BOIApplications.Legacy.Domain\BOI.BOIApplications.Legacy.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="DirectoryFileReader" Version="1.0.3" />
+    <PackageReference Include="FluentValidation" Version="10.3.6" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+    <PackageReference Include="MimeKit" Version="3.1.1" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\API\AccountOpening\Queries\AccountDetailsOfOwner\" />
+    <Folder Include="Features\API\AccountOpening\Queries\CompanyInform\" />
+    <Folder Include="Features\API\AccountOpening\Queries\DetailsOfNextOfKin\" />
+    <Folder Include="Features\API\AccountOpening\Queries\SoleProprietorship\" />
+    <Folder Include="Features\API\AccountOpening\Queries\RelatedPartyInform\" />
+    <Folder Include="Features\API\AccountOpening\Queries\RegulatoryInform\" />
+    <Folder Include="Features\API\AccountOpening\Queries\OwnershipInformInd\" />
+    <Folder Include="Features\API\AccountOpening\Queries\OwnershipInformCoop\" />
+  </ItemGroup>
+
+</Project>

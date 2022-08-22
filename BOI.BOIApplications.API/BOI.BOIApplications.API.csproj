@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;CS1591;NU1701</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;CS1591;NU1701</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle" Version="5.6.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BOI.BOIApplications.AccountOpening\BOI.BOIApplications.AccountOpening.csproj" />
+    <ProjectReference Include="..\BOI.BOIApplications.Application\BOI.BOIApplications.Application.csproj" />
+    <ProjectReference Include="..\BOI.BOIApplications.IdentityManagement\BOI.BOIApplications.IdentityManagement.csproj" />
+    <ProjectReference Include="..\BOI.BOIApplications.Infrastructure\BOI.BOIApplications.Infrastructure.csproj" />
+    <ProjectReference Include="..\BOI.BOIApplications.Legacy.Persistence\BOI.BOIApplications.Legacy.Persistence.csproj" />
+    <ProjectReference Include="..\BOI.BOIApplications.Persistence\BOI.BOIApplications.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Assests\Images\" />
+    <Folder Include="wwwroot\ATTATCHEMENT_UPLOAD_FOLDER\" />
+  </ItemGroup>
+
+</Project>

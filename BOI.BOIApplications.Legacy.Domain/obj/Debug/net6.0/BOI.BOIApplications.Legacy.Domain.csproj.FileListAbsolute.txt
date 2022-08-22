@@ -1,0 +1,48 @@
+D:\Code\Self\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.deps.json
+D:\Code\Self\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.dll
+D:\Code\Self\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\ref\BOI.BOIApplications.Legacy.Domain.dll
+D:\Code\Self\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
+D:\Code\Self\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.csproj.AssemblyReference.cache
+D:\Code\Self\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Code\Self\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.AssemblyInfoInputs.cache
+D:\Code\Self\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.AssemblyInfo.cs
+D:\Code\Self\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.csproj.CoreCompileInputs.cache
+D:\Code\Self\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.dll
+D:\Code\Self\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\ref\BOI.BOIApplications.Legacy.Domain.dll
+D:\Code\Self\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
+C:\Users\sbuari\Downloads\BOI.BOIApplications (1)\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.deps.json
+C:\Users\sbuari\Downloads\BOI.BOIApplications (1)\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.dll
+C:\Users\sbuari\Downloads\BOI.BOIApplications (1)\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
+C:\Users\sbuari\Downloads\BOI.BOIApplications (1)\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.csproj.AssemblyReference.cache
+C:\Users\sbuari\Downloads\BOI.BOIApplications (1)\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sbuari\Downloads\BOI.BOIApplications (1)\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.AssemblyInfoInputs.cache
+C:\Users\sbuari\Downloads\BOI.BOIApplications (1)\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.AssemblyInfo.cs
+C:\Users\sbuari\Downloads\BOI.BOIApplications (1)\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.csproj.CoreCompileInputs.cache
+C:\Users\sbuari\Downloads\BOI.BOIApplications (1)\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.dll
+C:\Users\sbuari\Downloads\BOI.BOIApplications (1)\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\ref\BOI.BOIApplications.Legacy.Domain.dll
+C:\Users\sbuari\Downloads\BOI.BOIApplications (1)\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
+C:\Users\sbuari\Downloads\BOI.BOIApplications (1)\BOI.BOIApplications\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\refint\BOI.BOIApplications.Legacy.Domain.dll
+C:\McSmart\BOI_API\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.deps.json
+C:\McSmart\BOI_API\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.dll
+C:\McSmart\BOI_API\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
+C:\McSmart\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.csproj.AssemblyReference.cache
+C:\McSmart\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\McSmart\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.AssemblyInfoInputs.cache
+C:\McSmart\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.AssemblyInfo.cs
+C:\McSmart\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.csproj.CoreCompileInputs.cache
+C:\McSmart\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.dll
+C:\McSmart\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\refint\BOI.BOIApplications.Legacy.Domain.dll
+C:\McSmart\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
+C:\McSmart\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\ref\BOI.BOIApplications.Legacy.Domain.dll
+C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.deps.json
+C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.dll
+C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
+C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.csproj.AssemblyReference.cache
+C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.AssemblyInfoInputs.cache
+C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.AssemblyInfo.cs
+C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.csproj.CoreCompileInputs.cache
+C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.dll
+C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\refint\BOI.BOIApplications.Legacy.Domain.dll
+C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
+C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\ref\BOI.BOIApplications.Legacy.Domain.dll

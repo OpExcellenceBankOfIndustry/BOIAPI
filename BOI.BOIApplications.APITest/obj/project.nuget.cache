@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "jfMwopaHwcKuNZ8Y2P9jk38HvjJCt/7JZ2KSNQo4fb8tiqhs2rza0CXtIEMS3+lz1brXYfzXdQZu8/0sCE/Exw==",
+  "success": true,
+  "projectFilePath": "D:\\Code\\Self\\BOI.BOIApplications\\BOI.BOIApplications.APITest\\BOI.BOIApplications.APITest.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Ayo\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Ayo\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Ayo\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\Ayo\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\Ayo\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\Ayo\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}
