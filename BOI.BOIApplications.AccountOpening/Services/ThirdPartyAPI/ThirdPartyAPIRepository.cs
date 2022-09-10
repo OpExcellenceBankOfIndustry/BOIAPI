@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BOI.BOIApplications.Application.Contracts.ThirdPartyAPI;
 using BOI.BOIApplications.Domain.Entities.ThirdPartyAPI;
+using BOI.BOIApplications.Application.Utility;
 using BOI.BOIApplications.Domain.Enums;
 using BOI.BOIApplications.Persistence;
 using Microsoft.Extensions.Configuration;
@@ -34,11 +35,11 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
             _thirdPartySettings = options.Value;
         }
 
-        public async Task<CustomerBVNResponse> FetchCustomerBVN(string  BVN)
+        public async Task<CustomerBVNResponse> FetchCustomerBVN(string BVN)
         {
             try
             {
-                if(BVN != null)
+                if (BVN != null)
                 {
                     var bvnExist = _dbContext.CustomerBVNResponses.Where(x => x.idNumber == BVN).FirstOrDefault();
                     if (bvnExist != null)
@@ -58,10 +59,10 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         {
                             var resp = _mapper.Map<CustomerBVNResponse>(feedback);
 
-                            if(resp != null)
+                            if (resp != null)
                             {
                                 //string convert = resp.image.Replace("data:image/jpg;base64,", String.Empty);                                
-                                if(resp.image != null)
+                                if (resp.image != null)
                                 {
                                     var imageParts = resp.image.Split(',').ToList<string>();
                                     //Exclude the header from base64 by taking second element in List.
@@ -101,7 +102,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         var convert = Convert.ToBase64String(ninExist.ninImageN);
                         ninExist.image = $"{ninExist.imageHeaderN},{convert}";
 
-                        if(ninExist.signature != null)
+                        if (ninExist.signature != null)
                         {
                             var convert2 = Convert.ToBase64String(ninExist.signatureImageN);
                             ninExist.signature = $"{ninExist.signatureHeaderN},{convert2}";
@@ -119,12 +120,12 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         if (feedback != null)
                         {
                             var resp = _mapper.Map<CustomerNINResponse>(feedback);
-                            if(resp != null)
+                            if (resp != null)
                             {
                                 if (resp.image != null)
                                 {
                                     var imageParts = resp.image.Split(',').ToList<string>();
-                                
+
                                     //Exclude the header from base64 by taking second element in List.
                                     var ninImage = Convert.FromBase64String(imageParts[1]);
                                     resp.imageHeaderN = imageParts[0];
@@ -153,7 +154,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                             }
                         }
                         return null;
-                        
+
                     }
                 }
                 return null;
@@ -183,10 +184,10 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         req.isSubjectConsent = true;
                         var pvc = _thirdPartySettings.Endpoints["PVC"];
                         var feedback = await ExcuteThirdPartyAPI(req, pvc);
-                        if (feedback != null) 
-                        {                         
+                        if (feedback != null)
+                        {
                             var resp = _mapper.Map<CustomerPVCResponse>(feedback);
-                            if(resp != null)
+                            if (resp != null)
                             {
                                 resp.Success = true;
                                 resp.Message = "Successful";
@@ -196,7 +197,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                             }
                         }
 
-                        return null;      
+                        return null;
                     }
                 }
                 return null;
@@ -235,10 +236,10 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         req.lastName = lastName;
                         var inp = _thirdPartySettings.Endpoints["INP"];
                         var feedback = await ExcuteThirdPartyAPI(req, inp);
-                        if (feedback != null) 
-                        { 
-                            var resp = _mapper.Map<CustomerINTLPassportResponse>(feedback);                        
-                            if(resp != null)
+                        if (feedback != null)
+                        {
+                            var resp = _mapper.Map<CustomerINTLPassportResponse>(feedback);
+                            if (resp != null)
                             {
                                 if (resp.image != null)
                                 {
@@ -298,10 +299,10 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         req.isSubjectConsent = true;
                         var ndl = _thirdPartySettings.Endpoints["NDL"];
                         var feedback = await ExcuteThirdPartyAPI(req, ndl);
-                        if (feedback != null) 
-                        {                         
-                           var resp = _mapper.Map<CustomerDriversLicenseResponse>(feedback);
-                           if(resp != null)
+                        if (feedback != null)
+                        {
+                            var resp = _mapper.Map<CustomerDriversLicenseResponse>(feedback);
+                            if (resp != null)
                             {
                                 if (resp.image != null)
                                 {
@@ -338,7 +339,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                 if (CAC != null)
                 {
                     var cacExist = _dbContext.BusinessCACResponses.Where(x => x.registrationNumber == CAC).FirstOrDefault();
-                   
+
                     if (cacExist != null)
                     {
                         var keyPerson = _dbContext.keyPersonnelDetails.Where(x => x.typeNumber == CAC && x.type == "CAC").ToList();
@@ -355,8 +356,8 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         var feedback = await ExcuteThirdPartyBusinessAPI(req, cac);
                         if (feedback != null)
                         {
-                            var resp = _mapper.Map<BusinessCACResponse>(feedback); 
-                                                                  
+                            var resp = _mapper.Map<BusinessCACResponse>(feedback);
+
                             if (resp != null)
                             {
                                 foreach (var item in resp.keyPersonnel)
@@ -368,7 +369,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                                 }
                                 resp.Success = true;
                                 resp.Message = "Successful";
-                                _dbContext.BusinessCACResponses.Add(resp);                            
+                                _dbContext.BusinessCACResponses.Add(resp);
                                 await _dbContext.SaveChangesAsync();
                                 return resp;
                             }
@@ -396,7 +397,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                     {
                         var keyPerson = _dbContext.keyPersonnelDetails.Where(x => x.typeNumber == TIN && x.type == "TIN").ToList();
                         tinExist.keyPersonnel = keyPerson;
-                   
+
                         return tinExist;
                     }
                     else
@@ -407,10 +408,10 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         req.isConsent = true;
                         var tin = _thirdPartySettings.Endpoints["BVS"];
                         var feedback = await ExcuteThirdPartyBusinessAPI(req, tin);
-                        if(feedback != null)
+                        if (feedback != null)
                         {
                             var resp = _mapper.Map<BusinessTINResponse>(feedback);
-                           
+
                             if (resp != null)
                             {
                                 foreach (var item in resp.keyPersonnel)
@@ -449,7 +450,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
 
                 RestRequest request = new RestRequest(endPoint, Method.POST);
                 request.RequestFormat = DataFormat.Json;
-                if (generalRequest.lastName != null )
+                if (generalRequest.lastName != null)
                 {
                     request.AddJsonBody(generalRequest);
                 }
@@ -464,7 +465,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                 {
                     resp = JsonConvert.DeserializeObject<ThirdPartyAPIResponse<GeneralResponse>>(response.Content);
                     resp.Data.requestedDate = DateTimeOffset.Now;
-                    
+
                     return resp.Data;
                 }
                 else
@@ -512,7 +513,6 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                 throw;
             }
         }
-
 
         public Task<CryptResponse> EncryptViaAes(string word)
         {

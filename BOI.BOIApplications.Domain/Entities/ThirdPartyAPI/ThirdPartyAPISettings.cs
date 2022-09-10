@@ -12,6 +12,9 @@ namespace BOI.BOIApplications.Domain.Entities.ThirdPartyAPI
         public string? BaseURL { get; set; }
         public Dictionary<string,string>? Endpoints { get; set; }
 
+        public string? LoanPortalBaseURL { get; set; }
+        public Dictionary<string, string>? LoanPortalEndpoints { get; set; }
+
         public string? EncryptionKey { get; set; }
         public int TokenExpirationTime { get; set; }
     }

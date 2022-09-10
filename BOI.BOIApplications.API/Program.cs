@@ -48,6 +48,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddOptions();
 builder.Services.Configure<ThirdPartyAPISettings>(configuration.GetSection("ThirdPartyAPISettings"));
+builder.Services.Configure<RubikonBonitaIntegrationAPISettings>(configuration.GetSection("RubikonBonitaIntegrationAPISettings"));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
