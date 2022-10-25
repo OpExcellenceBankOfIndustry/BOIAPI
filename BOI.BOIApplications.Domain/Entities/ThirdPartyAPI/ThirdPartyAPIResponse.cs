@@ -18,9 +18,7 @@ namespace BOI.BOIApplications.Domain.Entities.ThirdPartyAPI
     public class ThirdPartyAPIResponse<T> : ThirdPartyAPIResponseBase
     {
         public T? Data { get; set; }
-    }
-
-    
+    }    
 
     public class address
     {

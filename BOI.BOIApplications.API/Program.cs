@@ -30,7 +30,7 @@ builder.Host.UseSerilog(Log.Logger);
 // Add services to the container.
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
-builder.Services.AddPersistenceervices(configuration);
+builder.Services.AddPersistenceServices(configuration);
 builder.Services.AddPersistenceLegacyServices(configuration);
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddIdentityManagementServices(configuration);
@@ -48,6 +48,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddOptions();
 builder.Services.Configure<ThirdPartyAPISettings>(configuration.GetSection("ThirdPartyAPISettings"));
+builder.Services.Configure<RubikonBonitaIntegrationAPISettings>(configuration.GetSection("RubikonBonitaIntegrationAPISettings"));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -1,4 +1,6 @@
 ﻿using BOI.BOIApplications.Application.Contracts.ThirdPartyAPI;
+using BOI.BOIApplications.Application.Features.API.Influence.PEPs.Queries.GetPEPByBVN;
+using BOI.BOIApplications.Application.Features.API.MicrosoftIdentity.UserManagement.Command.ConfirmEmail;
 using BOI.BOIApplications.Domain.Entities;
 using BOI.BOIApplications.Domain.Entities.ThirdPartyAPI;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BOI.BOIApplications.API.Controllers
 {
 
-    
+
     [Route("api/[controller]")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status200OK)]
