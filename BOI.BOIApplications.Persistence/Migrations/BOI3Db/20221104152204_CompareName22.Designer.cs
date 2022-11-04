@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
 {
     [DbContext(typeof(BOI3DbContext))]
-    [Migration("20220511141204_newColumns")]
-    partial class newColumns
+    [Migration("20221104152204_CompareName22")]
+    partial class CompareName22
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,10 +24,64 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("BOI.BOIApplications.Domain.Entities.AccountOpeningModels.AOCompanyBOIDiscover", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("AOCompanyBOIDiscovers");
+                });
+
+            modelBuilder.Entity("BOI.BOIApplications.Domain.Entities.AccountOpeningModels.AOEmployeesRelationship", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("AOEmployeesRelationships");
+                });
+
+            modelBuilder.Entity("BOI.BOIApplications.Domain.Entities.AccountOpeningModels.AOJobTitle", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("AOJobTitles");
+                });
+
             modelBuilder.Entity("BOI.BOIApplications.Domain.Entities.ThirdPartyAPI.BusinessCACResponse", b =>
                 {
                     b.Property<string>("id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("bit");
 
                     b.Property<string>("activity")
                         .HasColumnType("nvarchar(max)");
@@ -125,6 +179,12 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
                 {
                     b.Property<string>("id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("bit");
 
                     b.Property<string>("activity")
                         .HasColumnType("nvarchar(max)");
@@ -238,6 +298,9 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
                     b.Property<string>("businessId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("bvnImage")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("country")
                         .HasColumnType("nvarchar(max)");
 
@@ -266,6 +329,9 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("imageHeaderN")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("isConsent")
@@ -317,6 +383,15 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("NDLImage")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("bit");
+
                     b.Property<string>("businessId")
                         .HasColumnType("nvarchar(max)");
 
@@ -348,6 +423,9 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("imageHeaderN")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("isConsent")
@@ -402,8 +480,17 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("INPId"), 1L, 1);
 
+                    b.Property<byte[]>("INPImage")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("bit");
 
                     b.Property<string>("businessId")
                         .HasColumnType("nvarchar(max)");
@@ -433,6 +520,9 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("imageHeaderN")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("isConsent")
@@ -474,6 +564,12 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
                     b.Property<string>("signature")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("signatureHeaderN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("signatureImageN")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("stateOfIssuance")
                         .HasColumnType("nvarchar(max)");
 
@@ -498,6 +594,12 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
 
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("bit");
 
                     b.Property<string>("addressLine")
                         .HasColumnType("nvarchar(max)");
@@ -541,6 +643,9 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
                     b.Property<string>("image")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("imageHeaderN")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("isConsent")
                         .HasColumnType("bit");
 
@@ -559,6 +664,9 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
                     b.Property<string>("mobile")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("ninImageN")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("nokState")
                         .HasColumnType("nvarchar(max)");
 
@@ -576,6 +684,12 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
 
                     b.Property<string>("signature")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("signatureHeaderN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("signatureImageN")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("state")
                         .HasColumnType("nvarchar(max)");
@@ -604,6 +718,12 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
 
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("bit");
 
                     b.Property<string>("businessId")
                         .HasColumnType("nvarchar(max)");
