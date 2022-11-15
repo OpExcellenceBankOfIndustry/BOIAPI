@@ -6153,11 +6153,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\inetpub\\wwwroot\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
+      "projectUniqueName": "C:\\Users\\fikem\\Desktop\\BOI\\Merge\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
       "projectName": "BOI.BOIApplications.AccountOpening",
-      "projectPath": "C:\\inetpub\\wwwroot\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
+      "projectPath": "C:\\Users\\fikem\\Desktop\\BOI\\Merge\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
       "packagesPath": "C:\\Users\\fikem\\.nuget\\packages\\",
-      "outputPath": "C:\\inetpub\\wwwroot\\BOIAPI\\BOI.BOIApplications.AccountOpening\\obj\\",
+      "outputPath": "C:\\Users\\fikem\\Desktop\\BOI\\Merge\\BOIAPI\\BOI.BOIApplications.AccountOpening\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -6178,11 +6178,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\inetpub\\wwwroot\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
-              "projectPath": "C:\\inetpub\\wwwroot\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj"
+            "C:\\Users\\fikem\\Desktop\\BOI\\Merge\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
+              "projectPath": "C:\\Users\\fikem\\Desktop\\BOI\\Merge\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj"
             },
-            "C:\\inetpub\\wwwroot\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj": {
-              "projectPath": "C:\\inetpub\\wwwroot\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj"
+            "C:\\Users\\fikem\\Desktop\\BOI\\Merge\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj": {
+              "projectPath": "C:\\Users\\fikem\\Desktop\\BOI\\Merge\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj"
             }
           }
         }

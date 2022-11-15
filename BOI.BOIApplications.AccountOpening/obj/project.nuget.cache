@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vSYTBucmtR8CfUaFlSHENpJNc6Mc80BMrFcgpyOFqJZvH7EnAJiX3Df4mur1+4VV1YDj30QkweNHJz7Iu5ujJw==",
+  "dgSpecHash": "ZZv3idWcsB6gAE1Km/DW/eEz61YH6eocOHH4Wc4+oasWJviEXobcHUr2dfHMyyfrOPMathFbawm+jD69z1d/DQ==",
   "success": true,
-  "projectFilePath": "C:\\inetpub\\wwwroot\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
+  "projectFilePath": "C:\\Users\\fikem\\Desktop\\BOI\\Merge\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\fikem\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\fikem\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
