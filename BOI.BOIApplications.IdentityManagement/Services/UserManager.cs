@@ -18,7 +18,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Security.Policy;
 using System.Web;
-using Microsoft.Extensions.Configuration;
 
 namespace BOI.BOIApplications.IdentityManagement.Services
 {
@@ -28,15 +27,13 @@ namespace BOI.BOIApplications.IdentityManagement.Services
         private readonly UserManager<UserDetail> _userManager;
         private readonly RoleManager<UserRole> _roleManager;
         private readonly IEmailRepository _emailRepository;
-        private readonly IConfiguration _configuration;
 
 
-        public UserManager(UserManager<UserDetail> userManager, RoleManager<UserRole> roleManager, IEmailRepository emailRepository, IConfiguration configuration)
+        public UserManager(UserManager<UserDetail> userManager, RoleManager<UserRole> roleManager, IEmailRepository emailRepository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _emailRepository = emailRepository;
-            _configuration = configuration;
 
         }
         public async Task<UserDetailViewModel> UserRegistration(UserDetailViewModel userDetail)
@@ -82,10 +79,8 @@ namespace BOI.BOIApplications.IdentityManagement.Services
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var enCode = HttpUtility.UrlEncode(code);
 
-                // var callbackUrl = "https://localhost:7041/api/UserManagement/ConfirmEmail?email={Email}&code={code}";
-
-                var baseURL = _configuration["BaseSettings:BaseURL"];
-                var callbackUrl = baseURL + "api/UserManagement/ConfirmEmail?email={Email}&code={code}";
+               // var callbackUrl = "https://localhost:7041/api/UserManagement/ConfirmEmail?email={Email}&code={code}";
+                var callbackUrl = "http://smartvueintl-001-site3.ftempurl.com/api/UserManagement/ConfirmEmail?email={Email}&code={code}";
                 callbackUrl = callbackUrl.Replace("{Email}", userDetail.Email).Replace("{code}", enCode);
 
                 var enqueueEmail = new Email

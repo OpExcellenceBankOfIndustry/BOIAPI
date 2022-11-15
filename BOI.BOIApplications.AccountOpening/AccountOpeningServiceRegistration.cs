@@ -1,11 +1,9 @@
 ﻿using BOI.BOIApplications.AccountOpening.Services;
 using BOI.BOIApplications.AccountOpening.Services.AccountOpening;
 using BOI.BOIApplications.AccountOpening.Services.MicroCreditLoan;
-using BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration;
 using BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI;
 using BOI.BOIApplications.Application.Contracts.AccountOpening;
 using BOI.BOIApplications.Application.Contracts.MicroCreditLoan;
-using BOI.BOIApplications.Application.Contracts.RubikonBonitaIntegrationAPI;
 using BOI.BOIApplications.Application.Contracts.ThirdPartyAPI;
 using BOI.BOIApplications.Domain.Entities.ThirdPartyAPI;
 using BOI.BOIApplications.Persistence;
@@ -34,7 +32,6 @@ namespace BOI.BOIApplications.AccountOpening
             services.AddScoped<IAODropDownListRepository, AODropDownListRepository>();
             services.AddScoped<IMCDropDownListRepository, MCDropDownListRepository>();
             services.AddScoped<IThirdPartyAPIRepository, ThirdPartyAPIRepository>();
-            services.AddScoped<IRubikonBonitaRepository, RubikonBonitaRepository>();
             services.AddScoped<IRestClient, RestClient>();
             //services.AddOptions();
             //services.Configure<ThirdPartyAPISettings>(configuration.GetSection("ThirdPartyAPISettings"));

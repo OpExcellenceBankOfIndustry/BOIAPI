@@ -251,10 +251,6 @@
               "target": "Package",
               "version": "[6.0.2, )"
             },
-            "Newtonsoft.Json": {
-              "target": "Package",
-              "version": "[13.0.1, )"
-            },
             "System.Drawing.Common": {
               "target": "Package",
               "version": "[6.0.0, )"
@@ -388,10 +384,6 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "Dapper": {
-              "target": "Package",
-              "version": "[2.0.123, )"
-            },
             "Microsoft.AspNetCore": {
               "target": "Package",
               "version": "[2.2.0, )"
@@ -423,10 +415,6 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[6.0.2, )"
-            },
-            "Oracle.ManagedDataAccess.Core": {
-              "target": "Package",
-              "version": "[3.21.70, )"
             }
           },
           "imports": [

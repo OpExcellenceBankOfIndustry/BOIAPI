@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BOI.BOIApplications.Application.Contracts.ThirdPartyAPI;
+using BOI.BOIApplications.Domain.DTO;
 using BOI.BOIApplications.Domain.Entities.ThirdPartyAPI;
-using BOI.BOIApplications.Application.Utility;
 using BOI.BOIApplications.Domain.Enums;
 using BOI.BOIApplications.Persistence;
 using Microsoft.Extensions.Configuration;
@@ -35,23 +35,36 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
             _thirdPartySettings = options.Value;
         }
 
-        public async Task<CustomerBVNResponse> FetchCustomerBVN(string BVN)
+        public async Task<PersonalIdentificationResponse> FetchCustomerBVN(PersonalIdentificationRequest request)
         {
             try
             {
-                if (BVN != null)
+                if(request.idNumber != null)
                 {
-                    var bvnExist = _dbContext.CustomerBVNResponses.Where(x => x.idNumber == BVN).FirstOrDefault();
+                    var bvnExist = _dbContext.CustomerBVNResponses.Where(x => x.idNumber == request.idNumber).FirstOrDefault();
                     if (bvnExist != null)
                     {
-                        var convert = Convert.ToBase64String(bvnExist.bvnImage);
-                        bvnExist.image = $"{bvnExist.imageHeaderN},{convert}";
-                        return bvnExist;
+                        var nameFromYouVerify = bvnExist.firstName + " "+ bvnExist.middleName + " " + bvnExist.lastName;
+                        var nameToCheck = request.firstName + " " + request.middleName + " " + request.lastName;
+                        
+                        var nameMatch = ComparePersonalName(nameToCheck, nameFromYouVerify);
+                        var dateMatch = CompareDateOfBirth(request.dateOfBirth, bvnExist.dateOfBirth);
+                        if ((await nameMatch) && (await dateMatch)) return new PersonalIdentificationResponse
+                        {
+                            Matched = true,
+                            Message = "Both Full Name and Date of Birth matched.",
+                        };
+                        return new PersonalIdentificationResponse
+                        {
+                            Matched = false,
+                            Message = "Full Name OR Date of Birth did not match. Kindly review and enter correct details.",
+                        };
+                        
                     }
                     else
                     {
                         var req = new GeneralRequest();
-                        req.id = BVN;
+                        req.id = request.idNumber;
                         req.isSubjectConsent = true;
                         var bvn = _thirdPartySettings.Endpoints["BVN"];
                         var feedback = await ExcuteThirdPartyAPI(req, bvn);
@@ -59,10 +72,10 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         {
                             var resp = _mapper.Map<CustomerBVNResponse>(feedback);
 
-                            if (resp != null)
+                            if(resp != null)
                             {
                                 //string convert = resp.image.Replace("data:image/jpg;base64,", String.Empty);                                
-                                if (resp.image != null)
+                                if(resp.image != null)
                                 {
                                     var imageParts = resp.image.Split(',').ToList<string>();
                                     //Exclude the header from base64 by taking second element in List.
@@ -74,21 +87,36 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                                 resp.Message = "Successful";
                                 _dbContext.CustomerBVNResponses.Add(resp);
                                 await _dbContext.SaveChangesAsync();
-                                return resp;
+
+                                var nameFromYouVerify = resp.firstName + " " + resp.middleName + " " + resp.lastName;
+                                var nameToCheck = request.firstName + " " + request.middleName + " " + request.lastName;
+
+                                var nameMatch = ComparePersonalName(nameToCheck, nameFromYouVerify);
+                                var dateMatch = CompareDateOfBirth(request.dateOfBirth, resp.dateOfBirth);
+                                if ((await nameMatch) && (await dateMatch)) return new PersonalIdentificationResponse
+                                {
+                                    Matched = true,
+                                    Message = "Both Full Name and Date of Birth matched.",
+                                };
+                                return new PersonalIdentificationResponse
+                                {
+                                    Matched = false,
+                                    Message = "Full Name OR Date of Birth did not match. Kindly review and enter correct details.",
+                                };
                             }
                         }
-<<<<<<< HEAD
                         return new PersonalIdentificationResponse
                         {
                             Matched = true,
-                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
+                            Message = "You Verify end-point did not return any value. No Record found for this number.",
                         };
-=======
-                        return null;
->>>>>>> 0de255f9f77bd7b790e46704e1e0d2f2e43610f9
                     }
                 }
-                return null;
+                return new PersonalIdentificationResponse
+                {
+                    Matched = false,
+                    Message = "BVN Detail is empty. Kindly review and enter correct details.",
+                };
             }
             catch (Exception)
             {
@@ -97,30 +125,35 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
             }
         }
 
-        public async Task<CustomerNINResponse> FetchCustomerNIN(string NIN)
+        public async Task<PersonalIdentificationResponse> FetchCustomerNIN(PersonalIdentificationRequest request)
         {
             try
             {
-                if (NIN != null)
+                if (request.idNumber != null)
                 {
-                    var ninExist = _dbContext.CustomerNINResponses.Where(x => x.idNumber == NIN).FirstOrDefault();
+                    var ninExist = _dbContext.CustomerNINResponses.Where(x => x.idNumber == request.idNumber).FirstOrDefault();
                     if (ninExist != null)
                     {
+                        var nameFromYouVerify = ninExist.firstName + " " + ninExist.middleName + " " + ninExist.lastName;
+                        var nameToCheck = request.firstName + " " + request.middleName + " " + request.lastName;
 
-                        var convert = Convert.ToBase64String(ninExist.ninImageN);
-                        ninExist.image = $"{ninExist.imageHeaderN},{convert}";
-
-                        if (ninExist.signature != null)
+                        var nameMatch = ComparePersonalName(nameToCheck, nameFromYouVerify);
+                        var dateMatch = CompareDateOfBirth(request.dateOfBirth, ninExist.dateOfBirth);
+                        if ((await nameMatch) && (await dateMatch)) return new PersonalIdentificationResponse
                         {
-                            var convert2 = Convert.ToBase64String(ninExist.signatureImageN);
-                            ninExist.signature = $"{ninExist.signatureHeaderN},{convert2}";
-                        }
-                        return ninExist;
+                            Matched = true,
+                            Message = "Both Full Name and Date of Birth matched.",
+                        };
+                        return new PersonalIdentificationResponse
+                        {
+                            Matched = false,
+                            Message = "Full Name OR Date of Birth did not match. Kindly review and enter correct details.",
+                        };
                     }
                     else
                     {
                         var req = new GeneralRequest();
-                        req.id = NIN;
+                        req.id = request.idNumber;
                         req.isSubjectConsent = true;
 
                         var nin = _thirdPartySettings.Endpoints["NIN"];
@@ -128,12 +161,12 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         if (feedback != null)
                         {
                             var resp = _mapper.Map<CustomerNINResponse>(feedback);
-                            if (resp != null)
+                            if(resp != null)
                             {
                                 if (resp.image != null)
                                 {
                                     var imageParts = resp.image.Split(',').ToList<string>();
-
+                                
                                     //Exclude the header from base64 by taking second element in List.
                                     var ninImage = Convert.FromBase64String(imageParts[1]);
                                     resp.imageHeaderN = imageParts[0];
@@ -157,23 +190,38 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                                 resp.Message = "Successful";
 
                                 _dbContext.CustomerNINResponses.Add(resp);
-                                await _dbContext.SaveChangesAsync();
-                                return resp;
+                                await _dbContext.SaveChangesAsync(); 
+                                
+                                var nameFromYouVerify = resp.firstName + " " + resp.middleName + " " + resp.lastName;
+                                var nameToCheck = request.firstName + " " + request.middleName + " " + request.lastName;
+
+                                var nameMatch = ComparePersonalName(nameToCheck, nameFromYouVerify);
+                                var dateMatch = CompareDateOfBirth(request.dateOfBirth, resp.dateOfBirth);
+                                if ((await nameMatch) && (await dateMatch)) return new PersonalIdentificationResponse
+                                {
+                                    Matched = true,
+                                    Message = "Both Full Name and Date of Birth matched.",
+                                };
+                                return new PersonalIdentificationResponse
+                                {
+                                    Matched = false,
+                                    Message = "Full Name OR Date of Birth did not match. Kindly review and enter correct details.",
+                                };
                             }
                         }
-<<<<<<< HEAD
                         return new PersonalIdentificationResponse
                         {
                             Matched = true,
-                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
+                            Message = "You Verify end-point did not return any value. No Record found for this number.",
                         };
-=======
-                        return null;
->>>>>>> 0de255f9f77bd7b790e46704e1e0d2f2e43610f9
 
                     }
                 }
-                return null;
+                return new PersonalIdentificationResponse
+                {
+                    Matched = false,
+                    Message = "NIN Detail is empty. Kindly review and enter correct details.",
+                };
             }
             catch (Exception)
             {
@@ -182,49 +230,77 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
             }
         }
 
-        public async Task<CustomerPVCResponse> FetchCustomerPVC(string PVC)
+        public async Task<PersonalIdentificationResponse> FetchCustomerPVC(PersonalIdentificationRequest request)
         {
             try
             {
-                if (PVC != null)
+                if (request.idNumber != null)
                 {
-                    var pvcExist = _dbContext.CustomerPVCResponses.Where(x => x.idNumber == PVC).FirstOrDefault();
+                    var pvcExist = _dbContext.CustomerPVCResponses.Where(x => x.idNumber == request.idNumber).FirstOrDefault();
                     if (pvcExist != null)
                     {
-                        return pvcExist;
+                        var nameFromYouVerify = pvcExist.firstName + " " + pvcExist.middleName + " " + pvcExist.lastName;
+                        var nameToCheck = request.firstName + " " + request.middleName + " " + request.lastName;
+
+                        var nameMatch = ComparePersonalName(nameToCheck, nameFromYouVerify);
+                        var dateMatch = CompareDateOfBirth(request.dateOfBirth, pvcExist.dateOfBirth);
+                        if ((await nameMatch) && (await dateMatch)) return new PersonalIdentificationResponse
+                        {
+                            Matched = true,
+                            Message = "Both Full Name and Date of Birth matched.",
+                        };
+                        return new PersonalIdentificationResponse
+                        {
+                            Matched = false,
+                            Message = "Full Name OR Date of Birth did not match. Kindly review and enter correct details.",
+                        };
                     }
                     else
                     {
                         var req = new GeneralRequest();
-                        req.id = PVC;
+                        req.id = request.idNumber;
                         req.isSubjectConsent = true;
                         var pvc = _thirdPartySettings.Endpoints["PVC"];
                         var feedback = await ExcuteThirdPartyAPI(req, pvc);
-                        if (feedback != null)
-                        {
+                        if (feedback != null) 
+                        {                         
                             var resp = _mapper.Map<CustomerPVCResponse>(feedback);
-                            if (resp != null)
+                            if(resp != null)
                             {
                                 resp.Success = true;
                                 resp.Message = "Successful";
                                 _dbContext.CustomerPVCResponses.Add(resp);
                                 await _dbContext.SaveChangesAsync();
-                                return resp;
+                                var nameFromYouVerify = resp.firstName + " " + resp.middleName + " " + resp.lastName;
+                                var nameToCheck = request.firstName + " " + request.middleName + " " + request.lastName;
+
+                                var nameMatch = ComparePersonalName(nameToCheck, nameFromYouVerify);
+                                var dateMatch = CompareDateOfBirth(request.dateOfBirth, resp.dateOfBirth);
+                                if ((await nameMatch) && (await dateMatch)) return new PersonalIdentificationResponse
+                                {
+                                    Matched = true,
+                                    Message = "Both Full Name and Date of Birth matched.",
+                                };
+                                return new PersonalIdentificationResponse
+                                {
+                                    Matched = false,
+                                    Message = "Full Name OR Date of Birth did not match. Kindly review and enter correct details.",
+                                };
                             }
                         }
 
-<<<<<<< HEAD
                         return new PersonalIdentificationResponse
                         {
                             Matched = true,
-                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
+                            Message = "You Verify end-point did not return any value. No Record found for this number.",
                         };
-=======
-                        return null;
->>>>>>> 0de255f9f77bd7b790e46704e1e0d2f2e43610f9
                     }
                 }
-                return null;
+                return new PersonalIdentificationResponse
+                {
+                    Matched = false,
+                    Message = "PVC Detail is empty. Kindly review and enter correct details.",
+                };
             }
             catch (Exception)
             {
@@ -233,37 +309,43 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
             }
         }
 
-        public async Task<CustomerINTLPassportResponse> FetchCustomerINP(string INP, string lastName)
+        public async Task<PersonalIdentificationResponse> FetchCustomerINP(PersonalIdentificationRequest request)
         {
             try
             {
-                if (INP != null && lastName != null)
+                if (request.idNumber != null && request.lastName != null)
                 {
-                    var inpExist = _dbContext.CustomerINTLPassportResponses.Where(x => x.idNumber == INP).FirstOrDefault();
+                    var inpExist = _dbContext.CustomerINTLPassportResponses.Where(x => x.idNumber == request.idNumber).FirstOrDefault();
                     if (inpExist != null)
                     {
-                        var convert = Convert.ToBase64String(inpExist.INPImage);
-                        inpExist.image = $"{inpExist.imageHeaderN},{convert}";
+                        var nameFromYouVerify = inpExist.firstName + " " + inpExist.middleName + " " + inpExist.lastName;
+                        var nameToCheck = request.firstName + " " + request.middleName + " " + request.lastName;
 
-                        if (inpExist.signature != null)
+                        var nameMatch = ComparePersonalName(nameToCheck, nameFromYouVerify);
+                        var dateMatch = CompareDateOfBirth(request.dateOfBirth, inpExist.dateOfBirth);
+                        if ((await nameMatch) && (await dateMatch)) return new PersonalIdentificationResponse
                         {
-                            var convert2 = Convert.ToBase64String(inpExist.signatureImageN);
-                            inpExist.signature = $"{inpExist.signatureHeaderN},{convert2}";
-                        }
-                        return inpExist;
+                            Matched = true,
+                            Message = "Both Full Name and Date of Birth matched.",
+                        };
+                        return new PersonalIdentificationResponse
+                        {
+                            Matched = false,
+                            Message = "Full Name OR Date of Birth did not match. Kindly review and enter correct details.",
+                        };
                     }
                     else
                     {
                         var req = new GeneralRequest();
-                        req.id = INP;
+                        req.id = request.idNumber;
                         req.isSubjectConsent = true;
-                        req.lastName = lastName;
+                        req.lastName = request.lastName;
                         var inp = _thirdPartySettings.Endpoints["INP"];
                         var feedback = await ExcuteThirdPartyAPI(req, inp);
-                        if (feedback != null)
-                        {
-                            var resp = _mapper.Map<CustomerINTLPassportResponse>(feedback);
-                            if (resp != null)
+                        if (feedback != null) 
+                        { 
+                            var resp = _mapper.Map<CustomerINTLPassportResponse>(feedback);                        
+                            if(resp != null)
                             {
                                 if (resp.image != null)
                                 {
@@ -287,21 +369,35 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                                 resp.Message = "Successful";
                                 _dbContext.CustomerINTLPassportResponses.Add(resp);
                                 await _dbContext.SaveChangesAsync();
-                                return resp;
+                                var nameFromYouVerify = resp.firstName + " " + resp.middleName + " " + resp.lastName;
+                                var nameToCheck = request.firstName + " " + request.middleName + " " + request.lastName;
+
+                                var nameMatch = ComparePersonalName(nameToCheck, nameFromYouVerify);
+                                var dateMatch = CompareDateOfBirth(request.dateOfBirth, resp.dateOfBirth);
+                                if ((await nameMatch) && (await dateMatch)) return new PersonalIdentificationResponse
+                                {
+                                    Matched = true,
+                                    Message = "Both Full Name and Date of Birth matched.",
+                                };
+                                return new PersonalIdentificationResponse
+                                {
+                                    Matched = false,
+                                    Message = "Full Name OR Date of Birth did not match. Kindly review and enter correct details.",
+                                };
                             }
                         }
-<<<<<<< HEAD
                         return new PersonalIdentificationResponse
                         {
                             Matched = true,
-                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
+                            Message = "You Verify end-point did not return any value. No Record found for this number.",
                         };
-=======
-                        return null;
->>>>>>> 0de255f9f77bd7b790e46704e1e0d2f2e43610f9
                     }
                 }
-                return null;
+                return new PersonalIdentificationResponse
+                {
+                    Matched = false,
+                    Message = "Passport Number Detail is empty. Kindly review and enter correct details.",
+                };
             }
             catch (Exception)
             {
@@ -310,31 +406,42 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
             }
         }
 
-        public async Task<CustomerDriversLicenseResponse> FetchCustomerNDL(string NDL)
+        public async Task<PersonalIdentificationResponse> FetchCustomerNDL(PersonalIdentificationRequest request)
         {
             try
             {
-                if (NDL != null)
+                if (request.idNumber != null)
                 {
-                    var ndlExist = _dbContext.CustomerDriversLicenseResponses.Where(x => x.idNumber == NDL).FirstOrDefault();
+                    var ndlExist = _dbContext.CustomerDriversLicenseResponses.Where(x => x.idNumber == request.idNumber).FirstOrDefault();
                     if (ndlExist != null)
                     {
+                        var nameFromYouVerify = ndlExist.firstName + " " + ndlExist.middleName + " " + ndlExist.lastName;
+                        var nameToCheck = request.firstName + " " + request.middleName + " " + request.lastName;
 
-                        var convert = Convert.ToBase64String(ndlExist.NDLImage);
-                        ndlExist.image = $"{ndlExist.imageHeaderN},{convert}";
-                        return ndlExist;
+                        var nameMatch = ComparePersonalName(nameToCheck, nameFromYouVerify);
+                        var dateMatch = CompareDateOfBirth(request.dateOfBirth, ndlExist.dateOfBirth);
+                        if ((await nameMatch) && (await dateMatch)) return new PersonalIdentificationResponse
+                        {
+                            Matched = true,
+                            Message = "Both Full Name and Date of Birth matched.",
+                        };
+                        return new PersonalIdentificationResponse
+                        {
+                            Matched = false,
+                            Message = "Full Name OR Date of Birth did not match. Kindly review and enter correct details.",
+                        };
                     }
                     else
                     {
                         var req = new GeneralRequest();
-                        req.id = NDL;
+                        req.id = request.idNumber;
                         req.isSubjectConsent = true;
                         var ndl = _thirdPartySettings.Endpoints["NDL"];
                         var feedback = await ExcuteThirdPartyAPI(req, ndl);
-                        if (feedback != null)
-                        {
-                            var resp = _mapper.Map<CustomerDriversLicenseResponse>(feedback);
-                            if (resp != null)
+                        if (feedback != null) 
+                        {                         
+                           var resp = _mapper.Map<CustomerDriversLicenseResponse>(feedback);
+                           if(resp != null)
                             {
                                 if (resp.image != null)
                                 {
@@ -349,21 +456,35 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                                 resp.Message = "Successful";
                                 _dbContext.CustomerDriversLicenseResponses.Add(resp);
                                 await _dbContext.SaveChangesAsync();
-                                return resp;
+                                var nameFromYouVerify = resp.firstName + " " + resp.middleName + " " + resp.lastName;
+                                var nameToCheck = request.firstName + " " + request.middleName + " " + request.lastName;
+
+                                var nameMatch = ComparePersonalName(nameToCheck, nameFromYouVerify);
+                                var dateMatch = CompareDateOfBirth(request.dateOfBirth, resp.dateOfBirth);
+                                if ((await nameMatch) && (await dateMatch)) return new PersonalIdentificationResponse
+                                {
+                                    Matched = true,
+                                    Message = "Both Full Name and Date of Birth matched.",
+                                };
+                                return new PersonalIdentificationResponse
+                                {
+                                    Matched = false,
+                                    Message = "Full Name OR Date of Birth did not match. Kindly review and enter correct details.",
+                                };
                             }
                         }
-<<<<<<< HEAD
                         return new PersonalIdentificationResponse
                         {
                             Matched = true,
-                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
+                            Message = "You Verify end-point did not return any value. No Record found for this number.",
                         };
-=======
-                        return null;
->>>>>>> 0de255f9f77bd7b790e46704e1e0d2f2e43610f9
                     }
                 }
-                return null;
+                return new PersonalIdentificationResponse
+                {
+                    Matched = false,
+                    Message = "NDL Detail is empty. Kindly review and enter correct details.",
+                };
             }
             catch (Exception ex)
             {
@@ -372,54 +493,33 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
             }
         }
 
-        public async Task<CompanyIdentificationResponse> FetchBusinessCAC(CACIdentificationRequest request)
+        public async Task<BusinessCACResponse> FetchBusinessCAC(string CAC)
         {
             try
             {
-                if (request.CompanyName != null && request.CompanyRegistrationNumber != null)
+                if (CAC != null)
                 {
-<<<<<<< HEAD
-                    var cacExist = _dbContext.BusinessCACResponses.Where(x => x.registrationNumber == request.CompanyRegistrationNumber).FirstOrDefault();                   
-                    if (cacExist != null && cacExist.name != null)
-=======
                     var cacExist = _dbContext.BusinessCACResponses.Where(x => x.registrationNumber == CAC).FirstOrDefault();
-
+                   
                     if (cacExist != null)
->>>>>>> 0de255f9f77bd7b790e46704e1e0d2f2e43610f9
                     {
-                        var nameMatch = ComparePersonalName(request.CompanyName, cacExist.name);
-                        var dateMatch = CompareDateOfBirth(request.CompanyRegistrationDate, cacExist.registrationDate);
-                        if ((await nameMatch) && (await dateMatch)) return new CompanyIdentificationResponse
-                        {
-                            Matched = true,
-                            Message = "Both Company Name and Registration Date matched.",
-                        };
-                        return new CompanyIdentificationResponse
-                        {
-                            Matched = false,
-                            Message = "Both Company Name Or Registration Date did not match. Kindly review and enter correct details.",
-                        };
+                        var keyPerson = _dbContext.keyPersonnelDetails.Where(x => x.typeNumber == CAC && x.type == "CAC").ToList();
+                        cacExist.keyPersonnel = keyPerson;
+                        return cacExist;
                     }
                     else
                     {
-                        var req = new CACIdentificationOutRequest();
-                        req.registrationNumber = request.CompanyRegistrationNumber;
-                        req.registrationName = request.CompanyName;
-                        req.countryCode = "NG";
+                        var req = new BusinessRequest();
+                        req.type = "registrationNumber";
+                        req.value = CAC;
                         req.isConsent = true;
-                        var cac = _thirdPartySettings.Endpoints["CAC"];
-                        var feedback = await ExcuteThirdPartyCACAPI(req, cac);
+                        var cac = _thirdPartySettings.Endpoints["BVS"];
+                        var feedback = await ExcuteThirdPartyBusinessAPI(req, cac);
                         if (feedback != null)
                         {
-<<<<<<< HEAD
                             var resp = _mapper.Map<BusinessCACResponse>(feedback); 
                                                                   
-                            if (resp != null && !string.IsNullOrEmpty(resp.name))
-=======
-                            var resp = _mapper.Map<BusinessCACResponse>(feedback);
-
                             if (resp != null)
->>>>>>> 0de255f9f77bd7b790e46704e1e0d2f2e43610f9
                             {
                                 foreach (var item in resp.keyPersonnel)
                                 {
@@ -430,35 +530,15 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                                 }
                                 resp.Success = true;
                                 resp.Message = "Successful";
-                                _dbContext.BusinessCACResponses.Add(resp);
+                                _dbContext.BusinessCACResponses.Add(resp);                            
                                 await _dbContext.SaveChangesAsync();
-
-                                var nameMatch = ComparePersonalName(request.CompanyName, resp.name);
-                                var dateMatch = CompareDateOfBirth(request.CompanyRegistrationDate, resp.registrationDate);
-                                if ((await nameMatch) && (await dateMatch)) return new CompanyIdentificationResponse
-                                {
-                                    Matched = true,
-                                    Message = "Both Company Name and Registration Date matched.",
-                                };
-                                return new CompanyIdentificationResponse
-                                {
-                                    Matched = false,
-                                    Message = "Both Company Name Or Registration Date did not match. Kindly review and enter correct details.",
-                                };
+                                return resp;
                             }
                         }
-                        return new CompanyIdentificationResponse
-                        {
-                            Matched = true,
-                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
-                        };
+                        return null;
                     }
                 }
-                return new CompanyIdentificationResponse
-                {
-                    Matched = false,
-                    Message = "CAC number Detail is empty. Kindly review and enter correct details.",
-                };
+                return null;
             }
             catch (Exception)
             {
@@ -467,52 +547,33 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
             }
         }
 
-        public async Task<CompanyIdentificationResponse> FetchBusinessTIN(TINIdentificationRequest request)
+        public async Task<BusinessTINResponse> FetchBusinessTIN(string TIN)
         {
             try
             {
-                if (request.CompanyName != null && request.CompanyRegistrationNumber != null)
+                if (TIN != null)
                 {
-                    var tinExist = _dbContext.BusinessTINResponses.Where(x => x.tin == request.CompanyRegistrationNumber).FirstOrDefault();
-                    if (tinExist != null && tinExist.name != null)
+                    var tinExist = _dbContext.BusinessTINResponses.Where(x => x.tin == TIN).FirstOrDefault();
+                    if (tinExist != null)
                     {
-<<<<<<< HEAD
-                        var nameMatch = ComparePersonalName(request.CompanyName, tinExist.name);
-                        if (await nameMatch) return new CompanyIdentificationResponse
-                        {
-                            Matched = true,
-                            Message = "Both Company Name and Registration Date matched.",
-                        };
-                        return new CompanyIdentificationResponse
-                        {
-                            Matched = false,
-                            Message = "Both Company Name Or Registration Date did not match. Kindly review and enter correct details.",
-                        };
-=======
                         var keyPerson = _dbContext.keyPersonnelDetails.Where(x => x.typeNumber == TIN && x.type == "TIN").ToList();
                         tinExist.keyPersonnel = keyPerson;
-
+                   
                         return tinExist;
->>>>>>> 0de255f9f77bd7b790e46704e1e0d2f2e43610f9
                     }
                     else
                     {
                         var req = new BusinessRequest();
                         req.type = "tin";
-                        req.value = request.CompanyRegistrationNumber;
+                        req.value = TIN;
                         req.isConsent = true;
-                        var tin = _thirdPartySettings.Endpoints["TIN"];
+                        var tin = _thirdPartySettings.Endpoints["BVS"];
                         var feedback = await ExcuteThirdPartyBusinessAPI(req, tin);
-                        if (feedback != null)
+                        if(feedback != null)
                         {
                             var resp = _mapper.Map<BusinessTINResponse>(feedback);
-<<<<<<< HEAD
                            
-                            if (resp != null && !string.IsNullOrEmpty(resp.name))
-=======
-
                             if (resp != null)
->>>>>>> 0de255f9f77bd7b790e46704e1e0d2f2e43610f9
                             {
                                 foreach (var item in resp.keyPersonnel)
                                 {
@@ -520,36 +581,19 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                                     item.type = "TIN";
                                     item.typeNumber = resp.tin;
                                     item.CompanyName = resp.name;
+
                                 }
                                 resp.Success = true;
                                 resp.Message = "Successful";
                                 _dbContext.BusinessTINResponses.Add(resp);
                                 await _dbContext.SaveChangesAsync();
-                                var nameMatch = ComparePersonalName(request.CompanyName, resp.name);
-                                if (await nameMatch) return new CompanyIdentificationResponse
-                                {
-                                    Matched = true,
-                                    Message = "Both Company Name and Registration Date matched.",
-                                };
-                                return new CompanyIdentificationResponse
-                                {
-                                    Matched = false,
-                                    Message = "Both Company Name Or Registration Date did not match. Kindly review and enter correct details.",
-                                };
+                                return resp;
                             }
                         }
-                        return new CompanyIdentificationResponse
-                        {
-                            Matched = true,
-                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
-                        };
+                        return null;
                     }
                 }
-                return new CompanyIdentificationResponse
-                {
-                    Matched = false,
-                    Message = "TIN number Detail is empty. Kindly review and enter correct details.",
-                };
+                return null;
             }
             catch (Exception)
             {
@@ -567,7 +611,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
 
                 RestRequest request = new RestRequest(endPoint, Method.POST);
                 request.RequestFormat = DataFormat.Json;
-                if (generalRequest.lastName != null)
+                if (generalRequest.lastName != null )
                 {
                     request.AddJsonBody(generalRequest);
                 }
@@ -582,42 +626,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                 {
                     resp = JsonConvert.DeserializeObject<ThirdPartyAPIResponse<GeneralResponse>>(response.Content);
                     resp.Data.requestedDate = DateTimeOffset.Now;
-
-                    return resp.Data;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-        }
-
-        public async Task<BusinessResponseBase> ExcuteThirdPartyCACAPI(CACIdentificationOutRequest cacRequest, string endPoint)
-        {
-            try
-            {
-                var resp = new ThirdPartyAPIResponse<BusinessResponseBase>();
-                _client.BaseUrl = new Uri(_thirdPartySettings.BaseURL);
-                _client.AddDefaultHeader("token", _thirdPartySettings.token);
-
-                RestRequest request = new RestRequest(endPoint, Method.POST);
-                request.RequestFormat = DataFormat.Json;
-                if (cacRequest != null)
-                {
-                    request.AddJsonBody(cacRequest);
-                }
-
-                IRestResponse response = await _client.ExecuteAsync(request);
-                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content))
-                {
-                    resp = JsonConvert.DeserializeObject<ThirdPartyAPIResponse<BusinessResponseBase>>(response.Content);
-                    resp.Data.requestedDate = DateTimeOffset.Now.ToLocalTime();
-
+                    
                     return resp.Data;
                 }
                 else
@@ -666,6 +675,41 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
             }
         }
 
+        public Task<bool> CompareCompanyName(string nameToCheck, string nameFromYouVerify)
+        {
+            var bonita = nameToCheck.ToUpper().Replace(' ', '-');
+            var youVerify = nameFromYouVerify.ToUpper().Replace(' ','-');
+
+            if (bonita == youVerify) return Task.FromResult(true);
+            return Task.FromResult(false);        
+        }
+        public Task<bool> ComparePersonalName(string nameToCheck, string nameFromYouVerify)
+        {
+            var bonita = nameToCheck.ToUpper();
+            var youVerify = nameFromYouVerify.ToUpper();
+
+            string[] separators = { ",", ".", "!", "?", ";", ":", " ", "-", "_", "&", "#", "@", "%", "$", "*", "/", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+            string[] Flex = bonita.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            string[] Neft = youVerify.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+            int count = 0;
+            foreach (var i in Flex)
+            {
+                foreach (var j in Neft)
+                {
+                    if (i == j) count++;                    
+                }
+            }
+            if (count >= 2) return Task.FromResult(true);
+           
+            return Task.FromResult(false);
+        }
+
+        public Task<bool> CompareDateOfBirth(DateTimeOffset dateToCheck, DateTimeOffset dateFromYouVerify)
+        {
+            if (dateToCheck == dateFromYouVerify) return Task.FromResult(true);
+            return Task.FromResult(false);
+        }
         public Task<CryptResponse> EncryptViaAes(string word)
         {
 

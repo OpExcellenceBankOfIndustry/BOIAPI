@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BOI.BOIApplications.Domain.DTO
 {
-    public class TINIdentificationRequest
+    public class PersonalIdentificationResponse
     {
-        public string? CompanyName { get; set; }
-        public string? CompanyRegistrationNumber { get; set; }
+        public bool Matched { get; set; }
+        public string? Message { get; set; }
     }
 }
