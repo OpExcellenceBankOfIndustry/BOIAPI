@@ -34,3 +34,15 @@ C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Release\ne
 C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Release\net6.0\refint\BOI.BOIApplications.Legacy.Domain.dll
 C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Release\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
 C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.Legacy.Domain\obj\Release\net6.0\ref\BOI.BOIApplications.Legacy.Domain.dll
+C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\bin\Release\net6.0\BOI.BOIApplications.Legacy.Domain.deps.json
+C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\bin\Release\net6.0\BOI.BOIApplications.Legacy.Domain.dll
+C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\bin\Release\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
+C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Release\net6.0\BOI.BOIApplications.Legacy.Domain.csproj.AssemblyReference.cache
+C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Release\net6.0\BOI.BOIApplications.Legacy.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Release\net6.0\BOI.BOIApplications.Legacy.Domain.AssemblyInfoInputs.cache
+C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Release\net6.0\BOI.BOIApplications.Legacy.Domain.AssemblyInfo.cs
+C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Release\net6.0\BOI.BOIApplications.Legacy.Domain.csproj.CoreCompileInputs.cache
+C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Release\net6.0\BOI.BOIApplications.Legacy.Domain.dll
+C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Release\net6.0\refint\BOI.BOIApplications.Legacy.Domain.dll
+C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Release\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
+C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Release\net6.0\ref\BOI.BOIApplications.Legacy.Domain.dll

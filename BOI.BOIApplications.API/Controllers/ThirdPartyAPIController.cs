@@ -1,5 +1,6 @@
 ﻿using BOI.BOIApplications.Application.Contracts.ThirdPartyAPI;
-using BOI.BOIApplications.Domain.DTO;
+using BOI.BOIApplications.Application.Features.API.Influence.PEPs.Queries.GetPEPByBVN;
+using BOI.BOIApplications.Application.Features.API.MicrosoftIdentity.UserManagement.Command.ConfirmEmail;
 using BOI.BOIApplications.Domain.Entities;
 using BOI.BOIApplications.Domain.Entities.ThirdPartyAPI;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BOI.BOIApplications.API.Controllers
 {
 
-    
+
     [Route("api/[controller]")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -33,11 +34,11 @@ namespace BOI.BOIApplications.API.Controllers
         /// <param name="BVN"></param>
         /// <returns></returns>
         [HttpPost("/api/ThirdPartyAPI/CheckCustomerBVN")]
-        public async Task<IActionResult> CheckCustomerBVN([FromBody] PersonalIdentificationRequest model)
+        public async Task<IActionResult> CheckCustomerBVN([FromForm]string BVN)
         {
-            if(ModelState.IsValid && model != null)
+            if(ModelState.IsValid && !string.IsNullOrWhiteSpace(BVN))
             {
-                var response = await _thirdPartyAPIRepository.FetchCustomerBVN(model);
+                var response = await _thirdPartyAPIRepository.FetchCustomerBVN(BVN);
                 if(response != null)
                 {                   
                     return Ok(response);
@@ -52,12 +53,12 @@ namespace BOI.BOIApplications.API.Controllers
         /// <param name="NIN"></param>
         /// <returns></returns>
         [HttpPost("/api/ThirdPartyAPI/CheckCustomerNIN")]
-        public async Task<ActionResult<CustomerNINResponse>> CheckCustomerNIN([FromBody] PersonalIdentificationRequest model)
+        public async Task<ActionResult<CustomerNINResponse>> CheckCustomerNIN([FromForm] string NIN)
         {
           
-            if (ModelState.IsValid && model != null)
+            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(NIN))
             {
-                var response = await _thirdPartyAPIRepository.FetchCustomerNIN(model);
+                var response = await _thirdPartyAPIRepository.FetchCustomerNIN(NIN);
                 if (response != null)
                 {
                     return Ok(response);
@@ -73,12 +74,12 @@ namespace BOI.BOIApplications.API.Controllers
         /// <param name="PVC"></param>
         /// <returns></returns>
         [HttpPost("/api/ThirdPartyAPI/CheckCustomerPVC")]
-        public async Task<ActionResult<CustomerPVCResponse>> CheckCustomerPVC([FromBody] PersonalIdentificationRequest model)
+        public async Task<ActionResult<CustomerPVCResponse>> CheckCustomerPVC([FromForm] string PVC)
         {
             
-            if (ModelState.IsValid && model != null)
+            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(PVC))
             {
-                var response = await _thirdPartyAPIRepository.FetchCustomerPVC(model);
+                var response = await _thirdPartyAPIRepository.FetchCustomerPVC(PVC);
                 if (response != null)
                 {
                     return Ok(response);
@@ -95,12 +96,12 @@ namespace BOI.BOIApplications.API.Controllers
         /// <param name="lastName"></param>
         /// <returns></returns>
         [HttpPost("/api/ThirdPartyAPI/CheckCustomerINP")]
-        public async Task<ActionResult<CustomerINTLPassportResponse>> CheckCustomerINP([FromBody] PersonalIdentificationRequest model)
+        public async Task<ActionResult<CustomerINTLPassportResponse>> CheckCustomerINP([FromForm] string INP, [FromForm] string lastName)
         {
             
-            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(model.idNumber) && !string.IsNullOrWhiteSpace(model.lastName))
+            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(INP) && !string.IsNullOrWhiteSpace(lastName))
             {
-                var response = await _thirdPartyAPIRepository.FetchCustomerINP(model);
+                var response = await _thirdPartyAPIRepository.FetchCustomerINP(INP, lastName);
                 if (response != null)
                 {
                     return Ok(response);
@@ -115,12 +116,12 @@ namespace BOI.BOIApplications.API.Controllers
         /// <param name="NDL"></param>
         /// <returns></returns>
         [HttpPost("/api/ThirdPartyAPI/CheckCustomerNDL")]
-        public async Task<ActionResult<CustomerNINResponse>> CheckCustomerNDL([FromBody] PersonalIdentificationRequest model)
+        public async Task<ActionResult<CustomerNINResponse>> CheckCustomerNDL([FromForm] string NDL)
         {
            
-            if (ModelState.IsValid && model != null)
+            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(NDL))
             {
-                var response = await _thirdPartyAPIRepository.FetchCustomerNDL(model);
+                var response = await _thirdPartyAPIRepository.FetchCustomerNDL(NDL);
                 if (response != null)
                 {
                     return Ok(response);

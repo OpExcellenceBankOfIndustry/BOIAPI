@@ -1,10 +1,12 @@
 ﻿using BOI.BOIApplications.Application.Contracts.Legacy.Persistence;
 using BOI.BOIApplications.Application.Contracts.Persistence.GeoInformation;
+using BOI.BOIApplications.Application.Contracts.Persistence.ErrorMessage;
 using BOI.BOIApplications.Application.Contracts.Persistence.Influence;
 using BOI.BOIApplications.Application.Contracts.Persistence.Mail;
 using BOI.BOIApplications.Domain.Entities;
 using BOI.BOIApplications.Persistence.Repository;
 using BOI.BOIApplications.Persistence.Repository.GeoInformation;
+using BOI.BOIApplications.Persistence.Repository.ErrorMessage;
 using BOI.BOIApplications.Persistence.Repository.Influence;
 using BOI.BOIApplications.Persistence.Repository.Mail;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +20,7 @@ namespace BOI.BOIApplications.Persistence
 {
     public static class PersistenceServiceRegistration
     {
-        public static IServiceCollection AddPersistenceervices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
             
 
@@ -35,6 +37,7 @@ namespace BOI.BOIApplications.Persistence
             }).AddEntityFrameworkStores<BOIDbContext>();
             services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseRepository<>));
             services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<IErrorMessageRepository, ErrorMessageRepository>();
             services.AddScoped<IStateRepository, StateRepository>();
             services.AddScoped<ILGARepository, LGARepository>();
             services.AddScoped<ICityRepository, CityRepository>();

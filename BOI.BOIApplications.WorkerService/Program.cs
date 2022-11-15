@@ -23,7 +23,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         
         IConfiguration configuration = hostContext.Configuration;
         services.AddPersistenceLegacyServices(configuration);
-        services.AddPersistenceervices(configuration);
+        services.AddPersistenceServices(configuration);
         services.AddApplicationServices();
         services.AddInfrastructureServices();
         services.AddIdentityManagementServices(configuration);
