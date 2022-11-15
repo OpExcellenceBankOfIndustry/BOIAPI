@@ -34,7 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BOI.BOIApplications.API", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BOI.BOIApplications.IdentityManagement", "BOI.BOIApplications.IdentityManagement\BOI.BOIApplications.IdentityManagement.csproj", "{990FC18C-5134-4F61-BDD5-181B6EB7534F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOI.BOIApplications.AccountOpening", "BOI.BOIApplications.AccountOpening\BOI.BOIApplications.AccountOpening.csproj", "{58767D7F-C556-46D4-83FE-387D4826AA13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BOI.BOIApplications.AccountOpening", "BOI.BOIApplications.AccountOpening\BOI.BOIApplications.AccountOpening.csproj", "{58767D7F-C556-46D4-83FE-387D4826AA13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOI.BOIApplications.ThirdPartyIntegrations", "BOI.BOIApplications.ThirdPartyIntegrations\BOI.BOIApplications.ThirdPartyIntegrations.csproj", "{FFD85F49-1841-4FAE-AC5A-CFB5BDFE5AE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +84,10 @@ Global
 		{58767D7F-C556-46D4-83FE-387D4826AA13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58767D7F-C556-46D4-83FE-387D4826AA13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58767D7F-C556-46D4-83FE-387D4826AA13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFD85F49-1841-4FAE-AC5A-CFB5BDFE5AE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFD85F49-1841-4FAE-AC5A-CFB5BDFE5AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFD85F49-1841-4FAE-AC5A-CFB5BDFE5AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFD85F49-1841-4FAE-AC5A-CFB5BDFE5AE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{A8BE2905-E609-4839-A336-683224496171} = {1C5C5026-2B1A-47AD-BB81-12A100ADE931}
 		{990FC18C-5134-4F61-BDD5-181B6EB7534F} = {516C257C-1E04-4FF0-9917-78F8333AE752}
 		{58767D7F-C556-46D4-83FE-387D4826AA13} = {516C257C-1E04-4FF0-9917-78F8333AE752}
+		{FFD85F49-1841-4FAE-AC5A-CFB5BDFE5AE5} = {516C257C-1E04-4FF0-9917-78F8333AE752}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2110A29D-954A-42CD-A71C-5EC33ECE2C63}

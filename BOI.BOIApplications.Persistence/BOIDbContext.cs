@@ -39,7 +39,6 @@ namespace BOI.BOIApplications.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             base.OnModelCreating(modelBuilder);
            // modelBuilder.Ignore<AOAnnualTurnover>();
         }

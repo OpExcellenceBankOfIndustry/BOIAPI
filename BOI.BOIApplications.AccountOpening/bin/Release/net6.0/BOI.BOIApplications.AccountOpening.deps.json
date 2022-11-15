@@ -1737,6 +1737,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.Http.Features": "5.0.16",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.2",
+          "Newtonsoft.Json": "13.0.1",
           "System.Drawing.Common": "6.0.0"
         },
         "runtime": {
