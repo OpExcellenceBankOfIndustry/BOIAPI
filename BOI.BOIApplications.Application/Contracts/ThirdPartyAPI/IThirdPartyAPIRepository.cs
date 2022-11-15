@@ -15,7 +15,7 @@ namespace BOI.BOIApplications.Application.Contracts.ThirdPartyAPI
         Task<PersonalIdentificationResponse> FetchCustomerPVC(PersonalIdentificationRequest request);
         Task<PersonalIdentificationResponse> FetchCustomerNDL(PersonalIdentificationRequest request);
         Task<PersonalIdentificationResponse> FetchCustomerINP(PersonalIdentificationRequest request);
-        Task<BusinessCACResponse> FetchBusinessCAC(string CAC);
-        Task<BusinessTINResponse> FetchBusinessTIN(string TIN);
+        Task<CompanyIdentificationResponse> FetchBusinessCAC(CACIdentificationRequest request);
+        Task<CompanyIdentificationResponse> FetchBusinessTIN(TINIdentificationRequest request);
     }
 }

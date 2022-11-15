@@ -108,7 +108,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         return new PersonalIdentificationResponse
                         {
                             Matched = true,
-                            Message = "You Verify end-point did not return any value. No Record found for this number.",
+                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
                         };
                     }
                 }
@@ -212,7 +212,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         return new PersonalIdentificationResponse
                         {
                             Matched = true,
-                            Message = "You Verify end-point did not return any value. No Record found for this number.",
+                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
                         };
 
                     }
@@ -292,7 +292,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         return new PersonalIdentificationResponse
                         {
                             Matched = true,
-                            Message = "You Verify end-point did not return any value. No Record found for this number.",
+                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
                         };
                     }
                 }
@@ -389,7 +389,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         return new PersonalIdentificationResponse
                         {
                             Matched = true,
-                            Message = "You Verify end-point did not return any value. No Record found for this number.",
+                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
                         };
                     }
                 }
@@ -476,7 +476,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                         return new PersonalIdentificationResponse
                         {
                             Matched = true,
-                            Message = "You Verify end-point did not return any value. No Record found for this number.",
+                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
                         };
                     }
                 }
@@ -493,33 +493,42 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
             }
         }
 
-        public async Task<BusinessCACResponse> FetchBusinessCAC(string CAC)
+        public async Task<CompanyIdentificationResponse> FetchBusinessCAC(CACIdentificationRequest request)
         {
             try
             {
-                if (CAC != null)
+                if (request.CompanyName != null && request.CompanyRegistrationNumber != null)
                 {
-                    var cacExist = _dbContext.BusinessCACResponses.Where(x => x.registrationNumber == CAC).FirstOrDefault();
-                   
-                    if (cacExist != null)
+                    var cacExist = _dbContext.BusinessCACResponses.Where(x => x.registrationNumber == request.CompanyRegistrationNumber).FirstOrDefault();                   
+                    if (cacExist != null && cacExist.name != null)
                     {
-                        var keyPerson = _dbContext.keyPersonnelDetails.Where(x => x.typeNumber == CAC && x.type == "CAC").ToList();
-                        cacExist.keyPersonnel = keyPerson;
-                        return cacExist;
+                        var nameMatch = ComparePersonalName(request.CompanyName, cacExist.name);
+                        var dateMatch = CompareDateOfBirth(request.CompanyRegistrationDate, cacExist.registrationDate);
+                        if ((await nameMatch) && (await dateMatch)) return new CompanyIdentificationResponse
+                        {
+                            Matched = true,
+                            Message = "Both Company Name and Registration Date matched.",
+                        };
+                        return new CompanyIdentificationResponse
+                        {
+                            Matched = false,
+                            Message = "Both Company Name Or Registration Date did not match. Kindly review and enter correct details.",
+                        };
                     }
                     else
                     {
-                        var req = new BusinessRequest();
-                        req.type = "registrationNumber";
-                        req.value = CAC;
+                        var req = new CACIdentificationOutRequest();
+                        req.registrationNumber = request.CompanyRegistrationNumber;
+                        req.registrationName = request.CompanyName;
+                        req.countryCode = "NG";
                         req.isConsent = true;
-                        var cac = _thirdPartySettings.Endpoints["BVS"];
-                        var feedback = await ExcuteThirdPartyBusinessAPI(req, cac);
+                        var cac = _thirdPartySettings.Endpoints["CAC"];
+                        var feedback = await ExcuteThirdPartyCACAPI(req, cac);
                         if (feedback != null)
                         {
                             var resp = _mapper.Map<BusinessCACResponse>(feedback); 
                                                                   
-                            if (resp != null)
+                            if (resp != null && !string.IsNullOrEmpty(resp.name))
                             {
                                 foreach (var item in resp.keyPersonnel)
                                 {
@@ -532,13 +541,33 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                                 resp.Message = "Successful";
                                 _dbContext.BusinessCACResponses.Add(resp);                            
                                 await _dbContext.SaveChangesAsync();
-                                return resp;
+
+                                var nameMatch = ComparePersonalName(request.CompanyName, resp.name);
+                                var dateMatch = CompareDateOfBirth(request.CompanyRegistrationDate, resp.registrationDate);
+                                if ((await nameMatch) && (await dateMatch)) return new CompanyIdentificationResponse
+                                {
+                                    Matched = true,
+                                    Message = "Both Company Name and Registration Date matched.",
+                                };
+                                return new CompanyIdentificationResponse
+                                {
+                                    Matched = false,
+                                    Message = "Both Company Name Or Registration Date did not match. Kindly review and enter correct details.",
+                                };
                             }
                         }
-                        return null;
+                        return new CompanyIdentificationResponse
+                        {
+                            Matched = true,
+                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
+                        };
                     }
                 }
-                return null;
+                return new CompanyIdentificationResponse
+                {
+                    Matched = false,
+                    Message = "CAC number Detail is empty. Kindly review and enter correct details.",
+                };
             }
             catch (Exception)
             {
@@ -547,33 +576,40 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
             }
         }
 
-        public async Task<BusinessTINResponse> FetchBusinessTIN(string TIN)
+        public async Task<CompanyIdentificationResponse> FetchBusinessTIN(TINIdentificationRequest request)
         {
             try
             {
-                if (TIN != null)
+                if (request.CompanyName != null && request.CompanyRegistrationNumber != null)
                 {
-                    var tinExist = _dbContext.BusinessTINResponses.Where(x => x.tin == TIN).FirstOrDefault();
-                    if (tinExist != null)
+                    var tinExist = _dbContext.BusinessTINResponses.Where(x => x.tin == request.CompanyRegistrationNumber).FirstOrDefault();
+                    if (tinExist != null && tinExist.name != null)
                     {
-                        var keyPerson = _dbContext.keyPersonnelDetails.Where(x => x.typeNumber == TIN && x.type == "TIN").ToList();
-                        tinExist.keyPersonnel = keyPerson;
-                   
-                        return tinExist;
+                        var nameMatch = ComparePersonalName(request.CompanyName, tinExist.name);
+                        if (await nameMatch) return new CompanyIdentificationResponse
+                        {
+                            Matched = true,
+                            Message = "Both Company Name and Registration Date matched.",
+                        };
+                        return new CompanyIdentificationResponse
+                        {
+                            Matched = false,
+                            Message = "Both Company Name Or Registration Date did not match. Kindly review and enter correct details.",
+                        };
                     }
                     else
                     {
                         var req = new BusinessRequest();
                         req.type = "tin";
-                        req.value = TIN;
+                        req.value = request.CompanyRegistrationNumber;
                         req.isConsent = true;
-                        var tin = _thirdPartySettings.Endpoints["BVS"];
+                        var tin = _thirdPartySettings.Endpoints["TIN"];
                         var feedback = await ExcuteThirdPartyBusinessAPI(req, tin);
                         if(feedback != null)
                         {
                             var resp = _mapper.Map<BusinessTINResponse>(feedback);
                            
-                            if (resp != null)
+                            if (resp != null && !string.IsNullOrEmpty(resp.name))
                             {
                                 foreach (var item in resp.keyPersonnel)
                                 {
@@ -581,19 +617,36 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                                     item.type = "TIN";
                                     item.typeNumber = resp.tin;
                                     item.CompanyName = resp.name;
-
                                 }
                                 resp.Success = true;
                                 resp.Message = "Successful";
                                 _dbContext.BusinessTINResponses.Add(resp);
                                 await _dbContext.SaveChangesAsync();
-                                return resp;
+                                var nameMatch = ComparePersonalName(request.CompanyName, resp.name);
+                                if (await nameMatch) return new CompanyIdentificationResponse
+                                {
+                                    Matched = true,
+                                    Message = "Both Company Name and Registration Date matched.",
+                                };
+                                return new CompanyIdentificationResponse
+                                {
+                                    Matched = false,
+                                    Message = "Both Company Name Or Registration Date did not match. Kindly review and enter correct details.",
+                                };
                             }
                         }
-                        return null;
+                        return new CompanyIdentificationResponse
+                        {
+                            Matched = true,
+                            Message = "You-Verify end-point did not return any value. No Record found for this number.",
+                        };
                     }
                 }
-                return null;
+                return new CompanyIdentificationResponse
+                {
+                    Matched = false,
+                    Message = "TIN number Detail is empty. Kindly review and enter correct details.",
+                };
             }
             catch (Exception)
             {
@@ -627,6 +680,41 @@ namespace BOI.BOIApplications.AccountOpening.Services.ThirdPartyAPI
                     resp = JsonConvert.DeserializeObject<ThirdPartyAPIResponse<GeneralResponse>>(response.Content);
                     resp.Data.requestedDate = DateTimeOffset.Now;
                     
+                    return resp.Data;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<BusinessResponseBase> ExcuteThirdPartyCACAPI(CACIdentificationOutRequest cacRequest, string endPoint)
+        {
+            try
+            {
+                var resp = new ThirdPartyAPIResponse<BusinessResponseBase>();
+                _client.BaseUrl = new Uri(_thirdPartySettings.BaseURL);
+                _client.AddDefaultHeader("token", _thirdPartySettings.token);
+
+                RestRequest request = new RestRequest(endPoint, Method.POST);
+                request.RequestFormat = DataFormat.Json;
+                if (cacRequest != null)
+                {
+                    request.AddJsonBody(cacRequest);
+                }
+
+                IRestResponse response = await _client.ExecuteAsync(request);
+                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content))
+                {
+                    resp = JsonConvert.DeserializeObject<ThirdPartyAPIResponse<BusinessResponseBase>>(response.Content);
+                    resp.Data.requestedDate = DateTimeOffset.Now.ToLocalTime();
+
                     return resp.Data;
                 }
                 else

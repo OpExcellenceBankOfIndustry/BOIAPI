@@ -137,12 +137,12 @@ namespace BOI.BOIApplications.API.Controllers
         /// <param name="CAC"></param>
         /// <returns></returns>
         [HttpPost("/api/ThirdPartyAPI/CheckBusinessCAC")]
-        public async Task<ActionResult<BusinessCACResponse>> CheckBusinessCAC([FromForm] string CAC)
+        public async Task<ActionResult<BusinessCACResponse>> CheckBusinessCAC([FromBody] CACIdentificationRequest model)
         {
             
-            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(CAC))
+            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(model.CompanyRegistrationNumber))
             {
-                var response = await _thirdPartyAPIRepository.FetchBusinessCAC(CAC);
+                var response = await _thirdPartyAPIRepository.FetchBusinessCAC(model);
                 if (response != null)
                 {
                     return Ok(response);
@@ -158,12 +158,12 @@ namespace BOI.BOIApplications.API.Controllers
         /// <param name="TIN"></param>
         /// <returns></returns>
         [HttpPost("/api/ThirdPartyAPI/CheckBusinessTIN")]
-        public async Task<ActionResult<BusinessTINResponse>> CheckBusinessTIN([FromForm] string TIN)
+        public async Task<ActionResult<BusinessTINResponse>> CheckBusinessTIN([FromBody] TINIdentificationRequest model)
         {
            
-            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(TIN))
+            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(model.CompanyRegistrationNumber))
             {
-                var response = await _thirdPartyAPIRepository.FetchBusinessTIN(TIN);
+                var response = await _thirdPartyAPIRepository.FetchBusinessTIN(model);
                 if (response != null)
                 {
                     return Ok(response);
