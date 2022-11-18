@@ -21,47 +21,7 @@ namespace BOI.BOIApplications.API.Controllers
         {
             _rubikonBonitaRepository = rubikonBonitaRepository;
         }
-
-        /// <summary>
-        /// An endpoint to get Customer Details based off of the Customer ID
-        /// </summary>
-        /// <param name="customerNumber"></param>
-        /// <returns></returns>
-        [HttpGet("/api/RubikonBonitaIntegrationAPI/GetCustomerDetails/{customerNumber}", Name = "GetCustomerDetails")]
-        public async Task<ActionResult<GetCustomerDetailsResponse>> GetCustomerDetails(string customerNumber)
-        {
-            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(customerNumber))
-            {
-                var response = await _rubikonBonitaRepository.FetchCustomerDetails(customerNumber);
-                if (response != null)
-                {
-                    return Ok(response);
-                }
-                return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Invalid Customer Number. Please check the detail and try again" });
-            }
-            return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Success = false, Message = "The Value Customer Number is Null or Empty" });
-        }
-
-        /// <summary>
-        /// An endpoint for Personal Customer Inquiry based off of the National Identification Number
-        /// </summary>
-        /// <param name="nationalIdentificationNumber"></param>
-        /// <returns></returns>
-        [HttpGet("/api/RubikonBonitaIntegrationAPI/PersonalCustomerInquiry/{nationalIdentificationNumber}", Name = "PersonalCustomerInquiry")]
-        public async Task<ActionResult<PersonalCustomerInquiryResponse>> PersonalCustomerInquiry(string nationalIdentificationNumber)
-        {
-            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(nationalIdentificationNumber))
-            {
-                var response = await _rubikonBonitaRepository.FetchPersonalCustomerInquiryResult(nationalIdentificationNumber);
-                if (response != null)
-                {
-                    return Ok(response);
-                }
-                return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Invalid National Identification Number. Please check the detail and try again" });
-            }
-            return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "The Value National Identification Number is Null or Empty" });
-        }
-
+        
         /// <summary>
         /// An endpoint for Corporate Customer Inquiry based off of the RC Number
         /// </summary>
