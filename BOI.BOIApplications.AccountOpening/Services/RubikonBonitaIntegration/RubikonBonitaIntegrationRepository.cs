@@ -173,7 +173,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 
                 IRestResponse response = await _client.ExecuteAsync(request);
 
-                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content))
+                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content) && response.Content.ToLower() != "null")
                 {
                     var responeObject = response.Content;
 
