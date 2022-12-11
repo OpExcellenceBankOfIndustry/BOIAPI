@@ -175,18 +175,18 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 
                 if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content) && response.Content.ToLower() != "null")
                 {
-                    var responeObject = response.Content;
+                    var responseObject = response.Content;
 
-                    if (!DataManipulation.IsJson(responeObject))
+                    if (!DataManipulation.IsJson(responseObject))
                     {
-                        responeObject = DataManipulation.SerializeXmlStringToJson<T>(responeObject, "return");
+                        responseObject = DataManipulation.SerializeXmlStringToJson<T>(responseObject, "return");
                     }
                     else
                     {
-                        responeObject = DataManipulation.SerializeJsonStringToObject<T>(responeObject);
+                        responseObject = DataManipulation.SerializeJsonStringToObject<T>(responseObject);
                     }
 
-                    return responeObject;
+                    return responseObject;
                 }
                 else
                 {

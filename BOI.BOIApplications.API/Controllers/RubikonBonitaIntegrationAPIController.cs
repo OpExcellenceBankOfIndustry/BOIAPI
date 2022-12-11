@@ -36,9 +36,9 @@ namespace BOI.BOIApplications.API.Controllers
                 var response = await _rubikonBonitaRepository.FetchPersonalCustomerInquiryResult(nationalIdentificationNumber);
                 if (response != null)
                 {
-                    return Ok(response);
+                    return StatusCode(StatusCodes.Status200OK, new BaseResponse { Success = true, Message = "Customer already exist. Kindly proceed to credit application" });
                 }
-                return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Invalid National Identification Number. Please check the detail and try again" });
+                return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Customer does not exist" });
             }
             return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "The Value National Identification Number is Null or Empty" });
         }
@@ -56,9 +56,9 @@ namespace BOI.BOIApplications.API.Controllers
                 var response = await _rubikonBonitaRepository.FetchCorporateCustomerInquiryResult(rcNumber);
                 if (response != null)
                 {
-                    return Ok(response);
+                    return StatusCode(StatusCodes.Status200OK, new BaseResponse { Success = true, Message = "Customer already exist. Kindly proceed to credit application" });
                 }
-                return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Invalid Registration Number. Please check the detail and try again" });
+                return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Customer does not exist" });
             }
             return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "The Value Registration Number is Null or Empty" });
         }
