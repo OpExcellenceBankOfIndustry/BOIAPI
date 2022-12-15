@@ -58,3 +58,15 @@ C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI
 C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\refint\BOI.BOIApplications.Legacy.Domain.dll
 C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
 C:\inetpub\wwwroot\BOIAPI\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\ref\BOI.BOIApplications.Legacy.Domain.dll
+C:\Users\HP\Documents\BoiBox\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.deps.json
+C:\Users\HP\Documents\BoiBox\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.dll
+C:\Users\HP\Documents\BoiBox\BOI.BOIApplications.Legacy.Domain\bin\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
+C:\Users\HP\Documents\BoiBox\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.csproj.AssemblyReference.cache
+C:\Users\HP\Documents\BoiBox\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\Documents\BoiBox\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.AssemblyInfoInputs.cache
+C:\Users\HP\Documents\BoiBox\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.AssemblyInfo.cs
+C:\Users\HP\Documents\BoiBox\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.csproj.CoreCompileInputs.cache
+C:\Users\HP\Documents\BoiBox\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.dll
+C:\Users\HP\Documents\BoiBox\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\refint\BOI.BOIApplications.Legacy.Domain.dll
+C:\Users\HP\Documents\BoiBox\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\BOI.BOIApplications.Legacy.Domain.pdb
+C:\Users\HP\Documents\BoiBox\BOI.BOIApplications.Legacy.Domain\obj\Debug\net6.0\ref\BOI.BOIApplications.Legacy.Domain.dll
