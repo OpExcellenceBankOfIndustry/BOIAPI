@@ -25,16 +25,16 @@ namespace BOI.BOIApplications.Domain.Entities.RubikonBonitaIntegration
 
     public class PersonalCustomerAccountCreation: Arg0
     {
-        public List<string> employmentFlag { get; set; }
+        public string employmentFlag { get; set; }
         public string lastName { get; set; }
         public string fathersName { get; set; }
         public string nationalIdNumber { get; set; }
         public string gender { get; set; }
-
-        public PersonalContactsList contactsList { get; set; }
+        public List<ContactsList> contactsList { get; set; }
+        //public PersonalContactsList contactsList { get; set; }
         //public List<PersonalContactsList> contactsList { get; set; }
 
-        public PersonalIdentificationList identificationsList { get; set; }
+        public List<PersonalIdentificationList> identificationsList { get; set; }
 
         public string parentObjectCode { get; set; }
         public string screenTypeCode { get; set; }
@@ -71,7 +71,7 @@ namespace BOI.BOIApplications.Domain.Entities.RubikonBonitaIntegration
         public int addressCountryId { get; set; }
         public string addressLine1 { get; set; }
         public string addressLine2 { get; set; }
-        public int addressPropertyTypeId { get; set; }
+        public string addressPropertyTypeId { get; set; }
         public string addressState { get; set; }
         public string addressTypeCd { get; set; }
         public int addressTypeId { get; set; }

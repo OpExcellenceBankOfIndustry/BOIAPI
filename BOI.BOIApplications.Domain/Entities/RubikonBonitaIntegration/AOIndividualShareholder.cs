@@ -28,6 +28,7 @@ namespace BOI.BOIApplications.Domain.Entities.RubikonBonitaIntegration
         public string? DateOfBirth { get; set; }
         public string? TIN { get; set; }
         public string? Title { get; set; }
+        public int? CompanyBOIDiscover { get; set; }
 
     }
 }

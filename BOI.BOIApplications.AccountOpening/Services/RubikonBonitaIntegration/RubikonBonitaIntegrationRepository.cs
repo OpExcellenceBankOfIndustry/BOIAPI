@@ -26,6 +26,7 @@ using BOI.BOIApplications.Application.Contracts.Persistence.ErrorMessage;
 using Newtonsoft.Json.Linq;
 using BOI.BOIApplications.AccountOpening.Services.AccountOpening;
 using Microsoft.Extensions.Logging;
+using BOI.BOIApplications.Domain.Entities.AccountOpeningModels;
 
 namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 {
@@ -35,16 +36,14 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
         private readonly IRestClient _client;
         private readonly IErrorMessageRepository _errorMessageRepository;
         private readonly IConfiguration _configuration;
-        private readonly IMapper _mapper;
         private readonly RubikonBonitaIntegrationAPISettings _rubikonBonitaIntegrationAPISettings;
 
         public RubikonBonitaRepository(IRestClient client, 
             IOptions<RubikonBonitaIntegrationAPISettings> options, 
             IConfiguration configuration,
-            IErrorMessageRepository errorMessageRepository, ILogger<RubikonBonitaRepository> logger, IMapper mapper)
+            IErrorMessageRepository errorMessageRepository, ILogger<RubikonBonitaRepository> logger)
         {
              _logger = logger;
-            _mapper = mapper;
             _client = client;
             _configuration = configuration;
             _errorMessageRepository = errorMessageRepository;
@@ -135,7 +134,11 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                 var customerAccountCreationEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints[accountCreationDetails.GetType().Name];
                 var feedback = await ExecuteNeptuneThirdPartyAccountCreationAPI<T>(accountCreationDetails, customerAccountCreationEndpoint);
                 if (feedback != null)
+                {
+                    _logger.LogInformation("<========================End Create Customer Account Result===========================>");
                     return feedback;
+                }
+                    
                 _logger.LogInformation("<========================End Create Customer Account Result===========================>");
                 return null;
             }
@@ -195,7 +198,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 
                 IRestResponse response = await _client.ExecuteAsync(request);
 
-                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content) && response.Content.ToLower() != "null")
+                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content) && response.Content.Equals("null", StringComparison.OrdinalIgnoreCase))
                 {
                     var responseObject = response.Content;
 
@@ -256,7 +259,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 
                 string? responseObject = null;
 
-                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content) && response.Content.ToLower() != "null")
+                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content) && response.Content.Equals("null", StringComparison.OrdinalIgnoreCase))
                 {
                     responseObject = response.Content;
 
@@ -305,7 +308,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 
                 IRestResponse response = await _client.ExecuteAsync(request);
 
-                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content) && response.Content.ToLower() != "null")
+                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content) && response.Content.Equals("null", StringComparison.OrdinalIgnoreCase))
                 {
                     var responseObject = response.Content;
 
