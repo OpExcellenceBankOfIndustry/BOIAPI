@@ -1,4 +1,6 @@
-﻿using BOI.BOIApplications.Application.Contracts.RubikonBonitaIntegrationAPI;
+﻿using AutoMapper;
+using BOI.BOIApplications.Application.Contracts.RubikonBonitaIntegrationAPI;
+using BOI.BOIApplications.Domain.Entities.AccountOpeningModels;
 using BOI.BOIApplications.Domain.Entities.RubikonBonitaIntegration;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -95,6 +97,7 @@ namespace BOI.BOIApplications.API.Controllers
             if (ModelState.IsValid)
             {
                 var response = await _rubikonBonitaRepository.CreateCustomerAccount(personalAccountDetails);
+                var sRequest = _mapper.Map<PersonalCustomerAccountCreation>(response);
                 if (response != null)
                 {
                     return Ok(response);

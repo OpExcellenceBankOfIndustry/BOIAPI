@@ -15,7 +15,7 @@ namespace BOI.BOIApplications.Application.Profiles.API.RubikonBonitaIntegration
         public RubikonBonitaIntegrationMappingProfiles()
         {
             //CorporateCustomerInquiry
-            CreateMap<PersonalCustomerAccountCreationRequest, AOIndividualShareholder>()
+            CreateMap<PersonalCustomerAccountCreation, AOIndividualShareholder>()
                 .ForMember(
                     dest => dest.FirstName,
                     opt => opt.MapFrom(src => src.firstName.Trim()))

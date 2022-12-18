@@ -24,22 +24,27 @@ using System.Xml.Serialization;
 using System.Reflection;
 using BOI.BOIApplications.Application.Contracts.Persistence.ErrorMessage;
 using Newtonsoft.Json.Linq;
+using BOI.BOIApplications.AccountOpening.Services.AccountOpening;
+using Microsoft.Extensions.Logging;
 
 namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 {
     public class RubikonBonitaRepository : IRubikonBonitaRepository
     {
-
+        private readonly ILogger<RubikonBonitaRepository> _logger;
         private readonly IRestClient _client;
         private readonly IErrorMessageRepository _errorMessageRepository;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
         private readonly RubikonBonitaIntegrationAPISettings _rubikonBonitaIntegrationAPISettings;
 
         public RubikonBonitaRepository(IRestClient client, 
             IOptions<RubikonBonitaIntegrationAPISettings> options, 
             IConfiguration configuration,
-            IErrorMessageRepository errorMessageRepository)
+            IErrorMessageRepository errorMessageRepository, ILogger<RubikonBonitaRepository> logger, IMapper mapper)
         {
+             _logger = logger;
+            _mapper = mapper;
             _client = client;
             _configuration = configuration;
             _errorMessageRepository = errorMessageRepository;
@@ -51,20 +56,23 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
             {
                 if (customerNumber != null)
                 {
+                    _logger.LogInformation("<========================Start Fetch Customer Details ===========================>");
                     var req = new BonitaRubikonAPIRequest();
                     req.identificationNumber = customerNumber;
                     var getCustomerDetailsEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints["GetCustomerDetails"];
-                    var feedback = await ExcuteNeptuneThirdPartyAPI<GetCustomerDetailsResponse>(req, getCustomerDetailsEndpoint);
+                    var feedback = await ExecuteNeptuneThirdPartyAPI<GetCustomerDetailsResponse>(req, getCustomerDetailsEndpoint);
                     if (feedback != null)
                     {
+                        _logger.LogInformation("<========================End Fetch Customer Details===========================>");
                         return feedback;
                     }
                 }
+                _logger.LogInformation("<========================End Fetch Customer Details===========================>");
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError($"Fetch Customer Detail Exception: {ex.Message}");
                 throw;
             }
         }
@@ -75,18 +83,21 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
             {
                 if (nationalId != null)
                 {
+                    _logger.LogInformation("<========================Start Fetch Personal Customer Inquiry Result ===========================>");
                     var req = new BonitaRubikonAPIRequest();
                     req.identificationNumber = nationalId;
                     var personalCustomerEnquiryEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints["PersonalCustomerInquiry"];
-                    var feedback = await ExcuteNeptuneThirdPartyAPI<PersonalCustomerInquiryResponse>(req, personalCustomerEnquiryEndpoint);
+                    var feedback = await ExecuteNeptuneThirdPartyAPI<PersonalCustomerInquiryResponse>(req, personalCustomerEnquiryEndpoint);
                     if (feedback != null)
-                        return feedback;
+                        _logger.LogInformation("<========================End Fetch Personal Customer Inquiry Result===========================>");
+                    return feedback;
                 }
+                _logger.LogInformation("<========================End Fetch Personal Customer Inquiry Result===========================>");
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError($"Fetch Personal Customer Inquiry Exception: {ex.Message}");
                 throw;
             }
         }
@@ -97,18 +108,21 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
             {
                 if (rcNumber != null)
                 {
+                    _logger.LogInformation("<========================Start Fetch Corporate Customer Inquiry Result ===========================>");
                     var req = new BonitaRubikonAPIRequest();
                     req.identificationNumber = rcNumber;
                     var corporateCustomerEnquiryEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints["CorporateCustomerInquiry"];
-                    var feedback = await ExcuteNeptuneThirdPartyAPI<CorporateCustomerInquiryResponse>(req, corporateCustomerEnquiryEndpoint);
+                    var feedback = await ExecuteNeptuneThirdPartyAPI<CorporateCustomerInquiryResponse>(req, corporateCustomerEnquiryEndpoint);
                     if (feedback != null)
-                        return feedback;
+                        _logger.LogInformation("<========================End Fetch Corporate Customer Inquiry Result===========================>");
+                    return feedback;
                 }
+                _logger.LogInformation("<========================End Fetch Corporate Customer Inquiry Result===========================>");
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError($"Fetch Corporate Customer Inquiry Exception: {ex.Message}");
                 throw;
             }
         }
@@ -117,15 +131,17 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
         {
             try
             {
+                _logger.LogInformation("<========================Start Create Customer Account Result===========================>");
                 var customerAccountCreationEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints[accountCreationDetails.GetType().Name];
-                var feedback = await ExcuteNeptuneThirdPartyAccountCreationAPI<T>(accountCreationDetails, customerAccountCreationEndpoint);
+                var feedback = await ExecuteNeptuneThirdPartyAccountCreationAPI<T>(accountCreationDetails, customerAccountCreationEndpoint);
                 if (feedback != null)
                     return feedback;
+                _logger.LogInformation("<========================End Create Customer Account Result===========================>");
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError($"Create Customer Account Exception: {ex.Message}");
                 throw;
             }
         }
@@ -134,6 +150,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
         {
             try
             {
+                _logger.LogInformation("<========================Start Execute Action On Customer Account===========================>");
                 var rawXml = _rubikonBonitaIntegrationAPISettings.RequestBody[requestDetails.GetType().Name];
                 var endpoint = _rubikonBonitaIntegrationAPISettings.Endpoints[requestDetails.GetType().Name];
 
@@ -149,23 +166,28 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 
                 rawXml = rawXml.Replace(parameterDataType, propertyName, true, null);
 
-                var feedback = await ExcuteNeptuneThirdPartyAccountLinkingAPI<U>(endpoint, rawXml);
+                var feedback = await ExecuteNeptuneThirdPartyAccountLinkingAPI<U>(endpoint, rawXml);
 
                 if (feedback != null)
+                {
+                    _logger.LogInformation("<========================End Execute Action On Customer Account===========================>");
                     return feedback;
+                }
+                _logger.LogInformation("<========================End Execute Action On Customer Account===========================>");
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError($"Execute Action On Customer Account Exception: {ex.Message}");
                 throw;
             }
         }
 
-        public async Task<object> ExcuteNeptuneThirdPartyAPI<T>(BonitaRubikonAPIRequest thirdPartyRequest, string endPoint)
+        public async Task<object> ExecuteNeptuneThirdPartyAPI<T>(BonitaRubikonAPIRequest thirdPartyRequest, string endPoint)
         {
             try
             {
+                _logger.LogInformation("<========================Start Execute Neptune ThirdParty API===========================>");
                 endPoint = endPoint.Replace(thirdPartyRequest.GetType().GetProperties().First().Name, thirdPartyRequest.identificationNumber, true, null);
                 _client.BaseUrl = new Uri(_rubikonBonitaIntegrationAPISettings.BaseURL);
 
@@ -185,25 +207,27 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                     {
                         responseObject = DataManipulation.SerializeJsonStringToObject<T>(responseObject);
                     }
-
+                    _logger.LogInformation("<========================End Execute Neptune ThirdParty API===========================>");
                     return responseObject;
                 }
                 else
                 {
+                    _logger.LogInformation("<========================End Execute Neptune ThirdParty API===========================>");
                     return null;
                 }
             }
             catch (Exception ex)
             {
-
+                _logger.LogError($"Execute Neptune ThirdParty API Exception: {ex.Message}");
                 throw;
             }
         }
 
-        public async Task<object> ExcuteNeptuneThirdPartyAccountCreationAPI<T>(T thirdPartyRequest, string endPoint)
+        public async Task<object> ExecuteNeptuneThirdPartyAccountCreationAPI<T>(T thirdPartyRequest, string endPoint)
         {
             try
             {
+                _logger.LogInformation("<========================Start Execute Neptune ThirdParty Account Creation API===========================>");
                 _client.BaseUrl = new Uri(_rubikonBonitaIntegrationAPISettings.BaseURL);
 
                 RestRequest request = new RestRequest(endPoint, Method.POST);
@@ -230,47 +254,49 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 
                 IRestResponse response = await _client.ExecuteAsync(request);
 
-                string? responeObject = null;
+                string? responseObject = null;
 
-                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content))
+                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content) && response.Content.ToLower() != "null")
                 {
-                    responeObject = response.Content;
+                    responseObject = response.Content;
 
-                    if (!DataManipulation.IsJson(responeObject))
+                    if (!DataManipulation.IsJson(responseObject))
                     {
-                        responeObject = DataManipulation.SerializeXmlStringToJson<CustomerCreationResponse>(responeObject, "return");
+                        responseObject = DataManipulation.SerializeXmlStringToJson<CustomerCreationResponse>(responseObject, "return");
                     }
                     else
                     {
-                        responeObject = DataManipulation.SerializeJsonStringToObject<T>(responeObject);
+                        responseObject = DataManipulation.SerializeJsonStringToObject<T>(responseObject);
                     }
                 }
                 else if (response.Content.Contains("errorCode"))
                 {
-                    responeObject = DataManipulation.SerializeXmlStringToJson<ErrorCodeResponse>(response.Content, "errorCode");
+                    responseObject = DataManipulation.SerializeXmlStringToJson<ErrorCodeResponse>(response.Content, "errorCode");
 
                     var connectionString = _configuration.GetConnectionString("OracleDb");
 
-                    JObject obj = JObject.Parse(responeObject);
+                    JObject obj = JObject.Parse(responseObject);
                     string errorCode = (string)obj["errorCode"];
 
                     var errorDescription = _errorMessageRepository.GetErrorMessages(errorCode, _configuration.GetConnectionString("OracleDb"));
 
-                    responeObject = DataManipulation.SerializeObjectToJson(errorDescription.Result);
+                    responseObject = DataManipulation.SerializeObjectToJson(errorDescription.Result);
                 }
-
-                return responeObject;
+                _logger.LogInformation("<========================End Execute Neptune ThirdParty Account Creation API===========================>");
+                return responseObject;
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Execute Neptune ThirdParty Account Creation API Exception: {ex.Message}");
                 throw;
             }
         }
 
-        public async Task<object> ExcuteNeptuneThirdPartyAccountLinkingAPI<T>(string endPoint, string rawXml)
+        public async Task<object> ExecuteNeptuneThirdPartyAccountLinkingAPI<T>(string endPoint, string rawXml)
         {
             try
             {
+                _logger.LogInformation("<========================Start Execute Neptune ThirdParty Account Linking API===========================>");
                 _client.BaseUrl = new Uri(_rubikonBonitaIntegrationAPISettings.BaseURL);
 
                 RestRequest request = new RestRequest(endPoint, Method.POST);                
@@ -279,29 +305,30 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 
                 IRestResponse response = await _client.ExecuteAsync(request);
 
-                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content))
+                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content) && response.Content.ToLower() != "null")
                 {
-                    var responeObject = response.Content;
+                    var responseObject = response.Content;
 
-                    if (!DataManipulation.IsJson(responeObject))
+                    if (!DataManipulation.IsJson(responseObject))
                     {
-                        responeObject = DataManipulation.SerializeXmlStringToJson<T>(responeObject, "return");
+                        responseObject = DataManipulation.SerializeXmlStringToJson<T>(responseObject, "return");
                     }
                     else
                     {
-                        responeObject = DataManipulation.SerializeJsonStringToObject<T>(responeObject);
+                        responseObject = DataManipulation.SerializeJsonStringToObject<T>(responseObject);
                     }
-
-                    return responeObject;
+                    _logger.LogInformation("<========================End Execute Neptune ThirdParty Account Linking API===========================>");
+                    return responseObject;
                 }
                 else
                 {
+                    _logger.LogInformation("<========================End Execute Neptune ThirdParty Account Linking API===========================>");
                     return null;
                 }
             }
             catch (Exception ex)
             {
-
+                _logger.LogError($"Execute Neptune ThirdParty Account Linking API Exception: {ex.Message}");
                 throw;
             }
         }
