@@ -20,6 +20,7 @@ namespace BOI.BOIApplications.API.Controllers
     {
         private readonly IRubikonBonitaRepository _rubikonBonitaRepository;
         private readonly IMapper _mapper;
+        public static CustomerNumber? customerNumber;
 
         public RubikonBonitaIntegrationAPIController(IRubikonBonitaRepository rubikonBonitaRepository, IMapper mapper)
         {
@@ -150,11 +151,12 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.strDate = DateTime.Now.Date.ToString("DD-MM-yyyy");
                 mappedRequest.strFromDate = DateTime.Now.AddYears(4).ToString("dd-MM-yyyy");
                 mappedRequest.submitFlag = true;
-               
 
-                var response = await _rubikonBonitaRepository.CreateCustomerAccount(mappedRequest);
+
+                CustomerCreationResponse response = (CustomerCreationResponse)await _rubikonBonitaRepository.CreateCustomerAccount(mappedRequest);
                 if (response != null)
                 {
+                    customerNumber.CorporateCustomerNumber = response._return.customerNumber;
                     return Ok(response);
                 }
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Success = false, Message = "Unable to create account. Please try again later." });
@@ -296,9 +298,10 @@ namespace BOI.BOIApplications.API.Controllers
                     mappedRequest.titleId = 347;
                 }
 
-                var response = await _rubikonBonitaRepository.CreateCustomerAccount(mappedRequest);
+                CustomerCreationResponse response = (CustomerCreationResponse)await _rubikonBonitaRepository.CreateCustomerAccount(mappedRequest);
                 if (response != null)
                 {
+                    customerNumber.PersonalCustomerNumber = response._return.customerNumber;
                     return Ok(response);
                 }
                 
@@ -324,6 +327,8 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.businessUnitId = -99;
                 mappedRequest.orgPositionId = 398;
                 mappedRequest.orgPositionCode = "OP11O";
+                mappedRequest.corporateCustNo = customerNumber.CorporateCustomerNumber;
+                mappedRequest.personalCustNo= customerNumber.PersonalCustomerNumber;
 
 
                 var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<LinkPersonalCustomerToCorporateRequest, LinkPersonalCustomerToCorporateResponse>(mappedRequest);
@@ -346,6 +351,11 @@ namespace BOI.BOIApplications.API.Controllers
         {
             if (ModelState.IsValid)
             {
+                customerDetails.channelId = 121;
+                customerDetails.serviceChannelCode = "STC053";
+                customerDetails.serviceId = 121;
+                customerDetails.transmissionTime = "00";
+
                 var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<SubmitCustomerRequest, SubmitAccountResponse>(customerDetails);
                 if (response != null)
                 {

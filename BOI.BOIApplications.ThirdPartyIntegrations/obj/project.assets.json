@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
+      "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
       "projectName": "BOI.BOIApplications.ThirdPartyIntegrations",
-      "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
+      "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
       "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\obj\\",
+      "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -61,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

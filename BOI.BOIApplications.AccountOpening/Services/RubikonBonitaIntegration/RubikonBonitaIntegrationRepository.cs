@@ -62,11 +62,11 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                     var feedback = await ExecuteNeptuneThirdPartyAPI<GetCustomerDetailsResponse>(req, getCustomerDetailsEndpoint);
                     if (feedback != null)
                     {
-                        _logger.LogInformation("<========================End Fetch Customer Details===========================>");
+                        _logger.LogInformation($"<========================End Fetch Customer Details===========================>\r\n with feedback: {feedback}");
                         return feedback;
                     }
                 }
-                _logger.LogInformation("<========================End Fetch Customer Details===========================>");
+                _logger.LogInformation("<========================End Fetch Customer Details===========================> because customerNumber is null");
                 return null;
             }
             catch (Exception ex)
@@ -88,10 +88,10 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                     var personalCustomerEnquiryEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints["PersonalCustomerInquiry"];
                     var feedback = await ExecuteNeptuneThirdPartyAPI<PersonalCustomerInquiryResponse>(req, personalCustomerEnquiryEndpoint);
                     if (feedback != null)
-                        _logger.LogInformation("<========================End Fetch Personal Customer Inquiry Result===========================>");
+                        _logger.LogInformation($"<========================End Fetch Personal Customer Inquiry Result===========================> \r\n with feedback: {feedback}");
                     return feedback;
                 }
-                _logger.LogInformation("<========================End Fetch Personal Customer Inquiry Result===========================>");
+                _logger.LogInformation("<========================End Fetch Personal Customer Inquiry Result===========================> because idNumber is null");
                 return null;
             }
             catch (Exception ex)
@@ -113,10 +113,10 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                     var corporateCustomerEnquiryEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints["CorporateCustomerInquiry"];
                     var feedback = await ExecuteNeptuneThirdPartyAPI<CorporateCustomerInquiryResponse>(req, corporateCustomerEnquiryEndpoint);
                     if (feedback != null)
-                        _logger.LogInformation("<========================End Fetch Corporate Customer Inquiry Result===========================>");
+                        _logger.LogInformation($"<========================End Fetch Corporate Customer Inquiry Result===========================> \r\n with feedback: {feedback}");
                     return feedback;
                 }
-                _logger.LogInformation("<========================End Fetch Corporate Customer Inquiry Result===========================>");
+                _logger.LogInformation($"<========================End Fetch Corporate Customer Inquiry Result===========================> \r\n is null because rcNumber is null");
                 return null;
             }
             catch (Exception ex)
@@ -135,11 +135,11 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                 var feedback = await ExecuteNeptuneThirdPartyAccountCreationAPI<T>(accountCreationDetails, customerAccountCreationEndpoint);
                 if (feedback != null)
                 {
-                    _logger.LogInformation("<========================End Create Customer Account Result===========================>");
+                    _logger.LogInformation($"<========================End Create Customer Account Result===========================> \r\n with feedback: {feedback}");
                     return feedback;
                 }
                     
-                _logger.LogInformation("<========================End Create Customer Account Result===========================>");
+                _logger.LogInformation($"<========================End Create Customer Account Result===========================> \r\n with feedback: {feedback}");
                 return null;
             }
             catch (Exception ex)
@@ -173,10 +173,10 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 
                 if (feedback != null)
                 {
-                    _logger.LogInformation("<========================End Execute Action On Customer Account===========================>");
+                    _logger.LogInformation($"<========================End Execute Action On Customer Account===========================> \r\n with feedback: {feedback}");
                     return feedback;
                 }
-                _logger.LogInformation("<========================End Execute Action On Customer Account===========================>");
+                _logger.LogInformation($"<========================End Execute Action On Customer Account===========================> \r\n with feedback: {feedback}");
                 return null;
             }
             catch (Exception ex)
@@ -210,12 +210,12 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                     {
                         responseObject = DataManipulation.SerializeJsonStringToObject<T>(responseObject);
                     }
-                    _logger.LogInformation("<========================End Execute Neptune ThirdParty API===========================>");
+                    _logger.LogInformation($"<========================End Execute Neptune ThirdParty API===========================> \r\n with response: {responseObject}");
                     return responseObject;
                 }
                 else
                 {
-                    _logger.LogInformation("<========================End Execute Neptune ThirdParty API===========================>");
+                    _logger.LogInformation($"<========================End Execute Neptune ThirdParty API===========================>  \r\n with response: {response}");
                     return null;
                 }
             }
@@ -285,7 +285,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 
                     responseObject = DataManipulation.SerializeObjectToJson(errorDescription.Result);
                 }
-                _logger.LogInformation("<========================End Execute Neptune ThirdParty Account Creation API===========================>");
+                _logger.LogInformation($"<========================End Execute Neptune ThirdParty Account Creation API===========================> \r\n with response: {responseObject}");
                 return responseObject;
             }
             catch (Exception ex)
@@ -320,12 +320,12 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                     {
                         responseObject = DataManipulation.SerializeJsonStringToObject<T>(responseObject);
                     }
-                    _logger.LogInformation("<========================End Execute Neptune ThirdParty Account Linking API===========================>");
+                    _logger.LogInformation($"<========================End Execute Neptune ThirdParty Account Linking API===========================> \r\n with response: {responseObject}");
                     return responseObject;
                 }
                 else
                 {
-                    _logger.LogInformation("<========================End Execute Neptune ThirdParty Account Linking API===========================>");
+                    _logger.LogInformation($"<========================End Execute Neptune ThirdParty Account Linking API===========================> \r\n with response: {response}");
                     return null;
                 }
             }

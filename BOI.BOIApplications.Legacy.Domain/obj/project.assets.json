@@ -57,11 +57,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
       "projectName": "BOI.BOIApplications.Legacy.Domain",
-      "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
+      "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
       "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\obj\\",
+      "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -111,7 +111,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
