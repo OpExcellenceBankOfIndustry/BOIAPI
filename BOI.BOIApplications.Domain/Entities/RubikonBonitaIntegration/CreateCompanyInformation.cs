@@ -14,6 +14,7 @@ namespace BOI.BOIApplications.Domain.Entities.RubikonBonitaIntegration
         public string? Address { get; set; }
         public string? CompanyState { get; set; }
         public string? StakeholderState { get; set; }
+        public int? PercentOwnership { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
         public string? RegNum { get; set; }

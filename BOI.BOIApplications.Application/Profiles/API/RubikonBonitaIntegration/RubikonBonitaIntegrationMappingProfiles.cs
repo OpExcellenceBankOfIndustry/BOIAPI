@@ -107,6 +107,27 @@ namespace BOI.BOIApplications.Application.Profiles.API.RubikonBonitaIntegration
                 .ForMember(
                     dest => dest.strRegistrationDate,
                     opt => opt.MapFrom(src => src.DateofIncorporation.Trim()));
+
+            //LinkCustomerAccountToCorporateAccount
+            CreateMap<CreateCompanyInformation, LinkPersonalCustomerToCorporateRequest>()
+                .ForMember(
+                    dest => dest.addressLine1,
+                    opt => opt.MapFrom(src => src.Address.Trim()))
+                .ForMember(
+                    dest => dest.shareholdingOwnershipPercentage,
+                    opt => opt.MapFrom(src => src.Name.Trim()))
+                .ForMember(
+                    dest => dest.shareholdingOwnershipPercentage,
+                    opt => opt.MapFrom(src => src.PercentOwnership))
+                .ForMember(
+                    dest => dest.businessPhoneNo,
+                    opt => opt.MapFrom(src => src.PhoneNumber.Trim()))
+                .ForMember(
+                    dest => dest.businessEmailAddr,
+                    opt => opt.MapFrom(src => src.Email.Trim()))
+                .ForMember(
+                    dest => dest.strRegistrationDate,
+                    opt => opt.MapFrom(src => src.DateofIncorporation.Trim()));
         }
        
     }

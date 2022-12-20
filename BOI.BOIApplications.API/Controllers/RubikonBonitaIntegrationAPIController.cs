@@ -258,7 +258,6 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.status = "A";
                 mappedRequest.strDate = DateTime.Now.Date.ToString("DD-MM-yyyy");
                 mappedRequest.strFromDate = DateTime.Now.AddYears(4).ToString("dd-MM-yyyy");
-                mappedRequest.employmentFlag = "false";
                 mappedRequest.submitFlag = true;
                 if(personalAccountDetails.Title.Equals("MR", StringComparison.OrdinalIgnoreCase))
                 {
@@ -318,7 +317,16 @@ namespace BOI.BOIApplications.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<LinkPersonalCustomerToCorporateRequest, LinkPersonalCustomerToCorporateResponse>(accountLinkingDetails);
+                var mappedRequest = _mapper.Map<LinkPersonalCustomerToCorporateRequest>(accountLinkingDetails);
+                mappedRequest.channelId = 121;
+                mappedRequest.serviceChannelCode = "BONITA";
+                mappedRequest.transmissionTime = "00";
+                mappedRequest.businessUnitId = -99;
+                mappedRequest.orgPositionId = 398;
+                mappedRequest.orgPositionCode = "OP11O";
+
+
+                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<LinkPersonalCustomerToCorporateRequest, LinkPersonalCustomerToCorporateResponse>(mappedRequest);
                 if (response != null)
                 {
                     return Ok(response);
