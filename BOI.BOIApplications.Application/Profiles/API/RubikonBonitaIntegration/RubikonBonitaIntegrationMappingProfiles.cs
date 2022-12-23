@@ -15,7 +15,7 @@ namespace BOI.BOIApplications.Application.Profiles.API.RubikonBonitaIntegration
         public RubikonBonitaIntegrationMappingProfiles()
         {
             //CreatePersonalAccount
-            CreateMap<AOIndividualShareholder, PersonalCustomerAccountCreationRequest>()
+            CreateMap<AOIndividualShareholder, PersonalCustomerAccountCreation>()
                 .ForMember(
                     dest => dest.firstName,
                     opt => opt.MapFrom(src => src.FirstName.Trim()))
@@ -44,9 +44,6 @@ namespace BOI.BOIApplications.Application.Profiles.API.RubikonBonitaIntegration
                     dest => dest.addressState,
                     opt => opt.MapFrom(src => src.StakeholderState.Trim()))
                 .ForMember(
-                    dest => dest.marketingCampaignId,
-                    opt => opt.MapFrom(src => src.CompanyBOIDiscover))
-                .ForMember(
                     dest => dest.maritalStatus,
                     opt => opt.MapFrom(src => src.MaritalStatus.Trim()))
                 .ForMember(
@@ -66,7 +63,7 @@ namespace BOI.BOIApplications.Application.Profiles.API.RubikonBonitaIntegration
                     opt => opt.MapFrom(src => src.TIN));
 
             //CreateCorporateAccount
-            CreateMap<CreateCompanyInformation, CorporateCustomerAccountCreationRequest>()
+            CreateMap<CreateCompanyInformation, CorporateCustomerAccountCreation>()
                 .ForMember(
                     dest => dest.custShortName,
                     opt => opt.MapFrom(src => src.ShortName.Trim()))
@@ -86,15 +83,11 @@ namespace BOI.BOIApplications.Application.Profiles.API.RubikonBonitaIntegration
                     dest => dest.addressState,
                     opt => opt.MapFrom(src => src.CompanyState.Trim()))
                 .ForMember(
-                    dest => dest.marketingCampaignId,
-                    opt => opt.MapFrom(src => src.CompanyBOIDiscover))
-                //.ForMember(
-                //    dest => dest.strDate,
-                //    opt => opt.MapFrom(src => src.BusinessDate.Trim()))
-                //.ForMember(
-                //    dest => dest.strFromDate,
-                //    opt => opt.MapFrom(src => src.BusinessDate))
-
+                    dest => dest.strDate,
+                    opt => opt.MapFrom(src => src.BusinessDate.Trim()))
+                .ForMember(
+                    dest => dest.strFromDate,
+                    opt => opt.MapFrom(src => src.BusinessDate.Trim()))
                 .ForMember(
                     dest => dest.taxIdentificationNo,
                     opt => opt.MapFrom(src => src.TIN))
@@ -115,19 +108,13 @@ namespace BOI.BOIApplications.Application.Profiles.API.RubikonBonitaIntegration
                     opt => opt.MapFrom(src => src.Address.Trim()))
                 .ForMember(
                     dest => dest.shareholdingOwnershipPercentage,
-                    opt => opt.MapFrom(src => src.Name.Trim()))
-                .ForMember(
-                    dest => dest.shareholdingOwnershipPercentage,
                     opt => opt.MapFrom(src => src.PercentOwnership))
                 .ForMember(
                     dest => dest.businessPhoneNo,
                     opt => opt.MapFrom(src => src.PhoneNumber.Trim()))
                 .ForMember(
                     dest => dest.businessEmailAddr,
-                    opt => opt.MapFrom(src => src.Email.Trim()))
-                .ForMember(
-                    dest => dest.strRegistrationDate,
-                    opt => opt.MapFrom(src => src.DateofIncorporation.Trim()));
+                    opt => opt.MapFrom(src => src.Email.Trim()));
         }
        
     }

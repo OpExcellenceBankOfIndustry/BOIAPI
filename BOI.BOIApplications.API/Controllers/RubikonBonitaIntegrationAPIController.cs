@@ -79,9 +79,9 @@ namespace BOI.BOIApplications.API.Controllers
             {
 
             if (ModelState.IsValid)
-            {
-
-                var mappedRequest = _mapper.Map<CorporateCustomerAccountCreation>(corporateAccountDetails);
+            {               
+                CorporateCustomerAccountCreation corporateCustomerAccountCreation = new CorporateCustomerAccountCreation();
+                var mappedRequest = _mapper.Map(corporateAccountDetails, corporateCustomerAccountCreation);
                 //Default values are assigned below, note that they should be changed before go live
                 mappedRequest.channelId = 121;
                 mappedRequest.serviceChannelCode = "STC029";
@@ -151,12 +151,52 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.strDate = DateTime.Now.Date.ToString("DD-MM-yyyy");
                 mappedRequest.strFromDate = DateTime.Now.AddYears(4).ToString("dd-MM-yyyy");
                 mappedRequest.submitFlag = true;
-
+                if(corporateAccountDetails.CompanyBOIDiscover.Equals("RADIO", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 251;                   
+                }
+                else if(corporateAccountDetails.CompanyBOIDiscover.Equals("FRIEND", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 252;
+                }
+                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("REFERRALS", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 252;
+                }
+                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("NEWSPAPER", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 353;
+                }
+                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("TELEVISION", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 354;
+                }
+                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("FACEBOOK", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 358;
+                }
+                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("INSTAGRAM", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 358;
+                }
+                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("INTERNET", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 358;
+                }
+                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("TWITTER", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 358;
+                }
 
                 CustomerCreationResponse response = (CustomerCreationResponse)await _rubikonBonitaRepository.CreateCustomerAccount(mappedRequest);
                 if (response != null)
                 {
                     customerNumber.CorporateCustomerNumber = response._return.customerNumber;
+                    SubmitCustomerRequest submitCustomerRequest = new SubmitCustomerRequest { customerNo = response._return.customerNumber };
+                    LinkPersonalCustomerToCorporateRequest linkPersonalCustomerToCorporateRequest = new LinkPersonalCustomerToCorporateRequest { corporateCustNo = customerNumber.CorporateCustomerNumber, personalCustNo = customerNumber.PersonalCustomerNumber };
+                    var linkPersonalCustomer = await LinkPersonalCustomerToCorporateCustomer(linkPersonalCustomerToCorporateRequest);
+
+                    var activateCustomer = await SubmitCustomerDetails(submitCustomerRequest);
                     return Ok(response);
                 }
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Success = false, Message = "Unable to create account. Please try again later." });
@@ -298,10 +338,50 @@ namespace BOI.BOIApplications.API.Controllers
                     mappedRequest.titleId = 347;
                 }
 
+                if (personalAccountDetails.CompanyBOIDiscover.Equals("RADIO", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 251;
+                }
+                else if (personalAccountDetails.CompanyBOIDiscover.Equals("FRIEND", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 252;
+                }
+                else if (personalAccountDetails.CompanyBOIDiscover.Equals("REFERRALS", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 252;
+                }
+                else if (personalAccountDetails.CompanyBOIDiscover.Equals("NEWSPAPER", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 353;
+                }
+                else if (personalAccountDetails.CompanyBOIDiscover.Equals("TELEVISION", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 354;
+                }
+                else if (personalAccountDetails.CompanyBOIDiscover.Equals("FACEBOOK", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 358;
+                }
+                else if (personalAccountDetails.CompanyBOIDiscover.Equals("INSTAGRAM", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 358;
+                }
+                else if (personalAccountDetails.CompanyBOIDiscover.Equals("INTERNET", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 358;
+                }
+                else if (personalAccountDetails.CompanyBOIDiscover.Equals("TWITTER", StringComparison.OrdinalIgnoreCase))
+                {
+                    mappedRequest.marketingCampaignId = 358;
+                }
+
                 CustomerCreationResponse response = (CustomerCreationResponse)await _rubikonBonitaRepository.CreateCustomerAccount(mappedRequest);
                 if (response != null)
                 {
                     customerNumber.PersonalCustomerNumber = response._return.customerNumber;
+                    SubmitCustomerRequest submitCustomerRequest = new SubmitCustomerRequest { customerNo = response._return.customerNumber };
+                    var activateCustomer = await SubmitCustomerDetails(submitCustomerRequest);
+                    
                     return Ok(response);
                 }
                 
@@ -327,8 +407,11 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.businessUnitId = -99;
                 mappedRequest.orgPositionId = 398;
                 mappedRequest.orgPositionCode = "OP11O";
-                mappedRequest.corporateCustNo = customerNumber.CorporateCustomerNumber;
-                mappedRequest.personalCustNo= customerNumber.PersonalCustomerNumber;
+                mappedRequest.cityCode = "IFT";
+                mappedRequest.stateCode = "OSN";
+                mappedRequest.countryCode = "NGA";
+                //mappedRequest.corporateCustNo = customerNumber.CorporateCustomerNumber;
+                //mappedRequest.personalCustNo= customerNumber.PersonalCustomerNumber;
 
 
                 var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<LinkPersonalCustomerToCorporateRequest, LinkPersonalCustomerToCorporateResponse>(mappedRequest);

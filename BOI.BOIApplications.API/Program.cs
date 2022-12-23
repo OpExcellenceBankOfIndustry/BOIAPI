@@ -1,6 +1,8 @@
+using AutoMapper;
 using BOI.BOIApplications.AccountOpening;
 using BOI.BOIApplications.API.Middleware;
 using BOI.BOIApplications.Application;
+using BOI.BOIApplications.Application.Profiles.API.RubikonBonitaIntegration;
 using BOI.BOIApplications.Domain.Entities.ThirdPartyAPI;
 using BOI.BOIApplications.IdentityManagement;
 using BOI.BOIApplications.Infrastructure;
@@ -106,6 +108,8 @@ static void AddSwagger(IServiceCollection services)
 }
 #endregion
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//builder.Services.AddAutoMapper(typeof(RubikonBonitaIntegrationMappingProfiles));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
