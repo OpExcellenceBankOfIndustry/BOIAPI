@@ -148,8 +148,8 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.sourceOfFundCd = "SF002";
                 mappedRequest.sourceOfFundId = 352;
                 mappedRequest.status = "A";
-                mappedRequest.strDate = DateTime.Now.Date.ToString("DD-MM-yyyy");
-                mappedRequest.strFromDate = DateTime.Now.AddYears(4).ToString("dd-MM-yyyy");
+                mappedRequest.strDate = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                mappedRequest.strFromDate = DateTime.Now.AddYears(4).ToString("dd/MM/yyyy");
                 mappedRequest.submitFlag = true;
                 if(corporateAccountDetails.CompanyBOIDiscover.Equals("RADIO", StringComparison.OrdinalIgnoreCase))
                 {
