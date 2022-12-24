@@ -126,12 +126,12 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
             }
         }
 
-        public async Task<object> CreateCustomerAccount<T>(T accountCreationDetails)
+        public async Task<object> CreateCustomerAccount<T>(T accountCreationDetails, string endpointType)
         {
             try
             {
                 _logger.LogInformation("<========================Start Create Customer Account Result===========================>");
-                var customerAccountCreationEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints[accountCreationDetails.GetType().Name];
+                var customerAccountCreationEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints[endpointType];
                 var feedback = await ExecuteNeptuneThirdPartyAccountCreationAPI<T>(accountCreationDetails, customerAccountCreationEndpoint);
                 if (feedback != null)
                 {
@@ -235,31 +235,31 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 
                 RestRequest request = new RestRequest(endPoint, Method.POST);
 
-                var jsonString = DataManipulation.SerializeObjectToJson(thirdPartyRequest);
+                //var jsonString = DataManipulation.SerializeObjectToJson(thirdPartyRequest);
 
-                var xmlResult = (XmlDocument)JsonConvert.DeserializeXmlNode(jsonString, "arg0");
+                //var xmlResult = (XmlDocument)JsonConvert.DeserializeXmlNode(jsonString, "arg0");
 
-                var argXmlBody = xmlResult.InnerXml;
+                //var argXmlBody = xmlResult.InnerXml;
 
-                string rawXml = _rubikonBonitaIntegrationAPISettings.RequestBody["AccountCreationRequestBody"];
+                //string rawXml = _rubikonBonitaIntegrationAPISettings.RequestBody["AccountCreationRequestBody"];
 
-                rawXml = HttpUtility.HtmlDecode(rawXml);
+                //rawXml = HttpUtility.HtmlDecode(rawXml);
 
-                string propertyName = _rubikonBonitaIntegrationAPISettings.RequestParameterKeyword;
+                //string propertyName = _rubikonBonitaIntegrationAPISettings.RequestParameterKeyword;
 
-                string parameterDataType = thirdPartyRequest.GetType().Name.ToString();
+                //string parameterDataType = thirdPartyRequest.GetType().Name.ToString();
 
-                rawXml = rawXml.Replace(propertyName, argXmlBody.ToString(), true, null);
+                //rawXml = rawXml.Replace(propertyName, argXmlBody.ToString(), true, null);
 
-                rawXml = rawXml.Replace(parameterDataType, propertyName, true, null);
+                //rawXml = rawXml.Replace(parameterDataType, propertyName, true, null);
 
-                request.AddParameter("application/xml", rawXml, ParameterType.RequestBody);
+                request.AddParameter("application/xml", thirdPartyRequest, ParameterType.RequestBody);
 
                 IRestResponse response = await _client.ExecuteAsync(request);
 
                 string? responseObject = null;
 
-                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content) && response.Content.Equals("null", StringComparison.OrdinalIgnoreCase))
+                if (response.IsSuccessful && !response.Content.Equals("null", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrEmpty(response.Content))
                 {
                     responseObject = response.Content;
 

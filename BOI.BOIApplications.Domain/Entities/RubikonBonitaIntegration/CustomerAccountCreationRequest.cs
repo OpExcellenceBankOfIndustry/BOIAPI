@@ -25,6 +25,9 @@ namespace BOI.BOIApplications.Domain.Entities.RubikonBonitaIntegration
 
     public class PersonalCustomerAccountCreation: Arg0
     {
+        public string? cityOfIssue;
+        public string? countryOfIssue;
+        public string? countryOfIssueId;
         public string? employmentFlag { get; set; }
         public string? lastName { get; set; }
         public string? fathersName { get; set; }
@@ -61,8 +64,8 @@ namespace BOI.BOIApplications.Domain.Entities.RubikonBonitaIntegration
         public int channelId { get; set; }
         public string? serviceChannelCode { get; set; }
         public int serviceId { get; set; }
-        public int transmissionTime { get; set; }
-        public int businessUnitCodeId { get; set; }
+        public string? transmissionTime { get; set; }
+        public string? businessUnitCodeId { get; set; }
         public string? custShortName { get; set; }
         public string? customerCategory { get; set; }
         public string? customerName { get; set; }
@@ -88,8 +91,8 @@ namespace BOI.BOIApplications.Domain.Entities.RubikonBonitaIntegration
         public string? industryCd { get; set; }
         public int industryId { get; set; }
         public string? locale { get; set; }
-        public int mainBusinessUnitCd { get; set; }
-        public int mainBusinessUnitId { get; set; }
+        public string? mainBusinessUnitCd { get; set; }
+        public string? mainBusinessUnitId { get; set; }
         public int marketingCampaignId { get; set; }
         public string? nationalityCd { get; set; }
         public int nationalityId { get; set; }
