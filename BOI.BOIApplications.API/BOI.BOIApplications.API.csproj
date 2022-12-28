@@ -16,6 +16,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.32" />
+    <PackageReference Include="Hangfire.Core" Version="1.7.32" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.7.32" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
@@ -31,6 +34,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BOI.BOIApplications.AccountOpening\BOI.BOIApplications.AccountOpening.csproj" />
     <ProjectReference Include="..\BOI.BOIApplications.Application\BOI.BOIApplications.Application.csproj" />
+    <ProjectReference Include="..\BOI.BOIApplications.Background\BOI.BOIApplications.Background.csproj" />
     <ProjectReference Include="..\BOI.BOIApplications.IdentityManagement\BOI.BOIApplications.IdentityManagement.csproj" />
     <ProjectReference Include="..\BOI.BOIApplications.Infrastructure\BOI.BOIApplications.Infrastructure.csproj" />
     <ProjectReference Include="..\BOI.BOIApplications.Legacy.Persistence\BOI.BOIApplications.Legacy.Persistence.csproj" />

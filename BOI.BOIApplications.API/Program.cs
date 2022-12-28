@@ -4,19 +4,25 @@ using BOI.BOIApplications.Application;
 using BOI.BOIApplications.Domain.Entities.ThirdPartyAPI;
 using BOI.BOIApplications.IdentityManagement;
 using BOI.BOIApplications.Infrastructure;
-using BOI.BOIApplications.Infrastructure.Logging;
+using BOI.BOIApplications.Background;
 using BOI.BOIApplications.Legacy.Persistence;
 using BOI.BOIApplications.Persistence;
 using BOI.BOIApplications.Persistence.Repository;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Reflection;
+using Hangfire;
+using Hangfire.SqlServer;
+using BOI.BOIApplications.API.Background;
+using Microsoft.Extensions.Options;
+using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
+var connectionString = builder.Configuration.GetConnectionString("BOIApplicationConnectionString");
 
 //builder.Host.UseSerilog(Logging.ConfigureLogger);
-
+BackgroundJobs.Initialize(configuration);
 
 
 Log.Logger = new LoggerConfiguration()
@@ -27,7 +33,15 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog(Log.Logger);
 
+//Add HttpClient Factory
+builder.Services.AddHttpClient(Options.DefaultName, options =>
+{
+    options.BaseAddress = new Uri(configuration["Bonita:BaseUrl"].ToString());
+});
+
+
 // Add services to the container.
+builder.Services.AddBackgroundServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddPersistenceServices(configuration);
@@ -53,6 +67,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+BackgroundJobs.Initialize(configuration);
 
 AddSwagger(builder.Services);
 
@@ -106,6 +122,21 @@ static void AddSwagger(IServiceCollection services)
 }
 #endregion
 
+//Add Hangfire
+builder.Services.AddHangfire(configuration =>
+    configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSqlServerStorage(connectionString, new SqlServerStorageOptions {
+        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+        QueuePollInterval = TimeSpan.Zero,
+        UseRecommendedIsolationLevel = true,
+        DisableGlobalLocks = true
+        }));
+
+builder.Services.AddHangfireServer();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -126,7 +157,11 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.UseHangfireDashboard();
+
 app.MapControllers(); 
 app.UseStaticFiles();
+
+BackgroundJobs.Register();
 
 app.Run();

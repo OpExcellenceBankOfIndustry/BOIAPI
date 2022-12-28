@@ -1,6 +1,7 @@
 ﻿
 using BOI.BOIApplications.Application.Contracts.Infrastructure;
 using BOI.BOIApplications.Infrastructure.Caching;
+using BOI.BOIApplications.Infrastructure.Helper;
 using BOI.BOIApplications.Infrastructure.Mail;
 using BOI.BOIApplications.Infrastructure.ServerPings;
 using BOI.BOIApplications.Infrastructure.Validations;
@@ -18,6 +19,7 @@ public static class InfrastructureServiceRegistration
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddScoped<IServerCheck, ServerCheck>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IHttpClientHelper, HttpClientHelper>();
 
         return services;
     }
