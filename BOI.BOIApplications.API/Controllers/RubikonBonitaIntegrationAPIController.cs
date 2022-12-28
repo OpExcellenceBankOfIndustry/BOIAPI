@@ -283,7 +283,7 @@ namespace BOI.BOIApplications.API.Controllers
                 createCorporateCustomerPayload.Append($"<status>A</status>");
                 createCorporateCustomerPayload.Append("</contactsList>");
                 createCorporateCustomerPayload.Append("<contactsList>");
-                createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}/contactDetails>");
+                createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
                 createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
                 createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM109</contactModeCategoryCode>");
                 createCorporateCustomerPayload.Append($"<contactModeTypeId>323</contactModeTypeId>");
