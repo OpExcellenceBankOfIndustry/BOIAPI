@@ -21,6 +21,11 @@ namespace BOI.BOIApplications.Domain.Entities.RubikonBonitaIntegration
         public string? organisationName { get; set; }
         public string? registrationNumber { get; set; }
         public string? strRegistrationDate { get; set; }
+        public string? LineOfBusiness { get; set; }
+        public string? BusinessCategory { get; set; }
+        public decimal TotalAssetValue { get; set; }
+        public decimal AuthorisedShareCapital { get; set; }
+        public decimal PaidShareCapital { get; set; }
     }
 
     public class PersonalCustomerAccountCreation: Arg0

@@ -23,5 +23,10 @@ namespace BOI.BOIApplications.Domain.Entities.RubikonBonitaIntegration
         public string? BusinessDate { get; set; }
         public long? TIN { get; set; }
         public string? Title { get; set; }
+        public string? LineOfBusiness { get; set; }
+        public string? BusinessCategory { get; set; }
+        public decimal TotalAssetValue { get; set; }
+        public decimal AuthorisedShareCapital { get; set; }
+        public decimal PaidShareCapital { get; set; }
     }
 }

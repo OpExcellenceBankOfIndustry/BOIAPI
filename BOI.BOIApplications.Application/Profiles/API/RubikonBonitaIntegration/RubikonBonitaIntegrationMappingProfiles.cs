@@ -99,7 +99,22 @@ namespace BOI.BOIApplications.Application.Profiles.API.RubikonBonitaIntegration
                     opt => opt.MapFrom(src => src.RegNum.Trim()))
                 .ForMember(
                     dest => dest.strRegistrationDate,
-                    opt => opt.MapFrom(src => src.DateofIncorporation.Trim()));
+                    opt => opt.MapFrom(src => src.DateofIncorporation.Trim()))
+                .ForMember(
+                    dest => dest.TotalAssetValue,
+                    opt => opt.MapFrom(src => src.TotalAssetValue))
+                .ForMember(
+                    dest => dest.AuthorisedShareCapital,
+                    opt => opt.MapFrom(src => src.AuthorisedShareCapital))
+                .ForMember(
+                    dest => dest.PaidShareCapital,
+                    opt => opt.MapFrom(src => src.PaidShareCapital))
+                .ForMember(
+                    dest => dest.LineOfBusiness,
+                    opt => opt.MapFrom(src => src.LineOfBusiness.Trim()))
+                .ForMember(
+                    dest => dest.BusinessCategory,
+                    opt => opt.MapFrom(src => src.BusinessCategory.Trim()));
 
             //LinkCustomerAccountToCorporateAccount
             CreateMap<CreateCompanyInformation, LinkPersonalCustomerToCorporateRequest>()
