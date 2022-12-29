@@ -329,7 +329,7 @@ namespace BOI.BOIApplications.API.Controllers
                 createCorporateCustomerPayload.Append($"<fieldIdArray>56</fieldIdArray>");
                 createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.strRegistrationDate}</fieldValueArr>");
                 createCorporateCustomerPayload.Append($"<fieldIdArray>59</fieldIdArray>");
-                createCorporateCustomerPayload.Append($"<fieldValueArr{mappedRequest.AuthorisedShareCapital}</fieldValueArr>");
+                createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.AuthorisedShareCapital}</fieldValueArr>");
                 createCorporateCustomerPayload.Append($"<fieldIdArray>60</fieldIdArray>");
                 createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.PaidShareCapital}</fieldValueArr>");
                 createCorporateCustomerPayload.Append("<!--OTHERS-->");
