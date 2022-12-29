@@ -316,7 +316,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                 _logger.LogInformation($"<========================End Execute Neptune ThirdParty Account Creation API===========================> \r\n with response: {responseObject}");
                 return responseObject;
             }
-            catch (Exception ex)
+            catch (WebException ex)
             {
                 _logger.LogError($"Execute Neptune ThirdParty Account Creation API Exception: {ex.Message}");
                 throw;
