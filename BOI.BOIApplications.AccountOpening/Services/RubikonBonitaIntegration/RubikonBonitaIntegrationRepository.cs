@@ -136,7 +136,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                 var customerAccountCreationEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints[endpointType];
                 var feedback = await ExecuteNeptuneThirdPartyAccountCreationAPI<T>(accountCreationDetails, customerAccountCreationEndpoint, endpointType);
                 if (feedback != null)
-                {
+                {                    
                     _logger.LogInformation($"<========================End Create Customer Account Result===========================> \r\n with feedback: {feedback}");
                     return feedback;
                 }
@@ -235,8 +235,9 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                 _logger.LogInformation("<========================Start Execute Neptune ThirdParty Account Creation API===========================>");
                 string thirdPartyRequestPayload = thirdPartyRequest.ToString();
                 _client.BaseUrl = new Uri(_rubikonBonitaIntegrationAPISettings.BaseURL);
+                //RestRequest request = new RestRequest(endPoint, Method.POST);
                 string payloadLink = $"{_client.BaseUrl}{endPoint}";
-                WebRequest request = WebRequest.Create(payloadLink);//new RestRequest(endPoint, Method.POST);
+                WebRequest request = WebRequest.Create(payloadLink);
                 request.Method = "POST";
                 request.ContentType = "application/xml";
 
@@ -248,73 +249,35 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
                 string? responseObject = null;
-                if (response.StatusCode == HttpStatusCode.InternalServerError || (response.StatusCode >= HttpStatusCode.OK && response.StatusCode < HttpStatusCode.Ambiguous))
+                CustomerCreationResponse jsonVersionOfResponse = new CustomerCreationResponse();
+                if (response.StatusCode >= HttpStatusCode.OK && response.StatusCode < HttpStatusCode.Ambiguous)
                 {
-                    using(StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                     {
                         _logger.LogInformation("Call to Rubicon successful");
                         string responseContent = reader.ReadToEnd();
-                        dynamic jsonVersionOfResponse = JsonConvert.DeserializeObject(responseContent);
-                        responseObject = jsonVersionOfResponse.element;
+                        responseObject = responseContent;
+
+                        if (!DataManipulation.IsJson(responseObject))
+                        {
+                            responseObject = DataManipulation.SerializeXmlStringToJson<CustomerCreationResponse>(responseObject, "return");
+                            jsonVersionOfResponse = JsonConvert.DeserializeObject<CustomerCreationResponse>(responseObject);
+                        }
+                        else
+                        {
+                            responseObject = DataManipulation.SerializeJsonStringToObject<T>(responseObject);
+                        }                       
+
                     }
                 }
                 else
                 {
                     _logger.LogInformation("Call to Rubicon unsuccessful");
                 }
-                //var jsonString = DataManipulation.SerializeObjectToJson(thirdPartyRequestPayload);
-
-                //var xmlResult = (XmlDocument)JsonConvert.DeserializeXmlNode(jsonString, "arg0");
-
-                //var argXmlBody = xmlResult.InnerXml;
-
-                //string rawXml = _rubikonBonitaIntegrationAPISettings.RequestBody["AccountCreationRequestBody"];
-
-                //rawXml = HttpUtility.HtmlDecode(rawXml);
-
-                //string propertyName = _rubikonBonitaIntegrationAPISettings.RequestParameterKeyword;
-
-                //string parameterDataType = endpointType;
-
-                //rawXml = rawXml.Replace(propertyName, argXmlBody.ToString(), true, null);
-
-                //rawXml = rawXml.Replace(parameterDataType, propertyName, true, null);
-
-                //request.AddParameter("application/xml", thirdPartyRequestPayload, ParameterType.RequestBody);
-
-                //IRestResponse response = await _client.ExecuteAsync(request);
-
-                //string? responseObject = null;
-
-                //if (response.IsSuccessful && !response.Content.Equals("null", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrEmpty(response.Content))
-                //if (response.StatusCode == 0)
-                //{
-                //    responseObject = response..Content;
-
-                //    if (!DataManipulation.IsJson(responseObject))
-                //    {
-                //        responseObject = DataManipulation.SerializeXmlStringToJson<CustomerCreationResponse>(responseObject, "return");
-                //    }
-                //    else
-                //    {
-                //        responseObject = DataManipulation.SerializeJsonStringToObject<T>(responseObject);
-                //    }
-                //}
-                //else if (response.Content.Contains("errorCode"))
-                //{
-                //    responseObject = DataManipulation.SerializeXmlStringToJson<ErrorCodeResponse>(response.Content, "errorCode");
-
-                //    var connectionString = _configuration.GetConnectionString("OracleDb");
-
-                //    JObject obj = JObject.Parse(responseObject);
-                //    string errorCode = (string)obj["errorCode"];
-
-                //    var errorDescription = _errorMessageRepository.GetErrorMessages(errorCode, _configuration.GetConnectionString("OracleDb"));
-
-                //    responseObject = DataManipulation.SerializeObjectToJson(errorDescription.Result);
-                //}
+               
                 _logger.LogInformation($"<========================End Execute Neptune ThirdParty Account Creation API===========================> \r\n with response: {responseObject}");
-                return responseObject;
+
+                return jsonVersionOfResponse;
             }
             catch (WebException ex)
             {

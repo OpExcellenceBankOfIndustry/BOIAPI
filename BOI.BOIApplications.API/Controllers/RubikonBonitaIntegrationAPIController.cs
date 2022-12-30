@@ -21,7 +21,7 @@ namespace BOI.BOIApplications.API.Controllers
     {
         private readonly IRubikonBonitaRepository _rubikonBonitaRepository;
         private readonly IMapper _mapper;
-        public static CustomerNumber? customerNumber;
+        public static CustomerNumber customerNumber = new CustomerNumber();
 
         public RubikonBonitaIntegrationAPIController(IRubikonBonitaRepository rubikonBonitaRepository, IMapper mapper)
         {
@@ -132,7 +132,7 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.subTypeId = 722;
                 mappedRequest.industryCd = "SIC014";
                 mappedRequest.industryId = 734;
-                mappedRequest.locale = "en-US";
+                mappedRequest.locale = "en_US";
                 mappedRequest.mainBusinessUnitCd = "001";
                 mappedRequest.mainBusinessUnitId = "-99";
                 mappedRequest.nationalityCd = "N101";
@@ -149,8 +149,8 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.sourceOfFundCd = "SF002";
                 mappedRequest.sourceOfFundId = 352;
                 mappedRequest.status = "A";
-                mappedRequest.strDate = DateTime.Now.Date.ToString("dd/MM/yyyy");
-                mappedRequest.strFromDate = DateTime.Now.AddYears(4).ToString("dd/MM/yyyy");
+                mappedRequest.strDate = "31/05/2022"; //DateTime.Now.Date.ToString("dd/MM/yyyy");
+                mappedRequest.strFromDate = "31/05/2022"; //DateTime.Now.AddYears(4).ToString("dd/MM/yyyy");
                 mappedRequest.submitFlag = true;
 
                 if (corporateAccountDetails.Title.Equals("MR", StringComparison.OrdinalIgnoreCase))
@@ -233,6 +233,7 @@ namespace BOI.BOIApplications.API.Controllers
                 createCorporateCustomerPayload.Append("</soap:Header>");
                 createCorporateCustomerPayload.Append("<soapenv:Body>");
                 createCorporateCustomerPayload.Append("<cus:createCustomer  \txmlns:cus=\"http://customer.server.ws.supernova.neptunesoftware.com/\">");
+                createCorporateCustomerPayload.Append("<!--Optional:-->");
                 createCorporateCustomerPayload.Append("<arg0>");
                 createCorporateCustomerPayload.Append("<!--DEFAULT VALUES:-->");
                 createCorporateCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
@@ -315,7 +316,7 @@ namespace BOI.BOIApplications.API.Controllers
                 createCorporateCustomerPayload.Append($"<identityTypeId>{mappedRequest.identificationsList.identityTypeId}</identityTypeId>");
                 createCorporateCustomerPayload.Append($"<strIssueDate>{mappedRequest.identificationsList.strIssueDate}</strIssueDate>");
                 createCorporateCustomerPayload.Append($"<strExpiryDate>10/10/2029</strExpiryDate>");
-                createCorporateCustomerPayload.Append($"<verifiedFlag>{mappedRequest.identificationsList.verifiedFlag}</verifiedFlag>");
+                createCorporateCustomerPayload.Append($"<verifiedFlag>{mappedRequest.identificationsList.verifiedFlag.ToString().ToLower()}</verifiedFlag>");
                 createCorporateCustomerPayload.Append("</identificationsList>");
                 createCorporateCustomerPayload.Append($"<parentObjectCode>{mappedRequest.parentObjectCode}</parentObjectCode>");
                 createCorporateCustomerPayload.Append($"<screenTypeCode>{mappedRequest.screenTypeCode}</screenTypeCode>");
@@ -332,6 +333,12 @@ namespace BOI.BOIApplications.API.Controllers
                 createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.AuthorisedShareCapital}</fieldValueArr>");
                 createCorporateCustomerPayload.Append($"<fieldIdArray>60</fieldIdArray>");
                 createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.PaidShareCapital}</fieldValueArr>");
+                createCorporateCustomerPayload.Append("<!--STATUTORY INFO:-->");
+                createCorporateCustomerPayload.Append("<parentObjectCode>CUSTOMER</parentObjectCode>");
+                createCorporateCustomerPayload.Append("<screenTypeCode>STATUTORY</screenTypeCode>");
+                createCorporateCustomerPayload.Append("<subTypeId/>");
+                createCorporateCustomerPayload.Append("<fieldIdArray>242</fieldIdArray>");
+                createCorporateCustomerPayload.Append("<fieldValueArr>15929</fieldValueArr>");                
                 createCorporateCustomerPayload.Append("<!--OTHERS-->");
                 createCorporateCustomerPayload.Append($"<industryCd>{mappedRequest.industryCd}</industryCd>");
                 createCorporateCustomerPayload.Append($"<industryId>{mappedRequest.industryId}</industryId>");
@@ -346,12 +353,12 @@ namespace BOI.BOIApplications.API.Controllers
                 createCorporateCustomerPayload.Append($"<openingReasonId>683</openingReasonId>");
                 createCorporateCustomerPayload.Append($"<operationCurrencyCd>{mappedRequest.operationCurrencyCd}</operationCurrencyCd>");
                 createCorporateCustomerPayload.Append($"<operationCurrencyId>{mappedRequest.operationCurrencyId}</operationCurrencyId>");
-                createCorporateCustomerPayload.Append($"<primaryAddress>{mappedRequest.primaryAddress}</primaryAddress>");
+                createCorporateCustomerPayload.Append($"<primaryAddress>{mappedRequest.primaryAddress.ToString().ToLower()}</primaryAddress>");
                 createCorporateCustomerPayload.Append($"<primaryRelationshipOfficerCd>{mappedRequest.primaryRelationshipOfficerCd}</primaryRelationshipOfficerCd>");
                 createCorporateCustomerPayload.Append($"<propertyTypeCd>{mappedRequest.propertyTypeCd}</propertyTypeCd>");
                 createCorporateCustomerPayload.Append("<!--  <relationshipOfficerOneId>871</relationshipOfficerOneId>-->");
                 createCorporateCustomerPayload.Append($"<residentCountryCd>{mappedRequest.residentCountryCd}</residentCountryCd>");
-                createCorporateCustomerPayload.Append($"<residentFlag>{mappedRequest.residentFlag}</residentFlag>");
+                createCorporateCustomerPayload.Append($"<residentFlag>{mappedRequest.residentFlag.ToString().ToLower()}</residentFlag>");
                 createCorporateCustomerPayload.Append($"<riskCode>RC100</riskCode>");
                 createCorporateCustomerPayload.Append($"<riskCountryCd>NGA</riskCountryCd>");
                 createCorporateCustomerPayload.Append($"<riskId>651</riskId>");
@@ -364,7 +371,7 @@ namespace BOI.BOIApplications.API.Controllers
                 createCorporateCustomerPayload.Append($"<strFromDate>{mappedRequest.strFromDate}</strFromDate>");
                 createCorporateCustomerPayload.Append("<!--<startDateMm>05</startDateMm>-->");
                 createCorporateCustomerPayload.Append("<!--<startDateYyyy>2022</startDateYyyy>-->");
-                createCorporateCustomerPayload.Append($"<submitFlag>{mappedRequest.submitFlag}</submitFlag>");
+                createCorporateCustomerPayload.Append($"<submitFlag>{mappedRequest.submitFlag.ToString().ToLower()}</submitFlag>");
                 createCorporateCustomerPayload.Append($"<taxIdentificationNo>{mappedRequest.taxIdentificationNo}</taxIdentificationNo>");
                 createCorporateCustomerPayload.Append($"<titleCd>{mappedRequest.titleCd}</titleCd>");
                 createCorporateCustomerPayload.Append($"<titleId>{mappedRequest.titleId}</titleId>");
@@ -382,8 +389,7 @@ namespace BOI.BOIApplications.API.Controllers
                 {
                     customerNumber.CorporateCustomerNumber = response._return.customerNumber;
                     SubmitCustomerRequest submitCustomerRequest = new SubmitCustomerRequest { customerNo = response._return.customerNumber };
-                    LinkPersonalCustomerToCorporateRequest linkPersonalCustomerToCorporateRequest = new LinkPersonalCustomerToCorporateRequest { corporateCustNo = customerNumber.CorporateCustomerNumber, personalCustNo = customerNumber.PersonalCustomerNumber };
-                    var linkPersonalCustomer = await LinkPersonalCustomerToCorporateCustomer(linkPersonalCustomerToCorporateRequest);
+                    var linkPersonalCustomer = await LinkPersonalCustomerToCorporateCustomer();
 
                     var activateCustomer = await SubmitCustomerDetails(submitCustomerRequest);
                     return Ok(response);
@@ -589,7 +595,7 @@ namespace BOI.BOIApplications.API.Controllers
                 createPersonalCustomerPayload.Append($"<custShortName>{mappedRequest.firstName}</custShortName>");
                 createPersonalCustomerPayload.Append($"<customerCategory>{mappedRequest.customerCategory}</customerCategory>");
                 createPersonalCustomerPayload.Append($"<customerName>{mappedRequest.customerName}</customerName>");
-                createPersonalCustomerPayload.Append($"<employmentFlag>{mappedRequest.employmentFlag}</employmentFlag>");
+                createPersonalCustomerPayload.Append($"<employmentFlag>{mappedRequest.employmentFlag.ToString().ToLower()}</employmentFlag>");
                 createPersonalCustomerPayload.Append($"<firstName>{mappedRequest.firstName}</firstName>");
                 createPersonalCustomerPayload.Append($"<lastName>{mappedRequest.lastName}</lastName>");
                 createPersonalCustomerPayload.Append($"<fathersName>{mappedRequest.fathersName}</fathersName>");
@@ -688,7 +694,7 @@ namespace BOI.BOIApplications.API.Controllers
                 createPersonalCustomerPayload.Append("<propertyTypeCd>PT107</propertyTypeCd>");
                 createPersonalCustomerPayload.Append("<!--  <relationshipOfficerOneId>871</relationshipOfficerOneId>-->");
                 createPersonalCustomerPayload.Append($"<residentCountryCd>{mappedRequest.residentCountryCd}</residentCountryCd>");
-                createPersonalCustomerPayload.Append($"<residentFlag>{mappedRequest.residentFlag}</residentFlag>");
+                createPersonalCustomerPayload.Append($"<residentFlag>{mappedRequest.residentFlag.ToString().ToLower()}</residentFlag>");
                 createPersonalCustomerPayload.Append("<riskCode>RC100</riskCode>");
                 createPersonalCustomerPayload.Append("<riskCountryCd>NGA</riskCountryCd>");
                 createPersonalCustomerPayload.Append("<riskId>651</riskId>");
@@ -701,9 +707,9 @@ namespace BOI.BOIApplications.API.Controllers
                 createPersonalCustomerPayload.Append("<strFromDate>31/05/2022</strFromDate>");
                 createPersonalCustomerPayload.Append("<!--<startDateMm>05</startDateMm>-->");
                 createPersonalCustomerPayload.Append("<!--<startDateYyyy>2022</startDateYyyy>-->");
-                createPersonalCustomerPayload.Append($"<employmentFlag>{mappedRequest.employmentFlag}</employmentFlag>");
+                createPersonalCustomerPayload.Append($"<employmentFlag>{mappedRequest.employmentFlag.ToString().ToLower()}</employmentFlag>");
                 createPersonalCustomerPayload.Append("<strDateOfBirth>02/05/1935</strDateOfBirth>");
-                createPersonalCustomerPayload.Append($"<submitFlag>{mappedRequest.submitFlag}</submitFlag>");
+                createPersonalCustomerPayload.Append($"<submitFlag>{mappedRequest.submitFlag.ToString().ToLower()}</submitFlag>");
                 createPersonalCustomerPayload.Append($"<taxIdentificationNo>{mappedRequest.taxIdentificationNo}</taxIdentificationNo>");
                 createPersonalCustomerPayload.Append($"<titleCd>{mappedRequest.titleCd}</titleCd>");
                 createPersonalCustomerPayload.Append($"<titleId>{mappedRequest.titleId}</titleId>");
@@ -733,11 +739,11 @@ namespace BOI.BOIApplications.API.Controllers
         /// <param name="accountLinkingDetails"></param>
         /// <returns></returns>
         [HttpPost("/api/RubikonBonitaIntegrationAPI/LinkPersonalCustomerToCorporateCustomer", Name = "LinkPersonalCustomerToCorporateCustomer")]
-        public async Task<ActionResult<CustomerCreationResponse>> LinkPersonalCustomerToCorporateCustomer(LinkPersonalCustomerToCorporateRequest accountLinkingDetails)
+        public async Task<ActionResult<CustomerCreationResponse>> LinkPersonalCustomerToCorporateCustomer()
         {
             if (ModelState.IsValid)
             {
-                var mappedRequest = _mapper.Map<LinkPersonalCustomerToCorporateRequest>(accountLinkingDetails);
+                LinkPersonalCustomerToCorporateRequest mappedRequest = new LinkPersonalCustomerToCorporateRequest();//_mapper.Map<LinkPersonalCustomerToCorporateRequest>(accountLinkingDetails);
                 mappedRequest.channelId = 121;
                 mappedRequest.serviceChannelCode = "BONITA";
                 mappedRequest.transmissionTime = "00";
@@ -747,8 +753,8 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.cityCode = "IFT";
                 mappedRequest.stateCode = "OSN";
                 mappedRequest.countryCode = "NGA";
-                //mappedRequest.corporateCustNo = customerNumber.CorporateCustomerNumber;
-                //mappedRequest.personalCustNo= customerNumber.PersonalCustomerNumber;
+                mappedRequest.corporateCustNo = customerNumber.CorporateCustomerNumber;
+                mappedRequest.personalCustNo= customerNumber.PersonalCustomerNumber;
 
 
                 var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<LinkPersonalCustomerToCorporateRequest, LinkPersonalCustomerToCorporateResponse>(mappedRequest);
