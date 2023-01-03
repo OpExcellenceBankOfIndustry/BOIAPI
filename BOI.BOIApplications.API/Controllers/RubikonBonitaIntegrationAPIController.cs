@@ -21,7 +21,7 @@ namespace BOI.BOIApplications.API.Controllers
     {
         private readonly IRubikonBonitaRepository _rubikonBonitaRepository;
         private readonly IMapper _mapper;
-        public static CustomerNumber customerNumber = new CustomerNumber();
+        public CustomerNumber customerNumber = new CustomerNumber();
 
         public RubikonBonitaIntegrationAPIController(IRubikonBonitaRepository rubikonBonitaRepository, IMapper mapper)
         {
@@ -387,7 +387,8 @@ namespace BOI.BOIApplications.API.Controllers
                 CustomerCreationResponse response = (CustomerCreationResponse)await _rubikonBonitaRepository.CreateCustomerAccount(createCorporateCustomerPayload, mappedRequest.GetType().Name.ToString());
                 if (response != null)
                 {
-                    customerNumber.CorporateCustomerNumber = response._return.customerNumber;
+                    HttpContext.Session.SetString("CorporateCustomerNumber", response._return.customerNumber);
+                    //customerNumber.CorporateCustomerNumber = response._return.customerNumber;
                     SubmitCustomerRequest submitCustomerRequest = new SubmitCustomerRequest { customerNo = response._return.customerNumber };
                     var linkPersonalCustomer = await LinkPersonalCustomerToCorporateCustomer();
 
@@ -689,7 +690,7 @@ namespace BOI.BOIApplications.API.Controllers
                 createPersonalCustomerPayload.Append("<operationCurrencyCd>NGN</operationCurrencyCd>");
                 createPersonalCustomerPayload.Append("<operationCurrencyId>732</operationCurrencyId>");
                 createPersonalCustomerPayload.Append($"<preferredName>{mappedRequest.firstName}</preferredName>");
-                createPersonalCustomerPayload.Append($"<primaryAddress>{mappedRequest.primaryAddress}</primaryAddress>");
+                createPersonalCustomerPayload.Append($"<primaryAddress>{mappedRequest.primaryAddress.ToString().ToLower()}</primaryAddress>");
                 createPersonalCustomerPayload.Append($"<primaryRelationshipOfficerCd>{mappedRequest.primaryRelationshipOfficerCd}</primaryRelationshipOfficerCd>");
                 createPersonalCustomerPayload.Append("<propertyTypeCd>PT107</propertyTypeCd>");
                 createPersonalCustomerPayload.Append("<!--  <relationshipOfficerOneId>871</relationshipOfficerOneId>-->");
@@ -721,7 +722,8 @@ namespace BOI.BOIApplications.API.Controllers
                 CustomerCreationResponse response = (CustomerCreationResponse)await _rubikonBonitaRepository.CreateCustomerAccount(createPersonalCustomerPayload, mappedRequest.GetType().Name.ToString());
                 if (response != null)
                 {
-                    customerNumber.PersonalCustomerNumber = response._return.customerNumber;
+                    HttpContext.Session.SetString("PersonalCustomerNumber", response._return.customerNumber);
+                    //customerNumber.PersonalCustomerNumber = response._return.customerNumber;
                     SubmitCustomerRequest submitCustomerRequest = new SubmitCustomerRequest { customerNo = response._return.customerNumber };
                     var activateCustomer = await SubmitCustomerDetails(submitCustomerRequest);
                     
@@ -753,8 +755,8 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.cityCode = "IFT";
                 mappedRequest.stateCode = "OSN";
                 mappedRequest.countryCode = "NGA";
-                mappedRequest.corporateCustNo = customerNumber.CorporateCustomerNumber;
-                mappedRequest.personalCustNo= customerNumber.PersonalCustomerNumber;
+                mappedRequest.corporateCustNo = HttpContext.Session.GetString("CorporateCustomerNumber");
+                mappedRequest.personalCustNo= HttpContext.Session.GetString("PersonalCustomerNumber");
 
 
                 var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<LinkPersonalCustomerToCorporateRequest, LinkPersonalCustomerToCorporateResponse>(mappedRequest);
