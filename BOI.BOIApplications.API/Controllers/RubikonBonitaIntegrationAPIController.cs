@@ -483,7 +483,7 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.countryOfIssueId = "682";
                 mappedRequest.industryCd = "SIC014";
                 mappedRequest.industryId = 734;
-                mappedRequest.locale = "en-US";
+                mappedRequest.locale = "en_US";
                 mappedRequest.mainBusinessUnitCd = "001";
                 mappedRequest.mainBusinessUnitId = "-99";
                 mappedRequest.maritalStatus = "S";
@@ -596,7 +596,7 @@ namespace BOI.BOIApplications.API.Controllers
                 createPersonalCustomerPayload.Append($"<custShortName>{mappedRequest.firstName}</custShortName>");
                 createPersonalCustomerPayload.Append($"<customerCategory>{mappedRequest.customerCategory}</customerCategory>");
                 createPersonalCustomerPayload.Append($"<customerName>{mappedRequest.customerName}</customerName>");
-                createPersonalCustomerPayload.Append($"<employmentFlag>{mappedRequest.employmentFlag.ToString().ToLower()}</employmentFlag>");
+                createPersonalCustomerPayload.Append($"<employmentFlag>{mappedRequest.employmentFlag}</employmentFlag>");
                 createPersonalCustomerPayload.Append($"<firstName>{mappedRequest.firstName}</firstName>");
                 createPersonalCustomerPayload.Append($"<lastName>{mappedRequest.lastName}</lastName>");
                 createPersonalCustomerPayload.Append($"<fathersName>{mappedRequest.fathersName}</fathersName>");
@@ -708,7 +708,15 @@ namespace BOI.BOIApplications.API.Controllers
                 createPersonalCustomerPayload.Append("<strFromDate>31/05/2022</strFromDate>");
                 createPersonalCustomerPayload.Append("<!--<startDateMm>05</startDateMm>-->");
                 createPersonalCustomerPayload.Append("<!--<startDateYyyy>2022</startDateYyyy>-->");
-                createPersonalCustomerPayload.Append($"<employmentFlag>{mappedRequest.employmentFlag.ToString().ToLower()}</employmentFlag>");
+                if(mappedRequest.employmentFlag == "E")
+                {
+                    createPersonalCustomerPayload.Append($"<employmentFlag>true</employmentFlag>");
+                }
+                else
+                {
+                    createPersonalCustomerPayload.Append($"<employmentFlag>false</employmentFlag>");
+                }
+               
                 createPersonalCustomerPayload.Append("<strDateOfBirth>02/05/1935</strDateOfBirth>");
                 createPersonalCustomerPayload.Append($"<submitFlag>{mappedRequest.submitFlag.ToString().ToLower()}</submitFlag>");
                 createPersonalCustomerPayload.Append($"<taxIdentificationNo>{mappedRequest.taxIdentificationNo}</taxIdentificationNo>");
