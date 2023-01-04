@@ -163,7 +163,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                 RestRequest request = new RestRequest(endPoint, Method.GET);
                 request.AddParameter(thirdPartyRequest.transmissionTime, "transmissionTime");
                 request.AddParameter(thirdPartyRequest.channelId, "channelId");
-                request.AddParameter(thirdPartyRequest.transmissionTime, "RegistrationNo");
+                request.AddParameter(thirdPartyRequest.registrationNumber, "registrationNumber");
 
                 IRestResponse response = await _client.ExecuteAsync(request);
 

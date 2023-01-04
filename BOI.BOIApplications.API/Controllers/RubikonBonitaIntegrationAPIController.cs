@@ -243,167 +243,6 @@ namespace BOI.BOIApplications.API.Controllers
             return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "Please check the details for null or empty entry" });
         }
 
-        private StringBuilder BuildCorporateCustomerPayload(CorporateCustomerAccountCreation mappedRequest, CreateCompanyInformation corporateAccountDetails)
-        {
-            StringBuilder createCorporateCustomerPayload = new StringBuilder();
-            createCorporateCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-            createCorporateCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-            createCorporateCustomerPayload.Append("</soap:Header>");
-            createCorporateCustomerPayload.Append("<soapenv:Body>");
-            createCorporateCustomerPayload.Append("<cus:createCustomer  \txmlns:cus=\"http://customer.server.ws.supernova.neptunesoftware.com/\">");
-            createCorporateCustomerPayload.Append("<!--Optional:-->");
-            createCorporateCustomerPayload.Append("<arg0>");
-            createCorporateCustomerPayload.Append("<!--DEFAULT VALUES:-->");
-            createCorporateCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
-            createCorporateCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
-            createCorporateCustomerPayload.Append($"<serviceId>{mappedRequest.serviceId}</serviceId>");
-            createCorporateCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
-            createCorporateCustomerPayload.Append($"<businessUnitCodeId>{mappedRequest.businessUnitCodeId}</businessUnitCodeId>");
-            createCorporateCustomerPayload.Append("<!--BASIC INFO:-->");
-            createCorporateCustomerPayload.Append($"<custShortName>{mappedRequest.firstName}</custShortName>");
-            createCorporateCustomerPayload.Append($"<customerCategory>{mappedRequest.customerCategory}</customerCategory>");
-            createCorporateCustomerPayload.Append($"<customerName>{mappedRequest.customerName}</customerName>");
-            createCorporateCustomerPayload.Append($"<firstName>{mappedRequest.firstName}</firstName>");
-            createCorporateCustomerPayload.Append("<!--ADDRESS DETAIL:-->");
-            createCorporateCustomerPayload.Append($"<addressCity>{mappedRequest.addressCity}</addressCity>");
-            createCorporateCustomerPayload.Append($"<addressCountryId>{mappedRequest.addressCountryId}</addressCountryId>");
-            createCorporateCustomerPayload.Append($"<addressLine1>{mappedRequest.addressLine1}</addressLine1>");
-            createCorporateCustomerPayload.Append("<addressLine2></addressLine2>");
-            createCorporateCustomerPayload.Append($"<addressPropertyTypeId>{mappedRequest.addressPropertyTypeId}</addressPropertyTypeId>");
-            createCorporateCustomerPayload.Append($"<addressState>{mappedRequest.addressState}</addressState>");
-            createCorporateCustomerPayload.Append($"<addressTypeCd>{mappedRequest.addressTypeCd}</addressTypeCd>");
-            createCorporateCustomerPayload.Append($"<addressTypeId>{mappedRequest.addressTypeId}</addressTypeId>");
-            createCorporateCustomerPayload.Append("<contactsList>");
-            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.PhoneNumber}</contactDetails>");
-            createCorporateCustomerPayload.Append($"<contactMode>CM100</contactMode>");
-            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM100</contactModeCategoryCode>");
-            createCorporateCustomerPayload.Append($"<contactModeTypeId>206</contactModeTypeId>");
-            createCorporateCustomerPayload.Append($"<status>A</status>");
-            createCorporateCustomerPayload.Append("</contactsList>");
-            createCorporateCustomerPayload.Append("<contactsList>");
-            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
-            createCorporateCustomerPayload.Append($"<contactMode>CM101</contactMode>");
-            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM101</contactModeCategoryCode>");
-            createCorporateCustomerPayload.Append($"<contactModeTypeId>201</contactModeTypeId>");
-            createCorporateCustomerPayload.Append($"<status>A</status>");
-            createCorporateCustomerPayload.Append("</contactsList>");
-            createCorporateCustomerPayload.Append("<contactsList>");
-            createCorporateCustomerPayload.Append($"<contactDetails>234</contactDetails>");
-            createCorporateCustomerPayload.Append($"<contactMode>CM104</contactMode>");
-            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM104</contactModeCategoryCode>");
-            createCorporateCustomerPayload.Append("<contactModeTypeId>204</contactModeTypeId>");
-            createCorporateCustomerPayload.Append($"<status>A</status>");
-            createCorporateCustomerPayload.Append("</contactsList>");
-            createCorporateCustomerPayload.Append("<contactsList>");
-            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
-            createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
-            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM108</contactModeCategoryCode>");
-            createCorporateCustomerPayload.Append($"<contactModeTypeId>322</contactModeTypeId>");
-            createCorporateCustomerPayload.Append($"<status>A</status>");
-            createCorporateCustomerPayload.Append("</contactsList>");
-            createCorporateCustomerPayload.Append("<contactsList>");
-            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
-            createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
-            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM109</contactModeCategoryCode>");
-            createCorporateCustomerPayload.Append($"<contactModeTypeId>323</contactModeTypeId>");
-            createCorporateCustomerPayload.Append($"<status>A</status>");
-            createCorporateCustomerPayload.Append("</contactsList>");
-            createCorporateCustomerPayload.Append("<contactsList>");
-            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
-            createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
-            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM102</contactModeCategoryCode>");
-            createCorporateCustomerPayload.Append($"<contactModeTypeId>301</contactModeTypeId>");
-            createCorporateCustomerPayload.Append($"<status>A</status>");
-            createCorporateCustomerPayload.Append("</contactsList>");
-            createCorporateCustomerPayload.Append("<!--COUNTRY:-->");
-            createCorporateCustomerPayload.Append($"<countryId>{mappedRequest.countryId}</countryId>");
-            createCorporateCustomerPayload.Append($"<countryOfBirthCd>{mappedRequest.countryOfBirthCd}</countryOfBirthCd>");
-            createCorporateCustomerPayload.Append($"<countryOfBirthId>{mappedRequest.countryOfBirthId}</countryOfBirthId>");
-            createCorporateCustomerPayload.Append($"<countryOfResidenceId>{mappedRequest.countryOfResidenceId}</countryOfResidenceId>");
-            createCorporateCustomerPayload.Append($"<custCountryCd>{mappedRequest.custCountryCd}</custCountryCd>");
-            createCorporateCustomerPayload.Append("<!--CUSTOMER TYPE INFO:-->");
-            createCorporateCustomerPayload.Append($"<customerSegmentCd>{mappedRequest.customerSegmentCd}</customerSegmentCd>");
-            createCorporateCustomerPayload.Append($"<customerTypeCd>{mappedRequest.customerTypeCd}</customerTypeCd>");
-            createCorporateCustomerPayload.Append("<!--IDENTIFICATION INFO:-->");
-            createCorporateCustomerPayload.Append("<identificationsList>");
-            createCorporateCustomerPayload.Append($"<cityOfIssue>{mappedRequest.identificationsList.cityOfIssue}</cityOfIssue>");
-            createCorporateCustomerPayload.Append($"<countryOfIssue>{mappedRequest.identificationsList.countryOfIssue}</countryOfIssue>");
-            createCorporateCustomerPayload.Append($"<countryOfIssueId>{mappedRequest.identificationsList.countryOfIssueId}</countryOfIssueId>");
-            createCorporateCustomerPayload.Append($"<identityNumber>{mappedRequest.registrationNumber}</identityNumber>");
-            createCorporateCustomerPayload.Append($"<identityType>{mappedRequest.identificationsList.identityType}</identityType>");
-            createCorporateCustomerPayload.Append($"<identityTypeId>{mappedRequest.identificationsList.identityTypeId}</identityTypeId>");
-            createCorporateCustomerPayload.Append($"<strIssueDate>{mappedRequest.identificationsList.strIssueDate}</strIssueDate>");
-            createCorporateCustomerPayload.Append($"<strExpiryDate>10/10/2029</strExpiryDate>");
-            createCorporateCustomerPayload.Append($"<verifiedFlag>{mappedRequest.identificationsList.verifiedFlag.ToString().ToLower()}</verifiedFlag>");
-            createCorporateCustomerPayload.Append("</identificationsList>");
-            createCorporateCustomerPayload.Append($"<parentObjectCode>{mappedRequest.parentObjectCode}</parentObjectCode>");
-            createCorporateCustomerPayload.Append($"<screenTypeCode>{mappedRequest.screenTypeCode}</screenTypeCode>");
-            createCorporateCustomerPayload.Append($"<subTypeId>{mappedRequest.subTypeId}</subTypeId>");
-            createCorporateCustomerPayload.Append($"<fieldIdArray>52</fieldIdArray>");
-            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.LineOfBusiness}</fieldValueArr>");
-            createCorporateCustomerPayload.Append($"<fieldIdArray>54</fieldIdArray>");
-            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.BusinessCategory}</fieldValueArr>");
-            createCorporateCustomerPayload.Append($"<fieldIdArray>55</fieldIdArray>");
-            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.TotalAssetValue}</fieldValueArr>");
-            createCorporateCustomerPayload.Append($"<fieldIdArray>56</fieldIdArray>");
-            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.strRegistrationDate}</fieldValueArr>");
-            createCorporateCustomerPayload.Append($"<fieldIdArray>59</fieldIdArray>");
-            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.AuthorisedShareCapital}</fieldValueArr>");
-            createCorporateCustomerPayload.Append($"<fieldIdArray>60</fieldIdArray>");
-            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.PaidShareCapital}</fieldValueArr>");
-            createCorporateCustomerPayload.Append("<!--STATUTORY INFO:-->");
-            createCorporateCustomerPayload.Append("<parentObjectCode>CUSTOMER</parentObjectCode>");
-            createCorporateCustomerPayload.Append("<screenTypeCode>STATUTORY</screenTypeCode>");
-            createCorporateCustomerPayload.Append("<subTypeId/>");
-            createCorporateCustomerPayload.Append("<fieldIdArray>242</fieldIdArray>");
-            createCorporateCustomerPayload.Append("<fieldValueArr>15929</fieldValueArr>");
-            createCorporateCustomerPayload.Append("<!--OTHERS-->");
-            createCorporateCustomerPayload.Append($"<industryCd>{mappedRequest.industryCd}</industryCd>");
-            createCorporateCustomerPayload.Append($"<industryId>{mappedRequest.industryId}</industryId>");
-            createCorporateCustomerPayload.Append($"<locale>{mappedRequest.locale}</locale>");
-            createCorporateCustomerPayload.Append($"<mainBusinessUnitCd>{mappedRequest.mainBusinessUnitCd}</mainBusinessUnitCd>");
-            createCorporateCustomerPayload.Append($"<mainBusinessUnitId>{mappedRequest.mainBusinessUnitId}</mainBusinessUnitId>");
-            createCorporateCustomerPayload.Append("<!-- <marketingCampaignCd>MC112</marketingCampaignCd>-->");
-            createCorporateCustomerPayload.Append($"<marketingCampaignId>{mappedRequest.marketingCampaignId}</marketingCampaignId>");
-            createCorporateCustomerPayload.Append($"<nationalityCd>{mappedRequest.nationalityCd}</nationalityCd>");
-            createCorporateCustomerPayload.Append($"<nationalityId>{mappedRequest.nationalityId}</nationalityId>");
-            createCorporateCustomerPayload.Append($"<openingReasonCode>AO003</openingReasonCode>");
-            createCorporateCustomerPayload.Append($"<openingReasonId>683</openingReasonId>");
-            createCorporateCustomerPayload.Append($"<operationCurrencyCd>{mappedRequest.operationCurrencyCd}</operationCurrencyCd>");
-            createCorporateCustomerPayload.Append($"<operationCurrencyId>{mappedRequest.operationCurrencyId}</operationCurrencyId>");
-            createCorporateCustomerPayload.Append($"<primaryAddress>{mappedRequest.primaryAddress.ToString().ToLower()}</primaryAddress>");
-            createCorporateCustomerPayload.Append($"<primaryRelationshipOfficerCd>{mappedRequest.primaryRelationshipOfficerCd}</primaryRelationshipOfficerCd>");
-            createCorporateCustomerPayload.Append($"<propertyTypeCd>{mappedRequest.propertyTypeCd}</propertyTypeCd>");
-            createCorporateCustomerPayload.Append("<!--  <relationshipOfficerOneId>871</relationshipOfficerOneId>-->");
-            createCorporateCustomerPayload.Append($"<residentCountryCd>{mappedRequest.residentCountryCd}</residentCountryCd>");
-            createCorporateCustomerPayload.Append($"<residentFlag>{mappedRequest.residentFlag.ToString().ToLower()}</residentFlag>");
-            createCorporateCustomerPayload.Append($"<riskCode>RC100</riskCode>");
-            createCorporateCustomerPayload.Append($"<riskCountryCd>NGA</riskCountryCd>");
-            createCorporateCustomerPayload.Append($"<riskId>651</riskId>");
-            createCorporateCustomerPayload.Append($"<serviceLevel>{mappedRequest.serviceLevel}</serviceLevel>");
-            createCorporateCustomerPayload.Append($"<serviceLevelId>{mappedRequest.serviceLevelId}</serviceLevelId>");
-            createCorporateCustomerPayload.Append($"<sourceOfFundCd>{mappedRequest.sourceOfFundCd}</sourceOfFundCd>");
-            createCorporateCustomerPayload.Append($"<sourceOfFundId>{mappedRequest.sourceOfFundId}</sourceOfFundId>");
-            createCorporateCustomerPayload.Append($"<status>{mappedRequest.status}</status>");
-            createCorporateCustomerPayload.Append($"<strDate>{mappedRequest.strDate}</strDate>");
-            createCorporateCustomerPayload.Append($"<strFromDate>{mappedRequest.strFromDate}</strFromDate>");
-            createCorporateCustomerPayload.Append("<!--<startDateMm>05</startDateMm>-->");
-            createCorporateCustomerPayload.Append("<!--<startDateYyyy>2022</startDateYyyy>-->");
-            createCorporateCustomerPayload.Append($"<submitFlag>{mappedRequest.submitFlag.ToString().ToLower()}</submitFlag>");
-            createCorporateCustomerPayload.Append($"<taxIdentificationNo>{mappedRequest.taxIdentificationNo}</taxIdentificationNo>");
-            createCorporateCustomerPayload.Append($"<titleCd>{mappedRequest.titleCd}</titleCd>");
-            createCorporateCustomerPayload.Append($"<titleId>{mappedRequest.titleId}</titleId>");
-            createCorporateCustomerPayload.Append($"<organisationName>{mappedRequest.organisationName}</organisationName>");
-            createCorporateCustomerPayload.Append($"<registrationNumber>{mappedRequest.registrationNumber}</registrationNumber>");
-            createCorporateCustomerPayload.Append($"<strRegistrationDate>{mappedRequest.strRegistrationDate}</strRegistrationDate>");
-            createCorporateCustomerPayload.Append("</arg0>");
-            createCorporateCustomerPayload.Append("</cus:createCustomer>");
-            createCorporateCustomerPayload.Append("</soapenv:Body>");
-            createCorporateCustomerPayload.Append("\t</soapenv:Envelope>");
-
-            return createCorporateCustomerPayload;
-        }
-
         /// <summary>
         /// An endpoint to Create Personal Customer Account
         /// </summary>
@@ -414,8 +253,6 @@ namespace BOI.BOIApplications.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                cache.Set("PersonalCustomerNumber1", 20005, DateTimeOffset.Now.AddMinutes(20));
-                string test = cache.Get("PersonalCustomerNumber1").ToString();
                 var mappedRequest = _mapper.Map<PersonalCustomerAccountCreation>(personalAccountDetails);
                 //Default values are assigned below, note that they should be changed before go live
                 mappedRequest.channelId = 121;
@@ -595,6 +432,277 @@ namespace BOI.BOIApplications.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Success = false, Message = "Unable to create account. Please try again later." });
             }
             return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "Please check the details for null or empty entry" });
+        }        
+
+        /// <summary>
+        /// An endpoint to Link Personal Customer to Corporate Customer
+        /// </summary>
+        /// <param name="accountLinkingDetails"></param>
+        /// <returns></returns>
+        [HttpPost("/api/RubikonBonitaIntegrationAPI/LinkPersonalCustomerToCorporateCustomer", Name = "LinkPersonalCustomerToCorporateCustomer")]
+        public async Task<ActionResult<CustomerCreationResponse>> LinkPersonalCustomerToCorporateCustomer()
+        {
+            if (ModelState.IsValid)
+            {
+                LinkPersonalCustomerToCorporateRequest mappedRequest = new LinkPersonalCustomerToCorporateRequest();//_mapper.Map<LinkPersonalCustomerToCorporateRequest>(accountLinkingDetails);
+                mappedRequest.channelId = 121;
+                mappedRequest.serviceChannelCode = "BONITA";
+                mappedRequest.transmissionTime = "00";
+                mappedRequest.businessUnitId = -99;
+                mappedRequest.orgPositionId = 398;
+                mappedRequest.orgPositionCode = "OP11O";
+                mappedRequest.cityCode = "IFT";
+                mappedRequest.stateCode = "OSN";
+                mappedRequest.countryCode = "NGA";
+                mappedRequest.corporateCustNo = cache.Get("CorporateCustomerNumber").ToString();//HttpContext.Session.GetString("CorporateCustomerNumber");
+                mappedRequest.personalCustNo= cache.Get("PersonalCustomerNumber").ToString();//HttpContext.Session.GetString("PersonalCustomerNumber");
+
+                StringBuilder linkPersonalCustomerToCorporateCustomerPayload = new StringBuilder();
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("</soap:Header>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Body>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<ser:createOrganisationPersonalContact  \txmlns:ser=\"http://service.customer.ci.neptunesoftwareplc.com/\">");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<arg0>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessUnitId>{mappedRequest.businessUnitId}</businessUnitId>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<corporateCustNo>{mappedRequest.corporateCustNo}</corporateCustNo>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<personalCustNo>{mappedRequest.personalCustNo}</personalCustNo>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionCode>{mappedRequest.orgPositionCode}</orgPositionCode>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<addressLine1>No 12B, lAbe Ilgi Ondo Road. Ile-Ife</addressLine1>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine2>Ondo State</addressLine2>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine3>test3</addressLine3>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine4>test4</addressLine4>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<cityCode>{mappedRequest.cityCode}</cityCode>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<stateCode>{mappedRequest.stateCode}</stateCode>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<countryCode>{mappedRequest.countryCode}</countryCode>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<postalCode>678908</postalCode>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<shareholdingOwnershipPercentage>10</shareholdingOwnershipPercentage>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessPhoneNo>{cache.Get("CorporateCustomerPhoneNumber").ToString()}</businessPhoneNo>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessEmailAddr>{cache.Get("CorporateCustomerEmailAddress").ToString()}</businessEmailAddr>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<faxNo>78523641</faxNo>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionId>{mappedRequest.orgPositionId}</orgPositionId>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("</arg0>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("</ser:createOrganisationPersonalContact>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Body>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Envelope>");
+
+                string linkPersonalCustomerToCorporateCustomerRequest = linkPersonalCustomerToCorporateCustomerPayload.ToString();
+                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<LinkPersonalCustomerToCorporateRequest, LinkPersonalCustomerToCorporateResponse>(linkPersonalCustomerToCorporateCustomerRequest, mappedRequest.GetType().Name.ToString());
+                if (response != null)
+                {
+                    return Ok(response);
+                }
+                return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Unable to link account. Please check the detail and try again" });
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "Please check the details for null or empty entry" });
+        }
+
+        /// <summary>
+        /// An endpoint to Submit Customer Details
+        /// </summary>
+        /// <param name="customerDetails"></param>
+        /// <returns></returns>
+        [HttpPost("/api/RubikonBonitaIntegrationAPI/SubmitCustomerDetails", Name = "SubmitCustomerDetails")]
+        public async Task<ActionResult<SubmitAccountResponse>> SubmitCustomerDetails(SubmitCustomerRequest customerDetails)
+        {
+            if (ModelState.IsValid)
+            {
+                customerDetails.channelId = 121;
+                customerDetails.serviceChannelCode = "STC053";
+                customerDetails.serviceId = 121;
+                customerDetails.transmissionTime = "00";
+                StringBuilder submitCustomerPayload = new StringBuilder();
+
+                submitCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+                submitCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+                submitCustomerPayload.Append("</soap:Header>");
+                submitCustomerPayload.Append("\t<soapenv:Body>");
+                submitCustomerPayload.Append("<ser:submitCustomer  \txmlns:ser=\"http://service.customer.ci.neptunesoftwareplc.com/\">");
+                submitCustomerPayload.Append("<!--Optional:-->");
+                submitCustomerPayload.Append("<arg0>");
+                submitCustomerPayload.Append($"<channelId>{customerDetails.channelId}</channelId>");
+                submitCustomerPayload.Append($"<serviceChannelCode>{customerDetails.serviceChannelCode}</serviceChannelCode>");
+                submitCustomerPayload.Append($"<serviceId>{customerDetails.serviceId}</serviceId>");
+                submitCustomerPayload.Append($"<transmissionTime>{customerDetails.transmissionTime}</transmissionTime>");
+                submitCustomerPayload.Append($"<customerNo>{customerDetails.customerNo}</customerNo>");
+                submitCustomerPayload.Append("</arg0>");
+                submitCustomerPayload.Append("</ser:submitCustomer>");
+                submitCustomerPayload.Append("</soapenv:Body>");
+                submitCustomerPayload.Append("</soapenv:Envelope>");
+
+                string submitCustomerRequest = submitCustomerPayload.ToString();
+                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<String, String>(submitCustomerRequest, customerDetails.GetType().Name.ToString());
+                if (response != null)
+                {
+                    return Ok(response);
+                }
+                return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Unable to submit account. Please check the detail and try again" });
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "Please check the details for null or empty entry" });
+        }
+
+        private StringBuilder BuildCorporateCustomerPayload(CorporateCustomerAccountCreation mappedRequest, CreateCompanyInformation corporateAccountDetails)
+        {
+            StringBuilder createCorporateCustomerPayload = new StringBuilder();
+            createCorporateCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            createCorporateCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            createCorporateCustomerPayload.Append("</soap:Header>");
+            createCorporateCustomerPayload.Append("<soapenv:Body>");
+            createCorporateCustomerPayload.Append("<cus:createCustomer  \txmlns:cus=\"http://customer.server.ws.supernova.neptunesoftware.com/\">");
+            createCorporateCustomerPayload.Append("<!--Optional:-->");
+            createCorporateCustomerPayload.Append("<arg0>");
+            createCorporateCustomerPayload.Append("<!--DEFAULT VALUES:-->");
+            createCorporateCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
+            createCorporateCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
+            createCorporateCustomerPayload.Append($"<serviceId>{mappedRequest.serviceId}</serviceId>");
+            createCorporateCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
+            createCorporateCustomerPayload.Append($"<businessUnitCodeId>{mappedRequest.businessUnitCodeId}</businessUnitCodeId>");
+            createCorporateCustomerPayload.Append("<!--BASIC INFO:-->");
+            createCorporateCustomerPayload.Append($"<custShortName>{mappedRequest.firstName}</custShortName>");
+            createCorporateCustomerPayload.Append($"<customerCategory>{mappedRequest.customerCategory}</customerCategory>");
+            createCorporateCustomerPayload.Append($"<customerName>{mappedRequest.customerName}</customerName>");
+            createCorporateCustomerPayload.Append($"<firstName>{mappedRequest.firstName}</firstName>");
+            createCorporateCustomerPayload.Append("<!--ADDRESS DETAIL:-->");
+            createCorporateCustomerPayload.Append($"<addressCity>{mappedRequest.addressCity}</addressCity>");
+            createCorporateCustomerPayload.Append($"<addressCountryId>{mappedRequest.addressCountryId}</addressCountryId>");
+            createCorporateCustomerPayload.Append($"<addressLine1>{mappedRequest.addressLine1}</addressLine1>");
+            createCorporateCustomerPayload.Append("<addressLine2></addressLine2>");
+            createCorporateCustomerPayload.Append($"<addressPropertyTypeId>{mappedRequest.addressPropertyTypeId}</addressPropertyTypeId>");
+            createCorporateCustomerPayload.Append($"<addressState>{mappedRequest.addressState}</addressState>");
+            createCorporateCustomerPayload.Append($"<addressTypeCd>{mappedRequest.addressTypeCd}</addressTypeCd>");
+            createCorporateCustomerPayload.Append($"<addressTypeId>{mappedRequest.addressTypeId}</addressTypeId>");
+            createCorporateCustomerPayload.Append("<contactsList>");
+            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.PhoneNumber}</contactDetails>");
+            createCorporateCustomerPayload.Append($"<contactMode>CM100</contactMode>");
+            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM100</contactModeCategoryCode>");
+            createCorporateCustomerPayload.Append($"<contactModeTypeId>206</contactModeTypeId>");
+            createCorporateCustomerPayload.Append($"<status>A</status>");
+            createCorporateCustomerPayload.Append("</contactsList>");
+            createCorporateCustomerPayload.Append("<contactsList>");
+            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
+            createCorporateCustomerPayload.Append($"<contactMode>CM101</contactMode>");
+            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM101</contactModeCategoryCode>");
+            createCorporateCustomerPayload.Append($"<contactModeTypeId>201</contactModeTypeId>");
+            createCorporateCustomerPayload.Append($"<status>A</status>");
+            createCorporateCustomerPayload.Append("</contactsList>");
+            createCorporateCustomerPayload.Append("<contactsList>");
+            createCorporateCustomerPayload.Append($"<contactDetails>234</contactDetails>");
+            createCorporateCustomerPayload.Append($"<contactMode>CM104</contactMode>");
+            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM104</contactModeCategoryCode>");
+            createCorporateCustomerPayload.Append("<contactModeTypeId>204</contactModeTypeId>");
+            createCorporateCustomerPayload.Append($"<status>A</status>");
+            createCorporateCustomerPayload.Append("</contactsList>");
+            createCorporateCustomerPayload.Append("<contactsList>");
+            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
+            createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
+            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM108</contactModeCategoryCode>");
+            createCorporateCustomerPayload.Append($"<contactModeTypeId>322</contactModeTypeId>");
+            createCorporateCustomerPayload.Append($"<status>A</status>");
+            createCorporateCustomerPayload.Append("</contactsList>");
+            createCorporateCustomerPayload.Append("<contactsList>");
+            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
+            createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
+            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM109</contactModeCategoryCode>");
+            createCorporateCustomerPayload.Append($"<contactModeTypeId>323</contactModeTypeId>");
+            createCorporateCustomerPayload.Append($"<status>A</status>");
+            createCorporateCustomerPayload.Append("</contactsList>");
+            createCorporateCustomerPayload.Append("<contactsList>");
+            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
+            createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
+            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM102</contactModeCategoryCode>");
+            createCorporateCustomerPayload.Append($"<contactModeTypeId>301</contactModeTypeId>");
+            createCorporateCustomerPayload.Append($"<status>A</status>");
+            createCorporateCustomerPayload.Append("</contactsList>");
+            createCorporateCustomerPayload.Append("<!--COUNTRY:-->");
+            createCorporateCustomerPayload.Append($"<countryId>{mappedRequest.countryId}</countryId>");
+            createCorporateCustomerPayload.Append($"<countryOfBirthCd>{mappedRequest.countryOfBirthCd}</countryOfBirthCd>");
+            createCorporateCustomerPayload.Append($"<countryOfBirthId>{mappedRequest.countryOfBirthId}</countryOfBirthId>");
+            createCorporateCustomerPayload.Append($"<countryOfResidenceId>{mappedRequest.countryOfResidenceId}</countryOfResidenceId>");
+            createCorporateCustomerPayload.Append($"<custCountryCd>{mappedRequest.custCountryCd}</custCountryCd>");
+            createCorporateCustomerPayload.Append("<!--CUSTOMER TYPE INFO:-->");
+            createCorporateCustomerPayload.Append($"<customerSegmentCd>{mappedRequest.customerSegmentCd}</customerSegmentCd>");
+            createCorporateCustomerPayload.Append($"<customerTypeCd>{mappedRequest.customerTypeCd}</customerTypeCd>");
+            createCorporateCustomerPayload.Append("<!--IDENTIFICATION INFO:-->");
+            createCorporateCustomerPayload.Append("<identificationsList>");
+            createCorporateCustomerPayload.Append($"<cityOfIssue>{mappedRequest.identificationsList.cityOfIssue}</cityOfIssue>");
+            createCorporateCustomerPayload.Append($"<countryOfIssue>{mappedRequest.identificationsList.countryOfIssue}</countryOfIssue>");
+            createCorporateCustomerPayload.Append($"<countryOfIssueId>{mappedRequest.identificationsList.countryOfIssueId}</countryOfIssueId>");
+            createCorporateCustomerPayload.Append($"<identityNumber>{mappedRequest.registrationNumber}</identityNumber>");
+            createCorporateCustomerPayload.Append($"<identityType>{mappedRequest.identificationsList.identityType}</identityType>");
+            createCorporateCustomerPayload.Append($"<identityTypeId>{mappedRequest.identificationsList.identityTypeId}</identityTypeId>");
+            createCorporateCustomerPayload.Append($"<strIssueDate>{mappedRequest.identificationsList.strIssueDate}</strIssueDate>");
+            createCorporateCustomerPayload.Append($"<strExpiryDate>10/10/2029</strExpiryDate>");
+            createCorporateCustomerPayload.Append($"<verifiedFlag>{mappedRequest.identificationsList.verifiedFlag.ToString().ToLower()}</verifiedFlag>");
+            createCorporateCustomerPayload.Append("</identificationsList>");
+            createCorporateCustomerPayload.Append($"<parentObjectCode>{mappedRequest.parentObjectCode}</parentObjectCode>");
+            createCorporateCustomerPayload.Append($"<screenTypeCode>{mappedRequest.screenTypeCode}</screenTypeCode>");
+            createCorporateCustomerPayload.Append($"<subTypeId>{mappedRequest.subTypeId}</subTypeId>");
+            createCorporateCustomerPayload.Append($"<fieldIdArray>52</fieldIdArray>");
+            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.LineOfBusiness}</fieldValueArr>");
+            createCorporateCustomerPayload.Append($"<fieldIdArray>54</fieldIdArray>");
+            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.BusinessCategory}</fieldValueArr>");
+            createCorporateCustomerPayload.Append($"<fieldIdArray>55</fieldIdArray>");
+            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.TotalAssetValue}</fieldValueArr>");
+            createCorporateCustomerPayload.Append($"<fieldIdArray>56</fieldIdArray>");
+            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.strRegistrationDate}</fieldValueArr>");
+            createCorporateCustomerPayload.Append($"<fieldIdArray>59</fieldIdArray>");
+            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.AuthorisedShareCapital}</fieldValueArr>");
+            createCorporateCustomerPayload.Append($"<fieldIdArray>60</fieldIdArray>");
+            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.PaidShareCapital}</fieldValueArr>");
+            createCorporateCustomerPayload.Append("<!--STATUTORY INFO:-->");
+            createCorporateCustomerPayload.Append("<parentObjectCode>CUSTOMER</parentObjectCode>");
+            createCorporateCustomerPayload.Append("<screenTypeCode>STATUTORY</screenTypeCode>");
+            createCorporateCustomerPayload.Append("<subTypeId/>");
+            createCorporateCustomerPayload.Append("<fieldIdArray>242</fieldIdArray>");
+            createCorporateCustomerPayload.Append("<fieldValueArr>15929</fieldValueArr>");
+            createCorporateCustomerPayload.Append("<!--OTHERS-->");
+            createCorporateCustomerPayload.Append($"<industryCd>{mappedRequest.industryCd}</industryCd>");
+            createCorporateCustomerPayload.Append($"<industryId>{mappedRequest.industryId}</industryId>");
+            createCorporateCustomerPayload.Append($"<locale>{mappedRequest.locale}</locale>");
+            createCorporateCustomerPayload.Append($"<mainBusinessUnitCd>{mappedRequest.mainBusinessUnitCd}</mainBusinessUnitCd>");
+            createCorporateCustomerPayload.Append($"<mainBusinessUnitId>{mappedRequest.mainBusinessUnitId}</mainBusinessUnitId>");
+            createCorporateCustomerPayload.Append("<!-- <marketingCampaignCd>MC112</marketingCampaignCd>-->");
+            createCorporateCustomerPayload.Append($"<marketingCampaignId>{mappedRequest.marketingCampaignId}</marketingCampaignId>");
+            createCorporateCustomerPayload.Append($"<nationalityCd>{mappedRequest.nationalityCd}</nationalityCd>");
+            createCorporateCustomerPayload.Append($"<nationalityId>{mappedRequest.nationalityId}</nationalityId>");
+            createCorporateCustomerPayload.Append($"<openingReasonCode>AO003</openingReasonCode>");
+            createCorporateCustomerPayload.Append($"<openingReasonId>683</openingReasonId>");
+            createCorporateCustomerPayload.Append($"<operationCurrencyCd>{mappedRequest.operationCurrencyCd}</operationCurrencyCd>");
+            createCorporateCustomerPayload.Append($"<operationCurrencyId>{mappedRequest.operationCurrencyId}</operationCurrencyId>");
+            createCorporateCustomerPayload.Append($"<primaryAddress>{mappedRequest.primaryAddress.ToString().ToLower()}</primaryAddress>");
+            createCorporateCustomerPayload.Append($"<primaryRelationshipOfficerCd>{mappedRequest.primaryRelationshipOfficerCd}</primaryRelationshipOfficerCd>");
+            createCorporateCustomerPayload.Append($"<propertyTypeCd>{mappedRequest.propertyTypeCd}</propertyTypeCd>");
+            createCorporateCustomerPayload.Append("<!--  <relationshipOfficerOneId>871</relationshipOfficerOneId>-->");
+            createCorporateCustomerPayload.Append($"<residentCountryCd>{mappedRequest.residentCountryCd}</residentCountryCd>");
+            createCorporateCustomerPayload.Append($"<residentFlag>{mappedRequest.residentFlag.ToString().ToLower()}</residentFlag>");
+            createCorporateCustomerPayload.Append($"<riskCode>RC100</riskCode>");
+            createCorporateCustomerPayload.Append($"<riskCountryCd>NGA</riskCountryCd>");
+            createCorporateCustomerPayload.Append($"<riskId>651</riskId>");
+            createCorporateCustomerPayload.Append($"<serviceLevel>{mappedRequest.serviceLevel}</serviceLevel>");
+            createCorporateCustomerPayload.Append($"<serviceLevelId>{mappedRequest.serviceLevelId}</serviceLevelId>");
+            createCorporateCustomerPayload.Append($"<sourceOfFundCd>{mappedRequest.sourceOfFundCd}</sourceOfFundCd>");
+            createCorporateCustomerPayload.Append($"<sourceOfFundId>{mappedRequest.sourceOfFundId}</sourceOfFundId>");
+            createCorporateCustomerPayload.Append($"<status>{mappedRequest.status}</status>");
+            createCorporateCustomerPayload.Append($"<strDate>{mappedRequest.strDate}</strDate>");
+            createCorporateCustomerPayload.Append($"<strFromDate>{mappedRequest.strFromDate}</strFromDate>");
+            createCorporateCustomerPayload.Append("<!--<startDateMm>05</startDateMm>-->");
+            createCorporateCustomerPayload.Append("<!--<startDateYyyy>2022</startDateYyyy>-->");
+            createCorporateCustomerPayload.Append($"<submitFlag>{mappedRequest.submitFlag.ToString().ToLower()}</submitFlag>");
+            createCorporateCustomerPayload.Append($"<taxIdentificationNo>{mappedRequest.taxIdentificationNo}</taxIdentificationNo>");
+            createCorporateCustomerPayload.Append($"<titleCd>{mappedRequest.titleCd}</titleCd>");
+            createCorporateCustomerPayload.Append($"<titleId>{mappedRequest.titleId}</titleId>");
+            createCorporateCustomerPayload.Append($"<organisationName>{mappedRequest.organisationName}</organisationName>");
+            createCorporateCustomerPayload.Append($"<registrationNumber>{mappedRequest.registrationNumber}</registrationNumber>");
+            createCorporateCustomerPayload.Append($"<strRegistrationDate>{mappedRequest.strRegistrationDate}</strRegistrationDate>");
+            createCorporateCustomerPayload.Append("</arg0>");
+            createCorporateCustomerPayload.Append("</cus:createCustomer>");
+            createCorporateCustomerPayload.Append("</soapenv:Body>");
+            createCorporateCustomerPayload.Append("\t</soapenv:Envelope>");
+
+            return createCorporateCustomerPayload;
         }
 
         private StringBuilder CustomerPayloadBuilder(PersonalCustomerAccountCreation mappedRequest, AOIndividualShareholder personalAccountDetails)
@@ -747,116 +855,6 @@ namespace BOI.BOIApplications.API.Controllers
             createPersonalCustomerPayload.Append("</soapenv:Body>");
             createPersonalCustomerPayload.Append("\t</soapenv:Envelope>");
             return createPersonalCustomerPayload;
-        }
-
-        /// <summary>
-        /// An endpoint to Link Personal Customer to Corporate Customer
-        /// </summary>
-        /// <param name="accountLinkingDetails"></param>
-        /// <returns></returns>
-        [HttpPost("/api/RubikonBonitaIntegrationAPI/LinkPersonalCustomerToCorporateCustomer", Name = "LinkPersonalCustomerToCorporateCustomer")]
-        public async Task<ActionResult<CustomerCreationResponse>> LinkPersonalCustomerToCorporateCustomer()
-        {
-            if (ModelState.IsValid)
-            {
-                LinkPersonalCustomerToCorporateRequest mappedRequest = new LinkPersonalCustomerToCorporateRequest();//_mapper.Map<LinkPersonalCustomerToCorporateRequest>(accountLinkingDetails);
-                mappedRequest.channelId = 121;
-                mappedRequest.serviceChannelCode = "BONITA";
-                mappedRequest.transmissionTime = "00";
-                mappedRequest.businessUnitId = -99;
-                mappedRequest.orgPositionId = 398;
-                mappedRequest.orgPositionCode = "OP11O";
-                mappedRequest.cityCode = "IFT";
-                mappedRequest.stateCode = "OSN";
-                mappedRequest.countryCode = "NGA";
-                mappedRequest.corporateCustNo = cache.Get("CorporateCustomerNumber").ToString();//HttpContext.Session.GetString("CorporateCustomerNumber");
-                mappedRequest.personalCustNo= cache.Get("PersonalCustomerNumber").ToString();//HttpContext.Session.GetString("PersonalCustomerNumber");
-
-                StringBuilder linkPersonalCustomerToCorporateCustomerPayload = new StringBuilder();
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("</soap:Header>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Body>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<ser:createOrganisationPersonalContact  \txmlns:ser=\"http://service.customer.ci.neptunesoftwareplc.com/\">");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<arg0>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessUnitId>{mappedRequest.businessUnitId}</businessUnitId>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<corporateCustNo>{mappedRequest.corporateCustNo}</corporateCustNo>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<personalCustNo>{mappedRequest.personalCustNo}</personalCustNo>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionCode>{mappedRequest.orgPositionCode}</orgPositionCode>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<addressLine1>No 12B, lAbe Ilgi Ondo Road. Ile-Ife</addressLine1>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine2>Ondo State</addressLine2>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine3>test3</addressLine3>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine4>test4</addressLine4>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<cityCode>{mappedRequest.cityCode}</cityCode>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<stateCode>{mappedRequest.stateCode}</stateCode>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<countryCode>{mappedRequest.countryCode}</countryCode>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<postalCode>678908</postalCode>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<shareholdingOwnershipPercentage>10</shareholdingOwnershipPercentage>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessPhoneNo>{cache.Get("CorporateCustomerPhoneNumber").ToString()}</businessPhoneNo>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessEmailAddr>{cache.Get("CorporateCustomerEmailAddress").ToString()}</businessEmailAddr>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<faxNo>78523641</faxNo>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionId>{mappedRequest.orgPositionId}</orgPositionId>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("</arg0>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("</ser:createOrganisationPersonalContact>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Body>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Envelope>");
-
-                string linkPersonalCustomerToCorporateCustomerRequest = linkPersonalCustomerToCorporateCustomerPayload.ToString();
-                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<LinkPersonalCustomerToCorporateRequest, LinkPersonalCustomerToCorporateResponse>(linkPersonalCustomerToCorporateCustomerRequest, mappedRequest.GetType().Name.ToString());
-                if (response != null)
-                {
-                    return Ok(response);
-                }
-                return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Unable to link account. Please check the detail and try again" });
-            }
-            return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "Please check the details for null or empty entry" });
-        }
-
-        /// <summary>
-        /// An endpoint to Submit Customer Details
-        /// </summary>
-        /// <param name="customerDetails"></param>
-        /// <returns></returns>
-        [HttpPost("/api/RubikonBonitaIntegrationAPI/SubmitCustomerDetails", Name = "SubmitCustomerDetails")]
-        public async Task<ActionResult<SubmitAccountResponse>> SubmitCustomerDetails(SubmitCustomerRequest customerDetails)
-        {
-            if (ModelState.IsValid)
-            {
-                customerDetails.channelId = 121;
-                customerDetails.serviceChannelCode = "STC053";
-                customerDetails.serviceId = 121;
-                customerDetails.transmissionTime = "00";
-                StringBuilder submitCustomerPayload = new StringBuilder();
-
-                submitCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-                submitCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-                submitCustomerPayload.Append("</soap:Header>");
-                submitCustomerPayload.Append("\t<soapenv:Body>");
-                submitCustomerPayload.Append("<ser:submitCustomer  \txmlns:ser=\"http://service.customer.ci.neptunesoftwareplc.com/\">");
-                submitCustomerPayload.Append("<!--Optional:-->");
-                submitCustomerPayload.Append("<arg0>");
-                submitCustomerPayload.Append($"<channelId>{customerDetails.channelId}</channelId>");
-                submitCustomerPayload.Append($"<serviceChannelCode>{customerDetails.serviceChannelCode}</serviceChannelCode>");
-                submitCustomerPayload.Append($"<serviceId>{customerDetails.serviceId}</serviceId>");
-                submitCustomerPayload.Append($"<transmissionTime>{customerDetails.transmissionTime}</transmissionTime>");
-                submitCustomerPayload.Append($"<customerNo>{customerDetails.customerNo}</customerNo>");
-                submitCustomerPayload.Append("</arg0>");
-                submitCustomerPayload.Append("</ser:submitCustomer>");
-                submitCustomerPayload.Append("</soapenv:Body>");
-                submitCustomerPayload.Append("</soapenv:Envelope>");
-
-                string submitCustomerRequest = submitCustomerPayload.ToString();
-                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<String, String>(submitCustomerRequest, customerDetails.GetType().Name.ToString());
-                if (response != null)
-                {
-                    return Ok(response);
-                }
-                return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Unable to submit account. Please check the detail and try again" });
-            }
-            return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "Please check the details for null or empty entry" });
         }
     }
 }
