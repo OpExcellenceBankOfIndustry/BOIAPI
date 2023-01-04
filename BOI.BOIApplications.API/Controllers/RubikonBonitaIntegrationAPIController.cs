@@ -414,7 +414,8 @@ namespace BOI.BOIApplications.API.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                cache.Set("PersonalCustomerNumber1", 20005, DateTimeOffset.Now.AddMinutes(20));
+                string test = cache.Get("PersonalCustomerNumber1").ToString();
                 var mappedRequest = _mapper.Map<PersonalCustomerAccountCreation>(personalAccountDetails);
                 //Default values are assigned below, note that they should be changed before go live
                 mappedRequest.channelId = 121;
