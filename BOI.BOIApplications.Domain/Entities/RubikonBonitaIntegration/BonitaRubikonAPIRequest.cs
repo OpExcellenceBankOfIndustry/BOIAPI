@@ -2,6 +2,8 @@
 {
     public class BonitaRubikonAPIRequest
     {
-        public string? identificationNumber { get; set; }
+        public string? registrationNumber { get; set; }
+        public string? channelId { get; set; }
+        public string? transmissionTime { get; set; }
     }
 }
