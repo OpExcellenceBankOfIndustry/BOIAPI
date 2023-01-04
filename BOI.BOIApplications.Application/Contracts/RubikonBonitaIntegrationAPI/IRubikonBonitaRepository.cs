@@ -9,6 +9,6 @@ namespace BOI.BOIApplications.Application.Contracts.RubikonBonitaIntegrationAPI
         Task<object> FetchPersonalCustomerInquiryResult(string nationalId);
         Task<object> FetchCorporateCustomerInquiryResult(string rcNumber);
         Task<object> CreateCustomerAccount<T>(T corporateAccountDetails, string endpointType);
-        Task<object> ExecuteActionOnCustomerAccount<T, U>(T accountLinkingDetails);
+        Task<object> ExecuteActionOnCustomerAccount<T, U>(string accountLinkingDetails, string endpointType);
     }
 }

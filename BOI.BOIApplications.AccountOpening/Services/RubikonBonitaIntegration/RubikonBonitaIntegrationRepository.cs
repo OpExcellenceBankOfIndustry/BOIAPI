@@ -151,27 +151,14 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
             }
         }
 
-        public async Task<object> ExecuteActionOnCustomerAccount<T, U>(T requestDetails)
+        public async Task<object> ExecuteActionOnCustomerAccount<T, U>(string requestDetails,string endpointType)
         {
             try
             {
                 _logger.LogInformation("<========================Start Execute Action On Customer Account===========================>");
-                var rawXml = _rubikonBonitaIntegrationAPISettings.RequestBody[requestDetails.GetType().Name];
-                var endpoint = _rubikonBonitaIntegrationAPISettings.Endpoints[requestDetails.GetType().Name];
+                var endpoint = _rubikonBonitaIntegrationAPISettings.Endpoints[endpointType.ToString()];
 
-                var argXmlBody = DataManipulation.SerializeObjectToXml(requestDetails);
-
-                rawXml = HttpUtility.HtmlDecode(rawXml);
-
-                string propertyName = _rubikonBonitaIntegrationAPISettings.RequestParameterKeyword;
-
-                string parameterDataType = requestDetails.GetType().Name.ToString();
-
-                rawXml = rawXml.Replace(propertyName, argXmlBody.ToString(), true, null);
-
-                rawXml = rawXml.Replace(parameterDataType, propertyName, true, null);
-
-                var feedback = await ExecuteNeptuneThirdPartyAccountLinkingAPI<U>(endpoint, rawXml);
+                var feedback = await ExecuteNeptuneThirdPartyAccountLinkingAPI(endpoint, requestDetails);
 
                 if (feedback != null)
                 {
@@ -286,7 +273,7 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
             }
         }
 
-        public async Task<object> ExecuteNeptuneThirdPartyAccountLinkingAPI<T>(string endPoint, string rawXml)
+        public async Task<object> ExecuteNeptuneThirdPartyAccountLinkingAPI(string endPoint, string rawXml)
         {
             try
             {
@@ -299,17 +286,17 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
 
                 IRestResponse response = await _client.ExecuteAsync(request);
 
-                if (response.IsSuccessful && !string.IsNullOrEmpty(response.Content) && !response.Content.Equals("null", StringComparison.OrdinalIgnoreCase))
+                if (!string.IsNullOrEmpty(response.Content) && !response.Content.Equals("null", StringComparison.OrdinalIgnoreCase))
                 {
                     var responseObject = response.Content;
 
                     if (!DataManipulation.IsJson(responseObject))
                     {
-                        responseObject = DataManipulation.SerializeXmlStringToJson<T>(responseObject, "return");
+                        responseObject = DataManipulation.SerializeXmlStringToJson<String>(responseObject, "return");
                     }
                     else
                     {
-                        responseObject = DataManipulation.SerializeJsonStringToObject<T>(responseObject);
+                        responseObject = DataManipulation.SerializeJsonStringToObject<String>(responseObject);
                     }
                     _logger.LogInformation($"<========================End Execute Neptune ThirdParty Account Linking API===========================> \r\n with response: {responseObject}");
                     return responseObject;

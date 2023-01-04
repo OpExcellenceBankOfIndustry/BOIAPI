@@ -4,6 +4,8 @@ using BOI.BOIApplications.Domain.Entities.AccountOpeningModels;
 using BOI.BOIApplications.Domain.Entities.RubikonBonitaIntegration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Runtime.Caching;
+using Microsoft.OpenApi.Extensions;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
@@ -22,6 +24,7 @@ namespace BOI.BOIApplications.API.Controllers
         private readonly IRubikonBonitaRepository _rubikonBonitaRepository;
         private readonly IMapper _mapper;
         public CustomerNumber customerNumber = new CustomerNumber();
+        MemoryCache cache = MemoryCache.Default;
 
         public RubikonBonitaIntegrationAPIController(IRubikonBonitaRepository rubikonBonitaRepository, IMapper mapper)
         {
@@ -80,7 +83,9 @@ namespace BOI.BOIApplications.API.Controllers
             {
 
             if (ModelState.IsValid)
-            {               
+            {
+                cache.Set("CorporateCustomerPhoneNumber", corporateAccountDetails.PhoneNumber, DateTimeOffset.Now.AddMinutes(20));
+                cache.Set("CorporateCustomerEmailAddress", corporateAccountDetails.Email, DateTimeOffset.Now.AddMinutes(20));
                 CorporateCustomerAccountCreation corporateCustomerAccountCreation = new CorporateCustomerAccountCreation();
                 var mappedRequest = _mapper.Map(corporateAccountDetails, corporateCustomerAccountCreation);
                 //Default values are assigned below, note that they should be changed before go live
@@ -153,242 +158,80 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.strFromDate = "31/05/2022"; //DateTime.Now.AddYears(4).ToString("dd/MM/yyyy");
                 mappedRequest.submitFlag = true;
 
-                if (corporateAccountDetails.Title.Equals("MR", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.titleCd = "T100";
-                    mappedRequest.titleId = 211;
 
-                }
-                else if (corporateAccountDetails.Title.Equals("DOCTOR", StringComparison.OrdinalIgnoreCase))
+                switch (corporateAccountDetails.Title)
                 {
-                    mappedRequest.titleCd = "T106";
-                    mappedRequest.titleId = 213;
-                }
-                else if (corporateAccountDetails.Title.Equals("PROFESSOR", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.titleCd = "T107";
-                    mappedRequest.titleId = 217;
-                }
-                else if (corporateAccountDetails.Title.Equals("MRS", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.titleCd = "T101";
-                    mappedRequest.titleId = 212;
-                }
-                else if (corporateAccountDetails.Title.Equals("MISS", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.titleCd = "T102";
-                    mappedRequest.titleId = 221;
-                }
-                else if (corporateAccountDetails.Title.Equals("CHIEF", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.titleCd = "T113";
-                    mappedRequest.titleId = 336;
-                }
-                else
-                {
-                    mappedRequest.titleCd = "T114";
-                    mappedRequest.titleId = 347;
+                    case "MR":
+                        mappedRequest.titleCd = "T100";
+                        mappedRequest.titleId = 211;
+                        break;
+                    case "DOCTOR":
+                        mappedRequest.titleCd = "T106";
+                        mappedRequest.titleId = 213;
+                        break;
+                    case "PROFESSOR":
+                        mappedRequest.titleCd = "T107";
+                        mappedRequest.titleId = 217;
+                        break;
+                    case "MRS":
+                        mappedRequest.titleCd = "T101";
+                        mappedRequest.titleId = 212;
+                        break;
+                    case "MISS":
+                        mappedRequest.titleCd = "T102";
+                        mappedRequest.titleId = 221;
+                        break;
+                    case "CHIEF":
+                        mappedRequest.titleCd = "T113";
+                        mappedRequest.titleId = 336;
+                        break;
+                    default:
+                        mappedRequest.titleCd = "T114";
+                        mappedRequest.titleId = 347;
+                        break;
                 }
 
-                if (corporateAccountDetails.CompanyBOIDiscover.Equals("RADIO", StringComparison.OrdinalIgnoreCase))
+                switch (corporateAccountDetails.CompanyBOIDiscover)
                 {
-                    mappedRequest.marketingCampaignId = 251;                   
-                }
-                else if(corporateAccountDetails.CompanyBOIDiscover.Equals("FRIEND", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 252;
-                }
-                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("REFERRALS", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 252;
-                }
-                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("NEWSPAPER", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 353;
-                }
-                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("TELEVISION", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 354;
-                }
-                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("FACEBOOK", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 358;
-                }
-                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("INSTAGRAM", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 358;
-                }
-                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("INTERNET", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 358;
-                }
-                else if (corporateAccountDetails.CompanyBOIDiscover.Equals("TWITTER", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 358;
+                    case "RADIO":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.RADIO;
+                        break;
+                    case "FRIEND":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.FRIEND;
+                        break;
+                    case "REFERRALS":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.REFERRAL;
+                        break;
+                    case "NEWSPAPER":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.NEWSPAPER;
+                        break;
+                    case "TELEVISION":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.TELEVISION;
+                        break;
+                    case "FACEBOOK":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.FACEBOOK;
+                        break;
+                    case "INSTAGRAM":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.INSTAGRAM;
+                        break;
+                    case "INTERNET":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.INTERNET;
+                        break;
+                    case "TWITTER":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.TWITTER;
+                        break;
+                    default:
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.REFERRAL;
+                        break;
                 }
 
-                StringBuilder createCorporateCustomerPayload = new StringBuilder();
-                createCorporateCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-                createCorporateCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-                createCorporateCustomerPayload.Append("</soap:Header>");
-                createCorporateCustomerPayload.Append("<soapenv:Body>");
-                createCorporateCustomerPayload.Append("<cus:createCustomer  \txmlns:cus=\"http://customer.server.ws.supernova.neptunesoftware.com/\">");
-                createCorporateCustomerPayload.Append("<!--Optional:-->");
-                createCorporateCustomerPayload.Append("<arg0>");
-                createCorporateCustomerPayload.Append("<!--DEFAULT VALUES:-->");
-                createCorporateCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
-                createCorporateCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
-                createCorporateCustomerPayload.Append($"<serviceId>{mappedRequest.serviceId}</serviceId>");
-                createCorporateCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
-                createCorporateCustomerPayload.Append($"<businessUnitCodeId>{mappedRequest.businessUnitCodeId}</businessUnitCodeId>");
-                createCorporateCustomerPayload.Append("<!--BASIC INFO:-->");
-                createCorporateCustomerPayload.Append($"<custShortName>{mappedRequest.firstName}</custShortName>");
-                createCorporateCustomerPayload.Append($"<customerCategory>{mappedRequest.customerCategory}</customerCategory>");
-                createCorporateCustomerPayload.Append($"<customerName>{mappedRequest.customerName}</customerName>");
-                createCorporateCustomerPayload.Append($"<firstName>{mappedRequest.firstName}</firstName>");
-                createCorporateCustomerPayload.Append("<!--ADDRESS DETAIL:-->");
-                createCorporateCustomerPayload.Append($"<addressCity>{mappedRequest.addressCity}</addressCity>");
-                createCorporateCustomerPayload.Append($"<addressCountryId>{mappedRequest.addressCountryId}</addressCountryId>");
-                createCorporateCustomerPayload.Append($"<addressLine1>{mappedRequest.addressLine1}</addressLine1>");
-                createCorporateCustomerPayload.Append("<addressLine2></addressLine2>");
-                createCorporateCustomerPayload.Append($"<addressPropertyTypeId>{mappedRequest.addressPropertyTypeId}</addressPropertyTypeId>");
-                createCorporateCustomerPayload.Append($"<addressState>{mappedRequest.addressState}</addressState>");
-                createCorporateCustomerPayload.Append($"<addressTypeCd>{mappedRequest.addressTypeCd}</addressTypeCd>");
-                createCorporateCustomerPayload.Append($"<addressTypeId>{mappedRequest.addressTypeId}</addressTypeId>");
-                createCorporateCustomerPayload.Append("<contactsList>");
-                createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.PhoneNumber}</contactDetails>");
-                createCorporateCustomerPayload.Append($"<contactMode>CM100</contactMode>");
-                createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM100</contactModeCategoryCode>");
-                createCorporateCustomerPayload.Append($"<contactModeTypeId>206</contactModeTypeId>");
-                createCorporateCustomerPayload.Append($"<status>A</status>");
-                createCorporateCustomerPayload.Append("</contactsList>");
-                createCorporateCustomerPayload.Append("<contactsList>");
-                createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
-                createCorporateCustomerPayload.Append($"<contactMode>CM101</contactMode>");
-                createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM101</contactModeCategoryCode>");
-                createCorporateCustomerPayload.Append($"<contactModeTypeId>201</contactModeTypeId>");
-                createCorporateCustomerPayload.Append($"<status>A</status>");
-                createCorporateCustomerPayload.Append("</contactsList>");
-                createCorporateCustomerPayload.Append("<contactsList>");
-                createCorporateCustomerPayload.Append($"<contactDetails>234</contactDetails>");
-                createCorporateCustomerPayload.Append($"<contactMode>CM104</contactMode>");
-                createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM104</contactModeCategoryCode>");
-                createCorporateCustomerPayload.Append("<contactModeTypeId>204</contactModeTypeId>");
-                createCorporateCustomerPayload.Append($"<status>A</status>");
-                createCorporateCustomerPayload.Append("</contactsList>");
-                createCorporateCustomerPayload.Append("<contactsList>");
-                createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
-                createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
-                createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM108</contactModeCategoryCode>");
-                createCorporateCustomerPayload.Append($"<contactModeTypeId>322</contactModeTypeId>");
-                createCorporateCustomerPayload.Append($"<status>A</status>");
-                createCorporateCustomerPayload.Append("</contactsList>");
-                createCorporateCustomerPayload.Append("<contactsList>");
-                createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
-                createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
-                createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM109</contactModeCategoryCode>");
-                createCorporateCustomerPayload.Append($"<contactModeTypeId>323</contactModeTypeId>");
-                createCorporateCustomerPayload.Append($"<status>A</status>");
-                createCorporateCustomerPayload.Append("</contactsList>");
-                createCorporateCustomerPayload.Append("<contactsList>");
-                createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
-                createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
-                createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM102</contactModeCategoryCode>");
-                createCorporateCustomerPayload.Append($"<contactModeTypeId>301</contactModeTypeId>");
-                createCorporateCustomerPayload.Append($"<status>A</status>");
-                createCorporateCustomerPayload.Append("</contactsList>");
-                createCorporateCustomerPayload.Append("<!--COUNTRY:-->");
-                createCorporateCustomerPayload.Append($"<countryId>{mappedRequest.countryId}</countryId>");
-                createCorporateCustomerPayload.Append($"<countryOfBirthCd>{mappedRequest.countryOfBirthCd}</countryOfBirthCd>");
-                createCorporateCustomerPayload.Append($"<countryOfBirthId>{mappedRequest.countryOfBirthId}</countryOfBirthId>");
-                createCorporateCustomerPayload.Append($"<countryOfResidenceId>{mappedRequest.countryOfResidenceId}</countryOfResidenceId>");
-                createCorporateCustomerPayload.Append($"<custCountryCd>{mappedRequest.custCountryCd}</custCountryCd>");
-                createCorporateCustomerPayload.Append("<!--CUSTOMER TYPE INFO:-->");
-                createCorporateCustomerPayload.Append($"<customerSegmentCd>{mappedRequest.customerSegmentCd}</customerSegmentCd>");
-                createCorporateCustomerPayload.Append($"<customerTypeCd>{mappedRequest.customerTypeCd}</customerTypeCd>");
-                createCorporateCustomerPayload.Append("<!--IDENTIFICATION INFO:-->");
-                createCorporateCustomerPayload.Append("<identificationsList>");
-                createCorporateCustomerPayload.Append($"<cityOfIssue>{mappedRequest.identificationsList.cityOfIssue}</cityOfIssue>");
-                createCorporateCustomerPayload.Append($"<countryOfIssue>{mappedRequest.identificationsList.countryOfIssue}</countryOfIssue>");
-                createCorporateCustomerPayload.Append($"<countryOfIssueId>{mappedRequest.identificationsList.countryOfIssueId}</countryOfIssueId>");
-                createCorporateCustomerPayload.Append($"<identityNumber>{mappedRequest.registrationNumber}</identityNumber>");
-                createCorporateCustomerPayload.Append($"<identityType>{mappedRequest.identificationsList.identityType}</identityType>");
-                createCorporateCustomerPayload.Append($"<identityTypeId>{mappedRequest.identificationsList.identityTypeId}</identityTypeId>");
-                createCorporateCustomerPayload.Append($"<strIssueDate>{mappedRequest.identificationsList.strIssueDate}</strIssueDate>");
-                createCorporateCustomerPayload.Append($"<strExpiryDate>10/10/2029</strExpiryDate>");
-                createCorporateCustomerPayload.Append($"<verifiedFlag>{mappedRequest.identificationsList.verifiedFlag.ToString().ToLower()}</verifiedFlag>");
-                createCorporateCustomerPayload.Append("</identificationsList>");
-                createCorporateCustomerPayload.Append($"<parentObjectCode>{mappedRequest.parentObjectCode}</parentObjectCode>");
-                createCorporateCustomerPayload.Append($"<screenTypeCode>{mappedRequest.screenTypeCode}</screenTypeCode>");
-                createCorporateCustomerPayload.Append($"<subTypeId>{mappedRequest.subTypeId}</subTypeId>");
-                createCorporateCustomerPayload.Append($"<fieldIdArray>52</fieldIdArray>");
-                createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.LineOfBusiness}</fieldValueArr>");
-                createCorporateCustomerPayload.Append($"<fieldIdArray>54</fieldIdArray>");
-                createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.BusinessCategory}</fieldValueArr>");
-                createCorporateCustomerPayload.Append($"<fieldIdArray>55</fieldIdArray>");
-                createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.TotalAssetValue}</fieldValueArr>");
-                createCorporateCustomerPayload.Append($"<fieldIdArray>56</fieldIdArray>");
-                createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.strRegistrationDate}</fieldValueArr>");
-                createCorporateCustomerPayload.Append($"<fieldIdArray>59</fieldIdArray>");
-                createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.AuthorisedShareCapital}</fieldValueArr>");
-                createCorporateCustomerPayload.Append($"<fieldIdArray>60</fieldIdArray>");
-                createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.PaidShareCapital}</fieldValueArr>");
-                createCorporateCustomerPayload.Append("<!--STATUTORY INFO:-->");
-                createCorporateCustomerPayload.Append("<parentObjectCode>CUSTOMER</parentObjectCode>");
-                createCorporateCustomerPayload.Append("<screenTypeCode>STATUTORY</screenTypeCode>");
-                createCorporateCustomerPayload.Append("<subTypeId/>");
-                createCorporateCustomerPayload.Append("<fieldIdArray>242</fieldIdArray>");
-                createCorporateCustomerPayload.Append("<fieldValueArr>15929</fieldValueArr>");                
-                createCorporateCustomerPayload.Append("<!--OTHERS-->");
-                createCorporateCustomerPayload.Append($"<industryCd>{mappedRequest.industryCd}</industryCd>");
-                createCorporateCustomerPayload.Append($"<industryId>{mappedRequest.industryId}</industryId>");
-                createCorporateCustomerPayload.Append($"<locale>{mappedRequest.locale}</locale>");
-                createCorporateCustomerPayload.Append($"<mainBusinessUnitCd>{mappedRequest.mainBusinessUnitCd}</mainBusinessUnitCd>");
-                createCorporateCustomerPayload.Append($"<mainBusinessUnitId>{mappedRequest.mainBusinessUnitId}</mainBusinessUnitId>");
-                createCorporateCustomerPayload.Append("<!-- <marketingCampaignCd>MC112</marketingCampaignCd>-->");
-                createCorporateCustomerPayload.Append($"<marketingCampaignId>{mappedRequest.marketingCampaignId}</marketingCampaignId>");
-                createCorporateCustomerPayload.Append($"<nationalityCd>{mappedRequest.nationalityCd}</nationalityCd>");
-                createCorporateCustomerPayload.Append($"<nationalityId>{mappedRequest.nationalityId}</nationalityId>");
-                createCorporateCustomerPayload.Append($"<openingReasonCode>AO003</openingReasonCode>");
-                createCorporateCustomerPayload.Append($"<openingReasonId>683</openingReasonId>");
-                createCorporateCustomerPayload.Append($"<operationCurrencyCd>{mappedRequest.operationCurrencyCd}</operationCurrencyCd>");
-                createCorporateCustomerPayload.Append($"<operationCurrencyId>{mappedRequest.operationCurrencyId}</operationCurrencyId>");
-                createCorporateCustomerPayload.Append($"<primaryAddress>{mappedRequest.primaryAddress.ToString().ToLower()}</primaryAddress>");
-                createCorporateCustomerPayload.Append($"<primaryRelationshipOfficerCd>{mappedRequest.primaryRelationshipOfficerCd}</primaryRelationshipOfficerCd>");
-                createCorporateCustomerPayload.Append($"<propertyTypeCd>{mappedRequest.propertyTypeCd}</propertyTypeCd>");
-                createCorporateCustomerPayload.Append("<!--  <relationshipOfficerOneId>871</relationshipOfficerOneId>-->");
-                createCorporateCustomerPayload.Append($"<residentCountryCd>{mappedRequest.residentCountryCd}</residentCountryCd>");
-                createCorporateCustomerPayload.Append($"<residentFlag>{mappedRequest.residentFlag.ToString().ToLower()}</residentFlag>");
-                createCorporateCustomerPayload.Append($"<riskCode>RC100</riskCode>");
-                createCorporateCustomerPayload.Append($"<riskCountryCd>NGA</riskCountryCd>");
-                createCorporateCustomerPayload.Append($"<riskId>651</riskId>");
-                createCorporateCustomerPayload.Append($"<serviceLevel>{mappedRequest.serviceLevel}</serviceLevel>");
-                createCorporateCustomerPayload.Append($"<serviceLevelId>{mappedRequest.serviceLevelId}</serviceLevelId>");
-                createCorporateCustomerPayload.Append($"<sourceOfFundCd>{mappedRequest.sourceOfFundCd}</sourceOfFundCd>");
-                createCorporateCustomerPayload.Append($"<sourceOfFundId>{mappedRequest.sourceOfFundId}</sourceOfFundId>");
-                createCorporateCustomerPayload.Append($"<status>{mappedRequest.status}</status>");
-                createCorporateCustomerPayload.Append($"<strDate>{mappedRequest.strDate}</strDate>");
-                createCorporateCustomerPayload.Append($"<strFromDate>{mappedRequest.strFromDate}</strFromDate>");
-                createCorporateCustomerPayload.Append("<!--<startDateMm>05</startDateMm>-->");
-                createCorporateCustomerPayload.Append("<!--<startDateYyyy>2022</startDateYyyy>-->");
-                createCorporateCustomerPayload.Append($"<submitFlag>{mappedRequest.submitFlag.ToString().ToLower()}</submitFlag>");
-                createCorporateCustomerPayload.Append($"<taxIdentificationNo>{mappedRequest.taxIdentificationNo}</taxIdentificationNo>");
-                createCorporateCustomerPayload.Append($"<titleCd>{mappedRequest.titleCd}</titleCd>");
-                createCorporateCustomerPayload.Append($"<titleId>{mappedRequest.titleId}</titleId>");
-                createCorporateCustomerPayload.Append($"<organisationName>{mappedRequest.organisationName}</organisationName>");
-                createCorporateCustomerPayload.Append($"<registrationNumber>{mappedRequest.registrationNumber}</registrationNumber>");
-                createCorporateCustomerPayload.Append($"<strRegistrationDate>{mappedRequest.strRegistrationDate}</strRegistrationDate>");
-                createCorporateCustomerPayload.Append("</arg0>");
-                createCorporateCustomerPayload.Append("</cus:createCustomer>");
-                createCorporateCustomerPayload.Append("</soapenv:Body>");
-                createCorporateCustomerPayload.Append("\t</soapenv:Envelope>");
 
-                string endPointType = "CorporateCustomerAccountCreation";
+                StringBuilder createCorporateCustomerPayload = BuildCorporateCustomerPayload(mappedRequest, corporateAccountDetails);
+  
                 CustomerCreationResponse response = (CustomerCreationResponse)await _rubikonBonitaRepository.CreateCustomerAccount(createCorporateCustomerPayload, mappedRequest.GetType().Name.ToString());
                 if (response != null)
                 {
-                    HttpContext.Session.SetString("CorporateCustomerNumber", response._return.customerNumber);
-                    //customerNumber.CorporateCustomerNumber = response._return.customerNumber;
+                    cache.Set("CorporateCustomerNumber", response._return.customerNumber, DateTimeOffset.Now.AddMinutes(20));
                     SubmitCustomerRequest submitCustomerRequest = new SubmitCustomerRequest { customerNo = response._return.customerNumber };
                     var linkPersonalCustomer = await LinkPersonalCustomerToCorporateCustomer();
 
@@ -398,6 +241,167 @@ namespace BOI.BOIApplications.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Success = false, Message = "Unable to create account. Please try again later." });
             }
             return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "Please check the details for null or empty entry" });
+        }
+
+        private StringBuilder BuildCorporateCustomerPayload(CorporateCustomerAccountCreation mappedRequest, CreateCompanyInformation corporateAccountDetails)
+        {
+            StringBuilder createCorporateCustomerPayload = new StringBuilder();
+            createCorporateCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            createCorporateCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            createCorporateCustomerPayload.Append("</soap:Header>");
+            createCorporateCustomerPayload.Append("<soapenv:Body>");
+            createCorporateCustomerPayload.Append("<cus:createCustomer  \txmlns:cus=\"http://customer.server.ws.supernova.neptunesoftware.com/\">");
+            createCorporateCustomerPayload.Append("<!--Optional:-->");
+            createCorporateCustomerPayload.Append("<arg0>");
+            createCorporateCustomerPayload.Append("<!--DEFAULT VALUES:-->");
+            createCorporateCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
+            createCorporateCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
+            createCorporateCustomerPayload.Append($"<serviceId>{mappedRequest.serviceId}</serviceId>");
+            createCorporateCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
+            createCorporateCustomerPayload.Append($"<businessUnitCodeId>{mappedRequest.businessUnitCodeId}</businessUnitCodeId>");
+            createCorporateCustomerPayload.Append("<!--BASIC INFO:-->");
+            createCorporateCustomerPayload.Append($"<custShortName>{mappedRequest.firstName}</custShortName>");
+            createCorporateCustomerPayload.Append($"<customerCategory>{mappedRequest.customerCategory}</customerCategory>");
+            createCorporateCustomerPayload.Append($"<customerName>{mappedRequest.customerName}</customerName>");
+            createCorporateCustomerPayload.Append($"<firstName>{mappedRequest.firstName}</firstName>");
+            createCorporateCustomerPayload.Append("<!--ADDRESS DETAIL:-->");
+            createCorporateCustomerPayload.Append($"<addressCity>{mappedRequest.addressCity}</addressCity>");
+            createCorporateCustomerPayload.Append($"<addressCountryId>{mappedRequest.addressCountryId}</addressCountryId>");
+            createCorporateCustomerPayload.Append($"<addressLine1>{mappedRequest.addressLine1}</addressLine1>");
+            createCorporateCustomerPayload.Append("<addressLine2></addressLine2>");
+            createCorporateCustomerPayload.Append($"<addressPropertyTypeId>{mappedRequest.addressPropertyTypeId}</addressPropertyTypeId>");
+            createCorporateCustomerPayload.Append($"<addressState>{mappedRequest.addressState}</addressState>");
+            createCorporateCustomerPayload.Append($"<addressTypeCd>{mappedRequest.addressTypeCd}</addressTypeCd>");
+            createCorporateCustomerPayload.Append($"<addressTypeId>{mappedRequest.addressTypeId}</addressTypeId>");
+            createCorporateCustomerPayload.Append("<contactsList>");
+            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.PhoneNumber}</contactDetails>");
+            createCorporateCustomerPayload.Append($"<contactMode>CM100</contactMode>");
+            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM100</contactModeCategoryCode>");
+            createCorporateCustomerPayload.Append($"<contactModeTypeId>206</contactModeTypeId>");
+            createCorporateCustomerPayload.Append($"<status>A</status>");
+            createCorporateCustomerPayload.Append("</contactsList>");
+            createCorporateCustomerPayload.Append("<contactsList>");
+            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
+            createCorporateCustomerPayload.Append($"<contactMode>CM101</contactMode>");
+            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM101</contactModeCategoryCode>");
+            createCorporateCustomerPayload.Append($"<contactModeTypeId>201</contactModeTypeId>");
+            createCorporateCustomerPayload.Append($"<status>A</status>");
+            createCorporateCustomerPayload.Append("</contactsList>");
+            createCorporateCustomerPayload.Append("<contactsList>");
+            createCorporateCustomerPayload.Append($"<contactDetails>234</contactDetails>");
+            createCorporateCustomerPayload.Append($"<contactMode>CM104</contactMode>");
+            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM104</contactModeCategoryCode>");
+            createCorporateCustomerPayload.Append("<contactModeTypeId>204</contactModeTypeId>");
+            createCorporateCustomerPayload.Append($"<status>A</status>");
+            createCorporateCustomerPayload.Append("</contactsList>");
+            createCorporateCustomerPayload.Append("<contactsList>");
+            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
+            createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
+            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM108</contactModeCategoryCode>");
+            createCorporateCustomerPayload.Append($"<contactModeTypeId>322</contactModeTypeId>");
+            createCorporateCustomerPayload.Append($"<status>A</status>");
+            createCorporateCustomerPayload.Append("</contactsList>");
+            createCorporateCustomerPayload.Append("<contactsList>");
+            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
+            createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
+            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM109</contactModeCategoryCode>");
+            createCorporateCustomerPayload.Append($"<contactModeTypeId>323</contactModeTypeId>");
+            createCorporateCustomerPayload.Append($"<status>A</status>");
+            createCorporateCustomerPayload.Append("</contactsList>");
+            createCorporateCustomerPayload.Append("<contactsList>");
+            createCorporateCustomerPayload.Append($"<contactDetails>{corporateAccountDetails.Email}</contactDetails>");
+            createCorporateCustomerPayload.Append($"<contactMode>CM108</contactMode>");
+            createCorporateCustomerPayload.Append($"<contactModeCategoryCode>CM102</contactModeCategoryCode>");
+            createCorporateCustomerPayload.Append($"<contactModeTypeId>301</contactModeTypeId>");
+            createCorporateCustomerPayload.Append($"<status>A</status>");
+            createCorporateCustomerPayload.Append("</contactsList>");
+            createCorporateCustomerPayload.Append("<!--COUNTRY:-->");
+            createCorporateCustomerPayload.Append($"<countryId>{mappedRequest.countryId}</countryId>");
+            createCorporateCustomerPayload.Append($"<countryOfBirthCd>{mappedRequest.countryOfBirthCd}</countryOfBirthCd>");
+            createCorporateCustomerPayload.Append($"<countryOfBirthId>{mappedRequest.countryOfBirthId}</countryOfBirthId>");
+            createCorporateCustomerPayload.Append($"<countryOfResidenceId>{mappedRequest.countryOfResidenceId}</countryOfResidenceId>");
+            createCorporateCustomerPayload.Append($"<custCountryCd>{mappedRequest.custCountryCd}</custCountryCd>");
+            createCorporateCustomerPayload.Append("<!--CUSTOMER TYPE INFO:-->");
+            createCorporateCustomerPayload.Append($"<customerSegmentCd>{mappedRequest.customerSegmentCd}</customerSegmentCd>");
+            createCorporateCustomerPayload.Append($"<customerTypeCd>{mappedRequest.customerTypeCd}</customerTypeCd>");
+            createCorporateCustomerPayload.Append("<!--IDENTIFICATION INFO:-->");
+            createCorporateCustomerPayload.Append("<identificationsList>");
+            createCorporateCustomerPayload.Append($"<cityOfIssue>{mappedRequest.identificationsList.cityOfIssue}</cityOfIssue>");
+            createCorporateCustomerPayload.Append($"<countryOfIssue>{mappedRequest.identificationsList.countryOfIssue}</countryOfIssue>");
+            createCorporateCustomerPayload.Append($"<countryOfIssueId>{mappedRequest.identificationsList.countryOfIssueId}</countryOfIssueId>");
+            createCorporateCustomerPayload.Append($"<identityNumber>{mappedRequest.registrationNumber}</identityNumber>");
+            createCorporateCustomerPayload.Append($"<identityType>{mappedRequest.identificationsList.identityType}</identityType>");
+            createCorporateCustomerPayload.Append($"<identityTypeId>{mappedRequest.identificationsList.identityTypeId}</identityTypeId>");
+            createCorporateCustomerPayload.Append($"<strIssueDate>{mappedRequest.identificationsList.strIssueDate}</strIssueDate>");
+            createCorporateCustomerPayload.Append($"<strExpiryDate>10/10/2029</strExpiryDate>");
+            createCorporateCustomerPayload.Append($"<verifiedFlag>{mappedRequest.identificationsList.verifiedFlag.ToString().ToLower()}</verifiedFlag>");
+            createCorporateCustomerPayload.Append("</identificationsList>");
+            createCorporateCustomerPayload.Append($"<parentObjectCode>{mappedRequest.parentObjectCode}</parentObjectCode>");
+            createCorporateCustomerPayload.Append($"<screenTypeCode>{mappedRequest.screenTypeCode}</screenTypeCode>");
+            createCorporateCustomerPayload.Append($"<subTypeId>{mappedRequest.subTypeId}</subTypeId>");
+            createCorporateCustomerPayload.Append($"<fieldIdArray>52</fieldIdArray>");
+            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.LineOfBusiness}</fieldValueArr>");
+            createCorporateCustomerPayload.Append($"<fieldIdArray>54</fieldIdArray>");
+            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.BusinessCategory}</fieldValueArr>");
+            createCorporateCustomerPayload.Append($"<fieldIdArray>55</fieldIdArray>");
+            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.TotalAssetValue}</fieldValueArr>");
+            createCorporateCustomerPayload.Append($"<fieldIdArray>56</fieldIdArray>");
+            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.strRegistrationDate}</fieldValueArr>");
+            createCorporateCustomerPayload.Append($"<fieldIdArray>59</fieldIdArray>");
+            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.AuthorisedShareCapital}</fieldValueArr>");
+            createCorporateCustomerPayload.Append($"<fieldIdArray>60</fieldIdArray>");
+            createCorporateCustomerPayload.Append($"<fieldValueArr>{mappedRequest.PaidShareCapital}</fieldValueArr>");
+            createCorporateCustomerPayload.Append("<!--STATUTORY INFO:-->");
+            createCorporateCustomerPayload.Append("<parentObjectCode>CUSTOMER</parentObjectCode>");
+            createCorporateCustomerPayload.Append("<screenTypeCode>STATUTORY</screenTypeCode>");
+            createCorporateCustomerPayload.Append("<subTypeId/>");
+            createCorporateCustomerPayload.Append("<fieldIdArray>242</fieldIdArray>");
+            createCorporateCustomerPayload.Append("<fieldValueArr>15929</fieldValueArr>");
+            createCorporateCustomerPayload.Append("<!--OTHERS-->");
+            createCorporateCustomerPayload.Append($"<industryCd>{mappedRequest.industryCd}</industryCd>");
+            createCorporateCustomerPayload.Append($"<industryId>{mappedRequest.industryId}</industryId>");
+            createCorporateCustomerPayload.Append($"<locale>{mappedRequest.locale}</locale>");
+            createCorporateCustomerPayload.Append($"<mainBusinessUnitCd>{mappedRequest.mainBusinessUnitCd}</mainBusinessUnitCd>");
+            createCorporateCustomerPayload.Append($"<mainBusinessUnitId>{mappedRequest.mainBusinessUnitId}</mainBusinessUnitId>");
+            createCorporateCustomerPayload.Append("<!-- <marketingCampaignCd>MC112</marketingCampaignCd>-->");
+            createCorporateCustomerPayload.Append($"<marketingCampaignId>{mappedRequest.marketingCampaignId}</marketingCampaignId>");
+            createCorporateCustomerPayload.Append($"<nationalityCd>{mappedRequest.nationalityCd}</nationalityCd>");
+            createCorporateCustomerPayload.Append($"<nationalityId>{mappedRequest.nationalityId}</nationalityId>");
+            createCorporateCustomerPayload.Append($"<openingReasonCode>AO003</openingReasonCode>");
+            createCorporateCustomerPayload.Append($"<openingReasonId>683</openingReasonId>");
+            createCorporateCustomerPayload.Append($"<operationCurrencyCd>{mappedRequest.operationCurrencyCd}</operationCurrencyCd>");
+            createCorporateCustomerPayload.Append($"<operationCurrencyId>{mappedRequest.operationCurrencyId}</operationCurrencyId>");
+            createCorporateCustomerPayload.Append($"<primaryAddress>{mappedRequest.primaryAddress.ToString().ToLower()}</primaryAddress>");
+            createCorporateCustomerPayload.Append($"<primaryRelationshipOfficerCd>{mappedRequest.primaryRelationshipOfficerCd}</primaryRelationshipOfficerCd>");
+            createCorporateCustomerPayload.Append($"<propertyTypeCd>{mappedRequest.propertyTypeCd}</propertyTypeCd>");
+            createCorporateCustomerPayload.Append("<!--  <relationshipOfficerOneId>871</relationshipOfficerOneId>-->");
+            createCorporateCustomerPayload.Append($"<residentCountryCd>{mappedRequest.residentCountryCd}</residentCountryCd>");
+            createCorporateCustomerPayload.Append($"<residentFlag>{mappedRequest.residentFlag.ToString().ToLower()}</residentFlag>");
+            createCorporateCustomerPayload.Append($"<riskCode>RC100</riskCode>");
+            createCorporateCustomerPayload.Append($"<riskCountryCd>NGA</riskCountryCd>");
+            createCorporateCustomerPayload.Append($"<riskId>651</riskId>");
+            createCorporateCustomerPayload.Append($"<serviceLevel>{mappedRequest.serviceLevel}</serviceLevel>");
+            createCorporateCustomerPayload.Append($"<serviceLevelId>{mappedRequest.serviceLevelId}</serviceLevelId>");
+            createCorporateCustomerPayload.Append($"<sourceOfFundCd>{mappedRequest.sourceOfFundCd}</sourceOfFundCd>");
+            createCorporateCustomerPayload.Append($"<sourceOfFundId>{mappedRequest.sourceOfFundId}</sourceOfFundId>");
+            createCorporateCustomerPayload.Append($"<status>{mappedRequest.status}</status>");
+            createCorporateCustomerPayload.Append($"<strDate>{mappedRequest.strDate}</strDate>");
+            createCorporateCustomerPayload.Append($"<strFromDate>{mappedRequest.strFromDate}</strFromDate>");
+            createCorporateCustomerPayload.Append("<!--<startDateMm>05</startDateMm>-->");
+            createCorporateCustomerPayload.Append("<!--<startDateYyyy>2022</startDateYyyy>-->");
+            createCorporateCustomerPayload.Append($"<submitFlag>{mappedRequest.submitFlag.ToString().ToLower()}</submitFlag>");
+            createCorporateCustomerPayload.Append($"<taxIdentificationNo>{mappedRequest.taxIdentificationNo}</taxIdentificationNo>");
+            createCorporateCustomerPayload.Append($"<titleCd>{mappedRequest.titleCd}</titleCd>");
+            createCorporateCustomerPayload.Append($"<titleId>{mappedRequest.titleId}</titleId>");
+            createCorporateCustomerPayload.Append($"<organisationName>{mappedRequest.organisationName}</organisationName>");
+            createCorporateCustomerPayload.Append($"<registrationNumber>{mappedRequest.registrationNumber}</registrationNumber>");
+            createCorporateCustomerPayload.Append($"<strRegistrationDate>{mappedRequest.strRegistrationDate}</strRegistrationDate>");
+            createCorporateCustomerPayload.Append("</arg0>");
+            createCorporateCustomerPayload.Append("</cus:createCustomer>");
+            createCorporateCustomerPayload.Append("</soapenv:Body>");
+            createCorporateCustomerPayload.Append("\t</soapenv:Envelope>");
+
+            return createCorporateCustomerPayload;
         }
 
         /// <summary>
@@ -505,233 +509,82 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.strDate = DateTime.Now.Date.ToString("DD-MM-yyyy");
                 mappedRequest.strFromDate = DateTime.Now.AddYears(4).ToString("dd-MM-yyyy");
                 mappedRequest.submitFlag = true;
-                if(personalAccountDetails.Title.Equals("MR", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.titleCd = "T100";
-                    mappedRequest.titleId = 211;
 
-                }
-                else if (personalAccountDetails.Title.Equals("DOCTOR", StringComparison.OrdinalIgnoreCase))
+                switch (personalAccountDetails.Title)
                 {
-                    mappedRequest.titleCd = "T106";
-                    mappedRequest.titleId = 213;
+                    case "MR":
+                        mappedRequest.titleCd = "T100";
+                        mappedRequest.titleId = 211;
+                        break;
+                    case "DOCTOR":
+                        mappedRequest.titleCd = "T106";
+                        mappedRequest.titleId = 213;
+                        break;
+                    case "PROFESSOR":
+                        mappedRequest.titleCd = "T107";
+                        mappedRequest.titleId = 217;
+                        break;
+                    case "MRS":
+                        mappedRequest.titleCd = "T101";
+                        mappedRequest.titleId = 212;
+                        break;
+                    case "MISS":
+                        mappedRequest.titleCd = "T102";
+                        mappedRequest.titleId = 221;
+                        break;
+                    case "CHIEF":
+                        mappedRequest.titleCd = "T113";
+                        mappedRequest.titleId = 336;
+                        break;
+                    default:
+                        mappedRequest.titleCd = "T114";
+                        mappedRequest.titleId = 347;
+                        break;
                 }
-                else if (personalAccountDetails.Title.Equals("PROFESSOR", StringComparison.OrdinalIgnoreCase))
+                
+                
+                switch (personalAccountDetails.CompanyBOIDiscover)
                 {
-                    mappedRequest.titleCd = "T107";
-                    mappedRequest.titleId = 217;
+                    case "RADIO":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.RADIO;
+                        break;
+                    case "FRIEND":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.FRIEND;
+                        break;
+                    case "REFERRALS":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.REFERRAL;
+                        break;
+                    case "NEWSPAPER":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.NEWSPAPER;
+                        break;
+                    case "TELEVISION":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.TELEVISION;
+                        break;
+                    case "FACEBOOK":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.FACEBOOK;
+                        break;
+                    case "INSTAGRAM":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.INSTAGRAM;
+                        break;
+                    case "INTERNET":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.INTERNET;
+                        break;
+                    case "TWITTER":
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.TWITTER;
+                        break;
+                    default:
+                        mappedRequest.marketingCampaignId = (int)BOIDiscover.REFERRAL;
+                        break;
                 }
-                else if (personalAccountDetails.Title.Equals("MRS", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.titleCd = "T101";
-                    mappedRequest.titleId = 212;
-                }
-                else if (personalAccountDetails.Title.Equals("MISS", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.titleCd = "T102";
-                    mappedRequest.titleId = 221;
-                }
-                else if (personalAccountDetails.Title.Equals("CHIEF", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.titleCd = "T113";
-                    mappedRequest.titleId = 336;
-                }
-                else
-                {
-                    mappedRequest.titleCd = "T114";
-                    mappedRequest.titleId = 347;
-                }
+                
 
-                if (personalAccountDetails.CompanyBOIDiscover.Equals("RADIO", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 251;
-                }
-                else if (personalAccountDetails.CompanyBOIDiscover.Equals("FRIEND", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 252;
-                }
-                else if (personalAccountDetails.CompanyBOIDiscover.Equals("REFERRALS", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 252;
-                }
-                else if (personalAccountDetails.CompanyBOIDiscover.Equals("NEWSPAPER", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 353;
-                }
-                else if (personalAccountDetails.CompanyBOIDiscover.Equals("TELEVISION", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 354;
-                }
-                else if (personalAccountDetails.CompanyBOIDiscover.Equals("FACEBOOK", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 358;
-                }
-                else if (personalAccountDetails.CompanyBOIDiscover.Equals("INSTAGRAM", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 358;
-                }
-                else if (personalAccountDetails.CompanyBOIDiscover.Equals("INTERNET", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 358;
-                }
-                else if (personalAccountDetails.CompanyBOIDiscover.Equals("TWITTER", StringComparison.OrdinalIgnoreCase))
-                {
-                    mappedRequest.marketingCampaignId = 358;
-                }
-
-                StringBuilder createPersonalCustomerPayload = new StringBuilder();
-                createPersonalCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-                createPersonalCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-                createPersonalCustomerPayload.Append("</soap:Header>");
-                createPersonalCustomerPayload.Append("<soapenv:Body>");
-                createPersonalCustomerPayload.Append("<cus:createCustomer  \txmlns:cus=\"http://customer.server.ws.supernova.neptunesoftware.com/\">");
-                createPersonalCustomerPayload.Append("<arg0>");
-                createPersonalCustomerPayload.Append("<!--DEFAULT VALUES:-->");
-                createPersonalCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
-                createPersonalCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
-                createPersonalCustomerPayload.Append($"<serviceId>{mappedRequest.serviceId}</serviceId>");
-                createPersonalCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
-                createPersonalCustomerPayload.Append($"<businessUnitCodeId>{mappedRequest.businessUnitCodeId}</businessUnitCodeId>");
-                createPersonalCustomerPayload.Append("<!--BASIC INFO:-->");
-                createPersonalCustomerPayload.Append($"<custShortName>{mappedRequest.firstName}</custShortName>");
-                createPersonalCustomerPayload.Append($"<customerCategory>{mappedRequest.customerCategory}</customerCategory>");
-                createPersonalCustomerPayload.Append($"<customerName>{mappedRequest.customerName}</customerName>");
-                createPersonalCustomerPayload.Append($"<employmentFlag>{mappedRequest.employmentFlag}</employmentFlag>");
-                createPersonalCustomerPayload.Append($"<firstName>{mappedRequest.firstName}</firstName>");
-                createPersonalCustomerPayload.Append($"<lastName>{mappedRequest.lastName}</lastName>");
-                createPersonalCustomerPayload.Append($"<fathersName>{mappedRequest.fathersName}</fathersName>");
-                createPersonalCustomerPayload.Append($"<nationalIdNumber>{mappedRequest.nationalIdNumber}</nationalIdNumber>");
-                createPersonalCustomerPayload.Append($"<gender>{mappedRequest.gender}</gender>");
-                createPersonalCustomerPayload.Append("<!--ADDRESS DETAIL:-->");
-                createPersonalCustomerPayload.Append($"<addressCity>{mappedRequest.addressCity}</addressCity>");
-                createPersonalCustomerPayload.Append($"<addressCountryId>{mappedRequest.addressCountryId}</addressCountryId>");
-                createPersonalCustomerPayload.Append($"<addressLine1>{mappedRequest.addressLine1}</addressLine1>");
-                createPersonalCustomerPayload.Append($"<addressLine2>{mappedRequest.addressLine2}</addressLine2>");
-                createPersonalCustomerPayload.Append($"<addressPropertyTypeId>{mappedRequest.addressPropertyTypeId}</addressPropertyTypeId>");
-                createPersonalCustomerPayload.Append($"<addressState>{mappedRequest.addressState}</addressState>");
-                createPersonalCustomerPayload.Append($"<addressTypeCd>{mappedRequest.addressTypeCd}</addressTypeCd>");
-                createPersonalCustomerPayload.Append($"<addressTypeId>{mappedRequest.addressTypeId}</addressTypeId>");
-                createPersonalCustomerPayload.Append("<contactsList>");
-                createPersonalCustomerPayload.Append($"<contactDetails>{personalAccountDetails.Email}</contactDetails>");
-                createPersonalCustomerPayload.Append("<contactMode>CM101</contactMode>");
-                createPersonalCustomerPayload.Append("<contactModeCategoryCode>CM101</contactModeCategoryCode>");
-                createPersonalCustomerPayload.Append("<contactModeTypeId>201</contactModeTypeId>");
-                createPersonalCustomerPayload.Append($"<customerShortName>{mappedRequest.firstName}</customerShortName>");
-                createPersonalCustomerPayload.Append("<status>A</status>");
-                createPersonalCustomerPayload.Append("</contactsList>");
-                createPersonalCustomerPayload.Append("<contactsList>");
-                createPersonalCustomerPayload.Append($"<contactDetails>{personalAccountDetails.PhoneNumber}</contactDetails>");
-                createPersonalCustomerPayload.Append("<contactMode>CM100</contactMode>");
-                createPersonalCustomerPayload.Append("<contactModeCategoryCode>CM100</contactModeCategoryCode>");
-                createPersonalCustomerPayload.Append("<contactModeTypeId>206</contactModeTypeId>");
-                createPersonalCustomerPayload.Append($"<customerShortName>{mappedRequest.firstName}</customerShortName>");
-                createPersonalCustomerPayload.Append("<status>A</status>");
-                createPersonalCustomerPayload.Append("</contactsList>");
-                createPersonalCustomerPayload.Append("<!--STATUTORY INFO:-->");
-                createPersonalCustomerPayload.Append($"<parentObjectCode>{mappedRequest.parentObjectCode}</parentObjectCode>");
-                createPersonalCustomerPayload.Append($"<screenTypeCode>{mappedRequest.screenTypeCode}</screenTypeCode>");
-                createPersonalCustomerPayload.Append($"<subTypeId></subTypeId>");
-                createPersonalCustomerPayload.Append($"<fieldIdArray>{mappedRequest.fieldIdArray}</fieldIdArray>");
-                createPersonalCustomerPayload.Append($"<fieldValueArr>{mappedRequest.fieldValueArr}</fieldValueArr>");
-                createPersonalCustomerPayload.Append("<!--COUNTRY:-->");
-                createPersonalCustomerPayload.Append($"<countryId>{mappedRequest.countryId}</countryId>");
-                createPersonalCustomerPayload.Append($"<countryOfBirthCd>{mappedRequest.countryOfBirthCd}</countryOfBirthCd>");
-                createPersonalCustomerPayload.Append($"<countryOfBirthId>{mappedRequest.countryOfBirthId}</countryOfBirthId>");
-                createPersonalCustomerPayload.Append($"<countryOfResidenceId>{mappedRequest.countryOfResidenceId}</countryOfResidenceId>");
-                createPersonalCustomerPayload.Append($"<custCountryCd>{mappedRequest.custCountryCd}</custCountryCd>");
-                createPersonalCustomerPayload.Append("<!--CUSTOMER TYPE INFO:-->");
-                createPersonalCustomerPayload.Append($"<customerSegmentCd>{mappedRequest.customerSegmentCd}</customerSegmentCd>");
-                createPersonalCustomerPayload.Append($"<customerTypeCd>{mappedRequest.customerTypeCd}</customerTypeCd>");
-                createPersonalCustomerPayload.Append("<!--IDENTIFICATION INFO:-->");
-                createPersonalCustomerPayload.Append("<!--national id:-->");
-                createPersonalCustomerPayload.Append("<identificationsList>");
-                createPersonalCustomerPayload.Append("<!-- <binaryImage></binaryImage> -->");
-                createPersonalCustomerPayload.Append($"<cityOfIssue>{mappedRequest.cityOfIssue}</cityOfIssue>");
-                createPersonalCustomerPayload.Append($"<countryOfIssue>{mappedRequest.countryOfIssue}</countryOfIssue>");
-                createPersonalCustomerPayload.Append($"<countryOfIssueId>{mappedRequest.countryOfIssueId}</countryOfIssueId>");
-                createPersonalCustomerPayload.Append($"<customerName>{personalAccountDetails.FirstName + " " + personalAccountDetails.Surname}</customerName>");
-                createPersonalCustomerPayload.Append($"<identityNumber>{DateTime.UtcNow.Ticks.ToString().Substring(0, 10)}</identityNumber>");
-                createPersonalCustomerPayload.Append("<identityType>IT106</identityType>");
-                createPersonalCustomerPayload.Append("<identityTypeId>311</identityTypeId>");
-                createPersonalCustomerPayload.Append("<strIssueDate>10/10/2010</strIssueDate>");
-                createPersonalCustomerPayload.Append("<strExpiryDate>10/10/2029</strExpiryDate>");
-                createPersonalCustomerPayload.Append("<verifiedFlag>true</verifiedFlag>");
-                createPersonalCustomerPayload.Append("</identificationsList>");
-                createPersonalCustomerPayload.Append(" <!--BVN INFO:-->");
-                createPersonalCustomerPayload.Append("<identificationsList>");
-                createPersonalCustomerPayload.Append("<!-- <binaryImage></binaryImage> -->");
-                createPersonalCustomerPayload.Append($"<cityOfIssue>{mappedRequest.cityOfIssue}</cityOfIssue>");
-                createPersonalCustomerPayload.Append($"<countryOfIssue>{mappedRequest.countryOfIssue}</countryOfIssue>");
-                createPersonalCustomerPayload.Append($"<countryOfIssueId>{mappedRequest.countryOfIssueId}</countryOfIssueId>");
-                createPersonalCustomerPayload.Append($"<customerName>{personalAccountDetails.FirstName + " " + personalAccountDetails.Surname}</customerName>");
-                createPersonalCustomerPayload.Append($"<identityNumber>{DateTime.UtcNow.Ticks.ToString().Substring(0, 10)}</identityNumber>");
-                createPersonalCustomerPayload.Append("<identityType>BVN</identityType>");
-                createPersonalCustomerPayload.Append("<identityTypeId>492</identityTypeId>");
-                createPersonalCustomerPayload.Append("<strIssueDate>10/10/2010</strIssueDate>");
-                createPersonalCustomerPayload.Append("<!-- <strExpiryDate>10/10/2029</strExpiryDate>>-->");
-                createPersonalCustomerPayload.Append("<verifiedFlag>true</verifiedFlag>");
-                createPersonalCustomerPayload.Append("</identificationsList>");
-                createPersonalCustomerPayload.Append("<!--END IDENTIFICATION INFO:-->");
-                createPersonalCustomerPayload.Append("<!--OTHERS-->");
-                createPersonalCustomerPayload.Append($"<industryCd>{mappedRequest.industryCd}</industryCd>");
-                createPersonalCustomerPayload.Append($"<industryId>{mappedRequest.industryId}</industryId>");
-                createPersonalCustomerPayload.Append($"<locale>{mappedRequest.locale}</locale>");
-                createPersonalCustomerPayload.Append($"<mainBusinessUnitCd>{mappedRequest.mainBusinessUnitCd}</mainBusinessUnitCd>");
-                createPersonalCustomerPayload.Append($"<mainBusinessUnitId>{mappedRequest.mainBusinessUnitId}</mainBusinessUnitId>");
-                createPersonalCustomerPayload.Append("<!-- <marketingCampaignCd>MC112</marketingCampaignCd>-->");
-                createPersonalCustomerPayload.Append($"<marketingCampaignId>{mappedRequest.marketingCampaignId}</marketingCampaignId>");
-                createPersonalCustomerPayload.Append($"<maritalStatus>{mappedRequest.maritalStatus}</maritalStatus>");
-                createPersonalCustomerPayload.Append($"<middleName>{mappedRequest.middleName}</middleName>");
-                createPersonalCustomerPayload.Append($"<nationalityCd>{mappedRequest.nationalityCd}</nationalityCd>");
-                createPersonalCustomerPayload.Append($"<nationalityId>{mappedRequest.nationalityId}</nationalityId>");
-                createPersonalCustomerPayload.Append("<noOfDependents>0</noOfDependents>");
-                createPersonalCustomerPayload.Append("<openingReasonCode>AO003</openingReasonCode>");
-                createPersonalCustomerPayload.Append("<openingReasonId>683</openingReasonId>");
-                createPersonalCustomerPayload.Append("<operationCurrencyCd>NGN</operationCurrencyCd>");
-                createPersonalCustomerPayload.Append("<operationCurrencyId>732</operationCurrencyId>");
-                createPersonalCustomerPayload.Append($"<preferredName>{mappedRequest.firstName}</preferredName>");
-                createPersonalCustomerPayload.Append($"<primaryAddress>{mappedRequest.primaryAddress.ToString().ToLower()}</primaryAddress>");
-                createPersonalCustomerPayload.Append($"<primaryRelationshipOfficerCd>{mappedRequest.primaryRelationshipOfficerCd}</primaryRelationshipOfficerCd>");
-                createPersonalCustomerPayload.Append("<propertyTypeCd>PT107</propertyTypeCd>");
-                createPersonalCustomerPayload.Append("<!--  <relationshipOfficerOneId>871</relationshipOfficerOneId>-->");
-                createPersonalCustomerPayload.Append($"<residentCountryCd>{mappedRequest.residentCountryCd}</residentCountryCd>");
-                createPersonalCustomerPayload.Append($"<residentFlag>{mappedRequest.residentFlag.ToString().ToLower()}</residentFlag>");
-                createPersonalCustomerPayload.Append("<riskCode>RC100</riskCode>");
-                createPersonalCustomerPayload.Append("<riskCountryCd>NGA</riskCountryCd>");
-                createPersonalCustomerPayload.Append("<riskId>651</riskId>");
-                createPersonalCustomerPayload.Append($"<serviceLevel>{mappedRequest.serviceLevel}</serviceLevel>");
-                createPersonalCustomerPayload.Append($"<serviceLevelId>{mappedRequest.serviceLevelId}</serviceLevelId>");
-                createPersonalCustomerPayload.Append($"<sourceOfFundCd>{mappedRequest.sourceOfFundCd}</sourceOfFundCd>");
-                createPersonalCustomerPayload.Append($"<sourceOfFundId>{mappedRequest.sourceOfFundId}</sourceOfFundId>");
-                createPersonalCustomerPayload.Append($"<status>{mappedRequest.status}</status>");
-                createPersonalCustomerPayload.Append("<strDate>31/05/2022</strDate>");
-                createPersonalCustomerPayload.Append("<strFromDate>31/05/2022</strFromDate>");
-                createPersonalCustomerPayload.Append("<!--<startDateMm>05</startDateMm>-->");
-                createPersonalCustomerPayload.Append("<!--<startDateYyyy>2022</startDateYyyy>-->");
-                if(mappedRequest.employmentFlag == "E")
-                {
-                    createPersonalCustomerPayload.Append($"<employmentFlag>true</employmentFlag>");
-                }
-                else
-                {
-                    createPersonalCustomerPayload.Append($"<employmentFlag>false</employmentFlag>");
-                }
-               
-                createPersonalCustomerPayload.Append("<strDateOfBirth>02/05/1935</strDateOfBirth>");
-                createPersonalCustomerPayload.Append($"<submitFlag>{mappedRequest.submitFlag.ToString().ToLower()}</submitFlag>");
-                createPersonalCustomerPayload.Append($"<taxIdentificationNo>{mappedRequest.taxIdentificationNo}</taxIdentificationNo>");
-                createPersonalCustomerPayload.Append($"<titleCd>{mappedRequest.titleCd}</titleCd>");
-                createPersonalCustomerPayload.Append($"<titleId>{mappedRequest.titleId}</titleId>");
-                createPersonalCustomerPayload.Append("</arg0>");
-                createPersonalCustomerPayload.Append("</cus:createCustomer>");
-                createPersonalCustomerPayload.Append("</soapenv:Body>");
-                createPersonalCustomerPayload.Append("\t</soapenv:Envelope>");
+                StringBuilder createPersonalCustomerPayload = CustomerPayloadBuilder(mappedRequest, personalAccountDetails);
+                
 
                 CustomerCreationResponse response = (CustomerCreationResponse)await _rubikonBonitaRepository.CreateCustomerAccount(createPersonalCustomerPayload, mappedRequest.GetType().Name.ToString());
                 if (response != null)
                 {
-                    HttpContext.Session.SetString("PersonalCustomerNumber", response._return.customerNumber);
-                    //customerNumber.PersonalCustomerNumber = response._return.customerNumber;
+                    cache.Set("PersonalCustomerNumber", response._return.customerNumber, DateTimeOffset.Now.AddMinutes(10));
                     SubmitCustomerRequest submitCustomerRequest = new SubmitCustomerRequest { customerNo = response._return.customerNumber };
                     var activateCustomer = await SubmitCustomerDetails(submitCustomerRequest);
                     
@@ -741,6 +594,158 @@ namespace BOI.BOIApplications.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Success = false, Message = "Unable to create account. Please try again later." });
             }
             return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "Please check the details for null or empty entry" });
+        }
+
+        private StringBuilder CustomerPayloadBuilder(PersonalCustomerAccountCreation mappedRequest, AOIndividualShareholder personalAccountDetails)
+        {
+            StringBuilder createPersonalCustomerPayload = new StringBuilder();
+            createPersonalCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            createPersonalCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            createPersonalCustomerPayload.Append("</soap:Header>");
+            createPersonalCustomerPayload.Append("<soapenv:Body>");
+            createPersonalCustomerPayload.Append("<cus:createCustomer  \txmlns:cus=\"http://customer.server.ws.supernova.neptunesoftware.com/\">");
+            createPersonalCustomerPayload.Append("<arg0>");
+            createPersonalCustomerPayload.Append("<!--DEFAULT VALUES:-->");
+            createPersonalCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
+            createPersonalCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
+            createPersonalCustomerPayload.Append($"<serviceId>{mappedRequest.serviceId}</serviceId>");
+            createPersonalCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
+            createPersonalCustomerPayload.Append($"<businessUnitCodeId>{mappedRequest.businessUnitCodeId}</businessUnitCodeId>");
+            createPersonalCustomerPayload.Append("<!--BASIC INFO:-->");
+            createPersonalCustomerPayload.Append($"<custShortName>{mappedRequest.firstName}</custShortName>");
+            createPersonalCustomerPayload.Append($"<customerCategory>{mappedRequest.customerCategory}</customerCategory>");
+            createPersonalCustomerPayload.Append($"<customerName>{mappedRequest.customerName}</customerName>");
+            createPersonalCustomerPayload.Append($"<employmentFlag>{mappedRequest.employmentFlag}</employmentFlag>");
+            createPersonalCustomerPayload.Append($"<firstName>{mappedRequest.firstName}</firstName>");
+            createPersonalCustomerPayload.Append($"<lastName>{mappedRequest.lastName}</lastName>");
+            createPersonalCustomerPayload.Append($"<fathersName>{mappedRequest.fathersName}</fathersName>");
+            createPersonalCustomerPayload.Append($"<nationalIdNumber>{mappedRequest.nationalIdNumber}</nationalIdNumber>");
+            createPersonalCustomerPayload.Append($"<gender>{mappedRequest.gender}</gender>");
+            createPersonalCustomerPayload.Append("<!--ADDRESS DETAIL:-->");
+            createPersonalCustomerPayload.Append($"<addressCity>{mappedRequest.addressCity}</addressCity>");
+            createPersonalCustomerPayload.Append($"<addressCountryId>{mappedRequest.addressCountryId}</addressCountryId>");
+            createPersonalCustomerPayload.Append($"<addressLine1>{mappedRequest.addressLine1}</addressLine1>");
+            createPersonalCustomerPayload.Append($"<addressLine2>{mappedRequest.addressLine2}</addressLine2>");
+            createPersonalCustomerPayload.Append($"<addressPropertyTypeId>{mappedRequest.addressPropertyTypeId}</addressPropertyTypeId>");
+            createPersonalCustomerPayload.Append($"<addressState>{mappedRequest.addressState}</addressState>");
+            createPersonalCustomerPayload.Append($"<addressTypeCd>{mappedRequest.addressTypeCd}</addressTypeCd>");
+            createPersonalCustomerPayload.Append($"<addressTypeId>{mappedRequest.addressTypeId}</addressTypeId>");
+            createPersonalCustomerPayload.Append("<contactsList>");
+            createPersonalCustomerPayload.Append($"<contactDetails>{personalAccountDetails.Email}</contactDetails>");
+            createPersonalCustomerPayload.Append("<contactMode>CM101</contactMode>");
+            createPersonalCustomerPayload.Append("<contactModeCategoryCode>CM101</contactModeCategoryCode>");
+            createPersonalCustomerPayload.Append("<contactModeTypeId>201</contactModeTypeId>");
+            createPersonalCustomerPayload.Append($"<customerShortName>{mappedRequest.firstName}</customerShortName>");
+            createPersonalCustomerPayload.Append("<status>A</status>");
+            createPersonalCustomerPayload.Append("</contactsList>");
+            createPersonalCustomerPayload.Append("<contactsList>");
+            createPersonalCustomerPayload.Append($"<contactDetails>{personalAccountDetails.PhoneNumber}</contactDetails>");
+            createPersonalCustomerPayload.Append("<contactMode>CM100</contactMode>");
+            createPersonalCustomerPayload.Append("<contactModeCategoryCode>CM100</contactModeCategoryCode>");
+            createPersonalCustomerPayload.Append("<contactModeTypeId>206</contactModeTypeId>");
+            createPersonalCustomerPayload.Append($"<customerShortName>{mappedRequest.firstName}</customerShortName>");
+            createPersonalCustomerPayload.Append("<status>A</status>");
+            createPersonalCustomerPayload.Append("</contactsList>");
+            createPersonalCustomerPayload.Append("<!--STATUTORY INFO:-->");
+            createPersonalCustomerPayload.Append($"<parentObjectCode>{mappedRequest.parentObjectCode}</parentObjectCode>");
+            createPersonalCustomerPayload.Append($"<screenTypeCode>{mappedRequest.screenTypeCode}</screenTypeCode>");
+            createPersonalCustomerPayload.Append($"<subTypeId></subTypeId>");
+            createPersonalCustomerPayload.Append($"<fieldIdArray>{mappedRequest.fieldIdArray}</fieldIdArray>");
+            createPersonalCustomerPayload.Append($"<fieldValueArr>{mappedRequest.fieldValueArr}</fieldValueArr>");
+            createPersonalCustomerPayload.Append("<!--COUNTRY:-->");
+            createPersonalCustomerPayload.Append($"<countryId>{mappedRequest.countryId}</countryId>");
+            createPersonalCustomerPayload.Append($"<countryOfBirthCd>{mappedRequest.countryOfBirthCd}</countryOfBirthCd>");
+            createPersonalCustomerPayload.Append($"<countryOfBirthId>{mappedRequest.countryOfBirthId}</countryOfBirthId>");
+            createPersonalCustomerPayload.Append($"<countryOfResidenceId>{mappedRequest.countryOfResidenceId}</countryOfResidenceId>");
+            createPersonalCustomerPayload.Append($"<custCountryCd>{mappedRequest.custCountryCd}</custCountryCd>");
+            createPersonalCustomerPayload.Append("<!--CUSTOMER TYPE INFO:-->");
+            createPersonalCustomerPayload.Append($"<customerSegmentCd>{mappedRequest.customerSegmentCd}</customerSegmentCd>");
+            createPersonalCustomerPayload.Append($"<customerTypeCd>{mappedRequest.customerTypeCd}</customerTypeCd>");
+            createPersonalCustomerPayload.Append("<!--IDENTIFICATION INFO:-->");
+            createPersonalCustomerPayload.Append("<!--national id:-->");
+            createPersonalCustomerPayload.Append("<identificationsList>");
+            createPersonalCustomerPayload.Append("<!-- <binaryImage></binaryImage> -->");
+            createPersonalCustomerPayload.Append($"<cityOfIssue>{mappedRequest.cityOfIssue}</cityOfIssue>");
+            createPersonalCustomerPayload.Append($"<countryOfIssue>{mappedRequest.countryOfIssue}</countryOfIssue>");
+            createPersonalCustomerPayload.Append($"<countryOfIssueId>{mappedRequest.countryOfIssueId}</countryOfIssueId>");
+            createPersonalCustomerPayload.Append($"<customerName>{personalAccountDetails.FirstName + " " + personalAccountDetails.Surname}</customerName>");
+            createPersonalCustomerPayload.Append($"<identityNumber>{DateTime.UtcNow.Ticks.ToString().Substring(0, 10)}</identityNumber>");
+            createPersonalCustomerPayload.Append("<identityType>IT106</identityType>");
+            createPersonalCustomerPayload.Append("<identityTypeId>311</identityTypeId>");
+            createPersonalCustomerPayload.Append("<strIssueDate>10/10/2010</strIssueDate>");
+            createPersonalCustomerPayload.Append("<strExpiryDate>10/10/2029</strExpiryDate>");
+            createPersonalCustomerPayload.Append("<verifiedFlag>true</verifiedFlag>");
+            createPersonalCustomerPayload.Append("</identificationsList>");
+            createPersonalCustomerPayload.Append(" <!--BVN INFO:-->");
+            createPersonalCustomerPayload.Append("<identificationsList>");
+            createPersonalCustomerPayload.Append("<!-- <binaryImage></binaryImage> -->");
+            createPersonalCustomerPayload.Append($"<cityOfIssue>{mappedRequest.cityOfIssue}</cityOfIssue>");
+            createPersonalCustomerPayload.Append($"<countryOfIssue>{mappedRequest.countryOfIssue}</countryOfIssue>");
+            createPersonalCustomerPayload.Append($"<countryOfIssueId>{mappedRequest.countryOfIssueId}</countryOfIssueId>");
+            createPersonalCustomerPayload.Append($"<customerName>{personalAccountDetails.FirstName + " " + personalAccountDetails.Surname}</customerName>");
+            createPersonalCustomerPayload.Append($"<identityNumber>{DateTime.UtcNow.Ticks.ToString().Substring(0, 10)}</identityNumber>");
+            createPersonalCustomerPayload.Append("<identityType>BVN</identityType>");
+            createPersonalCustomerPayload.Append("<identityTypeId>492</identityTypeId>");
+            createPersonalCustomerPayload.Append("<strIssueDate>10/10/2010</strIssueDate>");
+            createPersonalCustomerPayload.Append("<!-- <strExpiryDate>10/10/2029</strExpiryDate>>-->");
+            createPersonalCustomerPayload.Append("<verifiedFlag>true</verifiedFlag>");
+            createPersonalCustomerPayload.Append("</identificationsList>");
+            createPersonalCustomerPayload.Append("<!--END IDENTIFICATION INFO:-->");
+            createPersonalCustomerPayload.Append("<!--OTHERS-->");
+            createPersonalCustomerPayload.Append($"<industryCd>{mappedRequest.industryCd}</industryCd>");
+            createPersonalCustomerPayload.Append($"<industryId>{mappedRequest.industryId}</industryId>");
+            createPersonalCustomerPayload.Append($"<locale>{mappedRequest.locale}</locale>");
+            createPersonalCustomerPayload.Append($"<mainBusinessUnitCd>{mappedRequest.mainBusinessUnitCd}</mainBusinessUnitCd>");
+            createPersonalCustomerPayload.Append($"<mainBusinessUnitId>{mappedRequest.mainBusinessUnitId}</mainBusinessUnitId>");
+            createPersonalCustomerPayload.Append("<!-- <marketingCampaignCd>MC112</marketingCampaignCd>-->");
+            createPersonalCustomerPayload.Append($"<marketingCampaignId>{mappedRequest.marketingCampaignId}</marketingCampaignId>");
+            createPersonalCustomerPayload.Append($"<maritalStatus>{mappedRequest.maritalStatus}</maritalStatus>");
+            createPersonalCustomerPayload.Append($"<middleName>{mappedRequest.middleName}</middleName>");
+            createPersonalCustomerPayload.Append($"<nationalityCd>{mappedRequest.nationalityCd}</nationalityCd>");
+            createPersonalCustomerPayload.Append($"<nationalityId>{mappedRequest.nationalityId}</nationalityId>");
+            createPersonalCustomerPayload.Append("<noOfDependents>0</noOfDependents>");
+            createPersonalCustomerPayload.Append("<openingReasonCode>AO003</openingReasonCode>");
+            createPersonalCustomerPayload.Append("<openingReasonId>683</openingReasonId>");
+            createPersonalCustomerPayload.Append("<operationCurrencyCd>NGN</operationCurrencyCd>");
+            createPersonalCustomerPayload.Append("<operationCurrencyId>732</operationCurrencyId>");
+            createPersonalCustomerPayload.Append($"<preferredName>{mappedRequest.firstName}</preferredName>");
+            createPersonalCustomerPayload.Append($"<primaryAddress>{mappedRequest.primaryAddress.ToString().ToLower()}</primaryAddress>");
+            createPersonalCustomerPayload.Append($"<primaryRelationshipOfficerCd>{mappedRequest.primaryRelationshipOfficerCd}</primaryRelationshipOfficerCd>");
+            createPersonalCustomerPayload.Append("<propertyTypeCd>PT107</propertyTypeCd>");
+            createPersonalCustomerPayload.Append("<!--  <relationshipOfficerOneId>871</relationshipOfficerOneId>-->");
+            createPersonalCustomerPayload.Append($"<residentCountryCd>{mappedRequest.residentCountryCd}</residentCountryCd>");
+            createPersonalCustomerPayload.Append($"<residentFlag>{mappedRequest.residentFlag.ToString().ToLower()}</residentFlag>");
+            createPersonalCustomerPayload.Append("<riskCode>RC100</riskCode>");
+            createPersonalCustomerPayload.Append("<riskCountryCd>NGA</riskCountryCd>");
+            createPersonalCustomerPayload.Append("<riskId>651</riskId>");
+            createPersonalCustomerPayload.Append($"<serviceLevel>{mappedRequest.serviceLevel}</serviceLevel>");
+            createPersonalCustomerPayload.Append($"<serviceLevelId>{mappedRequest.serviceLevelId}</serviceLevelId>");
+            createPersonalCustomerPayload.Append($"<sourceOfFundCd>{mappedRequest.sourceOfFundCd}</sourceOfFundCd>");
+            createPersonalCustomerPayload.Append($"<sourceOfFundId>{mappedRequest.sourceOfFundId}</sourceOfFundId>");
+            createPersonalCustomerPayload.Append($"<status>{mappedRequest.status}</status>");
+            createPersonalCustomerPayload.Append("<strDate>31/05/2022</strDate>");
+            createPersonalCustomerPayload.Append("<strFromDate>31/05/2022</strFromDate>");
+            createPersonalCustomerPayload.Append("<!--<startDateMm>05</startDateMm>-->");
+            createPersonalCustomerPayload.Append("<!--<startDateYyyy>2022</startDateYyyy>-->");
+            if (mappedRequest.employmentFlag == "E")
+            {
+                createPersonalCustomerPayload.Append($"<employmentFlag>true</employmentFlag>");
+            }
+            else
+            {
+                createPersonalCustomerPayload.Append($"<employmentFlag>false</employmentFlag>");
+            }
+
+            createPersonalCustomerPayload.Append("<strDateOfBirth>02/05/1935</strDateOfBirth>");
+            createPersonalCustomerPayload.Append($"<submitFlag>{mappedRequest.submitFlag.ToString().ToLower()}</submitFlag>");
+            createPersonalCustomerPayload.Append($"<taxIdentificationNo>{mappedRequest.taxIdentificationNo}</taxIdentificationNo>");
+            createPersonalCustomerPayload.Append($"<titleCd>{mappedRequest.titleCd}</titleCd>");
+            createPersonalCustomerPayload.Append($"<titleId>{mappedRequest.titleId}</titleId>");
+            createPersonalCustomerPayload.Append("</arg0>");
+            createPersonalCustomerPayload.Append("</cus:createCustomer>");
+            createPersonalCustomerPayload.Append("</soapenv:Body>");
+            createPersonalCustomerPayload.Append("\t</soapenv:Envelope>");
+            return createPersonalCustomerPayload;
         }
 
         /// <summary>
@@ -763,11 +768,43 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.cityCode = "IFT";
                 mappedRequest.stateCode = "OSN";
                 mappedRequest.countryCode = "NGA";
-                mappedRequest.corporateCustNo = HttpContext.Session.GetString("CorporateCustomerNumber");
-                mappedRequest.personalCustNo= HttpContext.Session.GetString("PersonalCustomerNumber");
+                mappedRequest.corporateCustNo = cache.Get("CorporateCustomerNumber").ToString();//HttpContext.Session.GetString("CorporateCustomerNumber");
+                mappedRequest.personalCustNo= cache.Get("PersonalCustomerNumber").ToString();//HttpContext.Session.GetString("PersonalCustomerNumber");
 
+                StringBuilder linkPersonalCustomerToCorporateCustomerPayload = new StringBuilder();
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("</soap:Header>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Body>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<ser:createOrganisationPersonalContact  \txmlns:ser=\"http://service.customer.ci.neptunesoftwareplc.com/\">");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<arg0>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessUnitId>{mappedRequest.businessUnitId}</businessUnitId>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<corporateCustNo>{mappedRequest.corporateCustNo}</corporateCustNo>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<personalCustNo>{mappedRequest.personalCustNo}</personalCustNo>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionCode>{mappedRequest.orgPositionCode}</orgPositionCode>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<addressLine1>No 12B, lAbe Ilgi Ondo Road. Ile-Ife</addressLine1>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine2>Ondo State</addressLine2>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine3>test3</addressLine3>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine4>test4</addressLine4>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<cityCode>{mappedRequest.cityCode}</cityCode>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<stateCode>{mappedRequest.stateCode}</stateCode>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<countryCode>{mappedRequest.countryCode}</countryCode>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<postalCode>678908</postalCode>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<shareholdingOwnershipPercentage>10</shareholdingOwnershipPercentage>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessPhoneNo>{cache.Get("CorporateCustomerPhoneNumber").ToString()}</businessPhoneNo>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessEmailAddr>{cache.Get("CorporateCustomerEmailAddress").ToString()}</businessEmailAddr>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<faxNo>78523641</faxNo>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionId>{mappedRequest.orgPositionId}</orgPositionId>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("</arg0>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("</ser:createOrganisationPersonalContact>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Body>");
+                linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Envelope>");
 
-                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<LinkPersonalCustomerToCorporateRequest, LinkPersonalCustomerToCorporateResponse>(mappedRequest);
+                string linkPersonalCustomerToCorporateCustomerRequest = linkPersonalCustomerToCorporateCustomerPayload.ToString();
+                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<LinkPersonalCustomerToCorporateRequest, LinkPersonalCustomerToCorporateResponse>(linkPersonalCustomerToCorporateCustomerRequest, mappedRequest.GetType().Name.ToString());
                 if (response != null)
                 {
                     return Ok(response);
@@ -791,8 +828,27 @@ namespace BOI.BOIApplications.API.Controllers
                 customerDetails.serviceChannelCode = "STC053";
                 customerDetails.serviceId = 121;
                 customerDetails.transmissionTime = "00";
+                StringBuilder submitCustomerPayload = new StringBuilder();
 
-                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<SubmitCustomerRequest, SubmitAccountResponse>(customerDetails);
+                submitCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+                submitCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+                submitCustomerPayload.Append("</soap:Header>");
+                submitCustomerPayload.Append("\t<soapenv:Body>");
+                submitCustomerPayload.Append("<ser:submitCustomer  \txmlns:ser=\"http://service.customer.ci.neptunesoftwareplc.com/\">");
+                submitCustomerPayload.Append("<!--Optional:-->");
+                submitCustomerPayload.Append("<arg0>");
+                submitCustomerPayload.Append($"<channelId>{customerDetails.channelId}</channelId>");
+                submitCustomerPayload.Append($"<serviceChannelCode>{customerDetails.serviceChannelCode}</serviceChannelCode>");
+                submitCustomerPayload.Append($"<serviceId>{customerDetails.serviceId}</serviceId>");
+                submitCustomerPayload.Append($"<transmissionTime>{customerDetails.transmissionTime}</transmissionTime>");
+                submitCustomerPayload.Append($"<customerNo>{customerDetails.customerNo}</customerNo>");
+                submitCustomerPayload.Append("</arg0>");
+                submitCustomerPayload.Append("</ser:submitCustomer>");
+                submitCustomerPayload.Append("</soapenv:Body>");
+                submitCustomerPayload.Append("</soapenv:Envelope>");
+
+                string submitCustomerRequest = submitCustomerPayload.ToString();
+                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<String, String>(submitCustomerRequest, customerDetails.GetType().Name.ToString());
                 if (response != null)
                 {
                     return Ok(response);
