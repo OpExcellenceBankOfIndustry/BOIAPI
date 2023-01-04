@@ -51,32 +51,6 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
             _errorMessageRepository = errorMessageRepository;
             _rubikonBonitaIntegrationAPISettings = options.Value;
         }
-        public async Task<object> FetchCustomerDetails(string customerNumber)
-        {
-            try
-            {
-                if (customerNumber != null)
-                {
-                    _logger.LogInformation("<========================Start Fetch Customer Details ===========================>");
-                    var req = new BonitaRubikonAPIRequest();
-                    req.identificationNumber = customerNumber;
-                    var getCustomerDetailsEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints["GetCustomerDetails"];
-                    var feedback = await ExecuteNeptuneThirdPartyAPI<GetCustomerDetailsResponse>(req, getCustomerDetailsEndpoint);
-                    if (feedback != null)
-                    {
-                        _logger.LogInformation($"<========================End Fetch Customer Details===========================>\r\n with feedback: {feedback}");
-                        return feedback;
-                    }
-                }
-                _logger.LogInformation("<========================End Fetch Customer Details===========================> because customerNumber is null");
-                return null;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Fetch Customer Detail Exception: {ex.Message}");
-                throw;
-            }
-        }
 
         public async Task<object> FetchPersonalCustomerInquiryResult(string nationalId)
         {
@@ -85,10 +59,11 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                 if (nationalId != null)
                 {
                     _logger.LogInformation("<========================Start Fetch Personal Customer Inquiry Result ===========================>");
-                    var req = new BonitaRubikonAPIRequest();
-                    req.identificationNumber = nationalId;
+                    var req = new FetchPersonalCustomerAPIRequest();
+                    req.nationalIdNumber = nationalId;
                     var personalCustomerEnquiryEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints["PersonalCustomerInquiry"];
-                    var feedback = await ExecuteNeptuneThirdPartyAPI<PersonalCustomerInquiryResponse>(req, personalCustomerEnquiryEndpoint);
+                    //string requestEndpoint = nationalId;//$"CustInquiry/CustInqRestService/findCustomersList?channelId=121&transmissionTime=00&registrationNumber=&nationalIdNumber={nationalId}&=";
+                    var feedback = await PersonalCustomerEnquiryThirdPartyAPI<PersonalCustomerInquiryResponse>(req, personalCustomerEnquiryEndpoint);
                     if (feedback != null)
                         _logger.LogInformation($"<========================End Fetch Personal Customer Inquiry Result===========================> \r\n with feedback: {feedback}");
                     return feedback;
@@ -111,9 +86,9 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
                 {
                     _logger.LogInformation("<========================Start Fetch Corporate Customer Inquiry Result ===========================>");
                     var req = new BonitaRubikonAPIRequest();
-                    req.identificationNumber = rcNumber;
+                    req.registrationNumber = rcNumber;
                     var corporateCustomerEnquiryEndpoint = _rubikonBonitaIntegrationAPISettings.Endpoints["CorporateCustomerInquiry"];
-                    var feedback = await ExecuteNeptuneThirdPartyAPI<CorporateCustomerInquiryResponse>(req, corporateCustomerEnquiryEndpoint);
+                    var feedback = await CorporateCustomerEnquiryThirdPartyAPI<CorporateCustomerInquiryResponse>(req, corporateCustomerEnquiryEndpoint);
                     if (feedback != null)
                         _logger.LogInformation($"<========================End Fetch Corporate Customer Inquiry Result===========================> \r\n with feedback: {feedback}");
                     return feedback;
@@ -175,15 +150,65 @@ namespace BOI.BOIApplications.AccountOpening.Services.RubikonBonitaIntegration
             }
         }
 
-        public async Task<object> ExecuteNeptuneThirdPartyAPI<T>(BonitaRubikonAPIRequest thirdPartyRequest, string endPoint)
+        public async Task<object> CorporateCustomerEnquiryThirdPartyAPI<T>(BonitaRubikonAPIRequest thirdPartyRequest, string endPoint)
         {
             try
             {
                 _logger.LogInformation("<========================Start Execute Neptune ThirdParty API===========================>");
-                endPoint = endPoint.Replace(thirdPartyRequest.GetType().GetProperties().First().Name, thirdPartyRequest.identificationNumber, true, null);
+                //endPoint = endPoint.Replace(thirdPartyRequest.GetType().GetProperties().First().Name, thirdPartyRequest.identificationNumber, true, null);
                 _client.BaseUrl = new Uri(_rubikonBonitaIntegrationAPISettings.BaseURL);
+                thirdPartyRequest.transmissionTime = "00";
+                thirdPartyRequest.channelId = "121";
 
                 RestRequest request = new RestRequest(endPoint, Method.GET);
+                request.AddParameter(thirdPartyRequest.transmissionTime, "transmissionTime");
+                request.AddParameter(thirdPartyRequest.channelId, "channelId");
+                request.AddParameter(thirdPartyRequest.transmissionTime, "RegistrationNo");
+
+                IRestResponse response = await _client.ExecuteAsync(request);
+
+                if (response.IsSuccessful && !response.Content.Equals("null", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrEmpty(response.Content))
+                {
+                    var responseObject = response.Content;
+
+                    if (!DataManipulation.IsJson(responseObject))
+                    {
+                        responseObject = DataManipulation.SerializeXmlStringToJson<T>(responseObject, "return");
+                    }
+                    else
+                    {
+                        responseObject = DataManipulation.SerializeJsonStringToObject<T>(responseObject);
+                    }
+                    _logger.LogInformation($"<========================End Execute Neptune ThirdParty API===========================> \r\n with response: {responseObject}");
+                    return responseObject;
+                }
+                else
+                {
+                    _logger.LogInformation($"<========================End Execute Neptune ThirdParty API===========================>  \r\n with response: {response}");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Execute Neptune ThirdParty API Exception: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<object> PersonalCustomerEnquiryThirdPartyAPI<T>(FetchPersonalCustomerAPIRequest thirdPartyRequest, string endPoint)
+        {
+            try
+            {
+                _logger.LogInformation("<========================Start Execute Neptune ThirdParty API===========================>");
+                //endPoint = endPoint.Replace(thirdPartyRequest.GetType().GetProperties().First().Name, thirdPartyRequest.identificationNumber, true, null);
+                _client.BaseUrl = new Uri(_rubikonBonitaIntegrationAPISettings.BaseURL);
+                thirdPartyRequest.transmissionTime = "00";
+                thirdPartyRequest.channelId = "121";
+
+                RestRequest request = new RestRequest(endPoint, Method.GET);
+                request.AddParameter(thirdPartyRequest.transmissionTime, "transmissionTime");
+                request.AddParameter(thirdPartyRequest.channelId, "channelId");
+                request.AddParameter(thirdPartyRequest.nationalIdNumber, "nationalIdNumber");
 
                 IRestResponse response = await _client.ExecuteAsync(request);
 
