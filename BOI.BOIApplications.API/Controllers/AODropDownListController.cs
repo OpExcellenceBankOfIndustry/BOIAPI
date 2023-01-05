@@ -1,4 +1,5 @@
 ﻿using BOI.BOIApplications.Application.Contracts.AccountOpening;
+using BOI.BOIApplications.Application.Contracts.ThirdPartyAPI;
 using BOI.BOIApplications.Domain.Entities.AccountOpeningModels;
 using BOI.BOIApplications.Domain.Entities.MicroCreditModels;
 using Microsoft.AspNetCore.Http;
@@ -15,10 +16,12 @@ namespace BOI.BOIApplications.API.Controllers
     public class AODropDownListController : ControllerBase
     {
         private IAODropDownListRepository _DropDownListRepo;
+        private readonly IThirdPartyAPIRepository _thirdPartyAPIRepository;
 
-        public AODropDownListController(IAODropDownListRepository DropDownListRepo)
+        public AODropDownListController(IAODropDownListRepository DropDownListRepo, IThirdPartyAPIRepository thirdPartyAPIRepository)
         {
             _DropDownListRepo = DropDownListRepo;
+            _thirdPartyAPIRepository = thirdPartyAPIRepository;
         }
 
         /// <summary>
@@ -26,9 +29,10 @@ namespace BOI.BOIApplications.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("/api/DropDownList/banks", Name = "GetAllBanks")]
-        public async Task<ActionResult<Bank>> GetAllBanks()
+        public async Task<IActionResult> GetAllBanks()
         {
-            var response = await _DropDownListRepo.FetchAllBanks();
+            //var response2 = await _DropDownListRepo.FetchAllBanks();
+            var response = await _thirdPartyAPIRepository.FetchBankList();
 
             return Ok(response);
         }

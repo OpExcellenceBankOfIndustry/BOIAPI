@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace BOI.BOIApplications.Domain.Entities.ThirdPartyAPI
 {
-    public class BusinessRequest
+    public class BusinessRequestCAC
+    {
+        public string? registrationNumber { get; set; }
+        public string? countryCode { get; set; }
+        public bool isConsent { get; set; }
+    }
+
+
+    public class BusinessRequestTIN
     {
         public string? type { get; set; }
         public string? value { get; set; }

@@ -13,4 +13,17 @@ namespace BOI.BOIApplications.Domain.Entities.ThirdPartyAPI
         public bool isSubjectConsent { get; set; }
 
     }
+
+    public class GeneralRequestPVC
+    {
+        public string? id { get; set; }
+        //public Metadata? metadata { get; set; }
+        public bool isSubjectConsent { get; set; }
+       
+    }
+
+    public class Metadata
+    {
+        public string? requestId { get; set; }
+    }
 }

@@ -7,6 +7,7 @@ using BOI.BOIApplications.Application.Features.API.AccountOpening.Command.Owners
 using BOI.BOIApplications.Application.Features.API.AccountOpening.Command.RegulatoryInform;
 using BOI.BOIApplications.Application.Features.API.AccountOpening.Command.RelatedPartyInform;
 using BOI.BOIApplications.Application.Features.API.AccountOpening.Command.SoleProprietorship;
+using BOI.BOIApplications.Domain.DTO;
 using BOI.BOIApplications.Domain.Entities;
 using BOI.BOIApplications.Domain.Entities.AccountOpeningModels;
 using BOI.BOIApplications.Domain.Entities.ThirdPartyAPI;
@@ -105,6 +106,18 @@ namespace BOI.BOIApplications.Application.Profiles.API.AccountOpening
 
             CreateMap<BusinessResponseBase, BusinessTINResponse>().ReverseMap();
             CreateMap<BusinessTINResponse, BusinessResponseBase>().ReverseMap();
+
+
+            CreateMap<BonitaPersonalIdentificationRequest, PersonalIdentificationRequest>().ReverseMap();
+            CreateMap<PersonalIdentificationRequest, BonitaPersonalIdentificationRequest>().ReverseMap();
+
+
+            CreateMap<GeneralRequestPVC, ThirdPartyAPIRequest>().ReverseMap();
+            CreateMap<ThirdPartyAPIRequest, GeneralRequestPVC>().ReverseMap();
+
+            CreateMap<BankListResponse, BankList>().ForMember(dest => dest.bankId, opt => opt.MapFrom(src => src.Id))
+                                                   .ForMember(dest => dest.Id, opt => opt.Ignore()).ReverseMap();
+            CreateMap<BankList, BankListResponse>().ForMember(src => src.Id, opt => opt.MapFrom(dest => dest.bankId)).ReverseMap();
         }
     }
 }

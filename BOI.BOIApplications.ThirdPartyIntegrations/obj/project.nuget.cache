@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lIBL738MpqLjIq7/UlyHUdgLrjycI5HAnf2fy0tQ3dlWNUNNHe9WvCI0dBtyYy/TYyOS1TLLDNf90Rcg4ZSQUg==",
+  "dgSpecHash": "rkvUOpy3hVLjCwaNMXCwKDLUPNCEJL95MKR/pT3SGi7dAYL/+GEHX8Y6pkIFp7zL/6wjwbeiFQQPweUzGkIzgg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\fikem\\Desktop\\BOI\\Merge\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
+  "projectFilePath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

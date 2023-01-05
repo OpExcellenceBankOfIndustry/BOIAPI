@@ -26,7 +26,47 @@ namespace BOI.BOIApplications.API.Controllers
             _thirdPartyAPIRepository = thirdPartyAPIRepository;
         }
 
-       
+
+        /// <summary>
+        /// An endpoint to Check All Bonita Personal Identification. Type value must be within (BVN,NIN,PVC,INP,NDL)
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost("/api/ThirdPartyAPI/BonitaPersonalIdentification")]
+        public async Task<IActionResult> BonitaPersonalIdentification([FromBody] BonitaPersonalIdentificationRequest model)
+        {
+            if (ModelState.IsValid && model != null && !string.IsNullOrEmpty(model.Type))
+            {
+                var response = await _thirdPartyAPIRepository.FetchPersonalIdentification(model);
+                if (response != null)
+                {
+                    return Ok(response);
+                }
+                return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Invalid Type, Please check the detail and try again" });
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Success = false, Message = "The Value BVN is Null or Empty" });
+        }
+
+        /// <summary>
+        /// An endpoint to Check Account Verification. Pass the ID from the /DropDownList/Banks endpoint as the BankCode
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        [HttpPost("/api/ThirdPartyAPI/BankAccountVerification")]
+        public async Task<ActionResult<BankAccountVerificationResponse>> BankAccountVerification([FromBody] BankAccountVerificationRequestView req)
+        {
+            if((!string.IsNullOrWhiteSpace(req.accountNumber)) && (!string.IsNullOrWhiteSpace(req.bankCode)))
+            {
+                var response = await _thirdPartyAPIRepository.BankAccountVerification(req);
+                if (response != null)
+                {
+                    return Ok(response);
+                }
+                return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Invalid Account or Bank Code, Please check the details and try again" });
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Success = false, Message = "The Account or Bank Code value is Null or Empty" });
+        }
+
         /// <summary>
         /// An endpoint to Check Customer BVN
         /// </summary>
@@ -78,7 +118,7 @@ namespace BOI.BOIApplications.API.Controllers
             
             if (ModelState.IsValid && model != null)
             {
-                var response = await _thirdPartyAPIRepository.FetchCustomerPVC(model);
+                var response = await _thirdPartyAPIRepository.FetchCustomerPVC(model);               
                 if (response != null)
                 {
                     return Ok(response);
@@ -137,12 +177,12 @@ namespace BOI.BOIApplications.API.Controllers
         /// <param name="CAC"></param>
         /// <returns></returns>
         [HttpPost("/api/ThirdPartyAPI/CheckBusinessCAC")]
-        public async Task<ActionResult<BusinessCACResponse>> CheckBusinessCAC([FromForm] string CAC)
+        public async Task<ActionResult<BusinessCACResponse>> CheckBusinessCAC([FromBody] CompanyIdentificationRequest model)
         {
             
-            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(CAC))
+            if (ModelState.IsValid && model != null)
             {
-                var response = await _thirdPartyAPIRepository.FetchBusinessCAC(CAC);
+                var response = await _thirdPartyAPIRepository.FetchBusinessCAC(model);
                 if (response != null)
                 {
                     return Ok(response);
@@ -172,5 +212,25 @@ namespace BOI.BOIApplications.API.Controllers
             }
             return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Success = false, Message = "The Value TIN is Null or Empty" });
         }
+        /// <summary>
+        /// An endpoint to verify Account Number
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        //[HttpPost("/api/ThirdPartyAPI/AccountNumberVerification")]
+        //public async Task<IActionResult> AccountNumberVerification([FromBody] PersonalAccountVerification model)
+        //{
+        //    if (ModelState.IsValid && model != null)
+        //    {
+        //        var response = await _thirdPartyAPIRepository.AccountNumberVerification(model);
+        //        if (response != null)
+        //        {
+        //            return Ok(response);
+        //        }
+        //        return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Invalid Account Number, Please check the detail and try again" });
+        //    }
+        //    return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Success = false, Message = "The Value  is Null or Empty" });
+        //}
+
     }
 }

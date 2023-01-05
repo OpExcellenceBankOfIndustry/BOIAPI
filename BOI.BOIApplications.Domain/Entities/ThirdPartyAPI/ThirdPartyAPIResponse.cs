@@ -17,7 +17,7 @@ namespace BOI.BOIApplications.Domain.Entities.ThirdPartyAPI
 
     public class ThirdPartyAPIResponse<T> : ThirdPartyAPIResponseBase
     {
-        public T? Data { get; set; }
+        public T Data { get; set; }
     }    
 
     public class address
@@ -26,5 +26,17 @@ namespace BOI.BOIApplications.Domain.Entities.ThirdPartyAPI
         public string? lga { get; set; }
         public string? state { get; set; }
         public string? addressLine { get; set; }
+    }
+
+    public class BankListResponse
+    {
+        public int Id { get; set; }
+        public string name { get; set; }
+        public string slug { get; set; }
+        public string code { get; set; }
+        public bool active { get; set; }
+        public string country { get; set; }
+        public string currency { get; set; }
+        public string type { get; set; }
     }
 }
