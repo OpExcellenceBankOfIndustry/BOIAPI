@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj": {}
   },
   "projects": {
@@ -18,6 +19,22 @@
         ],
         "configFilePaths": [
           "C:\\Users\\cofoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
+        "projectName": "BOI.BOIApplications.Legacy.Domain",
+        "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
+        "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> 8c17b2540b6e252eec83c02f52977dc1d43e9c45
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -63,7 +80,11 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+=======
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+>>>>>>> 8c17b2540b6e252eec83c02f52977dc1d43e9c45
         }
       }
     }
