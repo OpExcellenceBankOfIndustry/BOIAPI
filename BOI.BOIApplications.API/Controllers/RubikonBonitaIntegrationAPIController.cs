@@ -534,7 +534,7 @@ namespace BOI.BOIApplications.API.Controllers
                 submitCustomerPayload.Append("</soapenv:Envelope>");
 
                 string submitCustomerRequest = submitCustomerPayload.ToString();
-                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<String, String>(submitCustomerRequest, customerDetails.GetType().Name.ToString());
+                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<SubmitCustomerRequest, SubmitAccountResponse>(submitCustomerRequest, customerDetails.GetType().Name.ToString());
                 if (response != null)
                 {
                     return Ok(response);
