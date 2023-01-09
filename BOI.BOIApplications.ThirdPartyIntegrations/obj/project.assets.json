@@ -8,29 +8,11 @@
     "net6.0": []
   },
   "packageFolders": {
-<<<<<<< HEAD
-    "C:\\Users\\cofoma\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
-=======
     "C:\\Users\\obalogun\\.nuget\\packages\\": {}
->>>>>>> 8c17b2540b6e252eec83c02f52977dc1d43e9c45
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
-      "projectUniqueName": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
-      "projectName": "BOI.BOIApplications.ThirdPartyIntegrations",
-      "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
-      "packagesPath": "C:\\Users\\cofoma\\.nuget\\packages\\",
-      "outputPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.ThirdPartyIntegrations\\obj\\",
-      "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
-      "configFilePaths": [
-        "C:\\Users\\cofoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
-=======
       "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
       "projectName": "BOI.BOIApplications.ThirdPartyIntegrations",
       "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
@@ -39,7 +21,6 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
->>>>>>> 8c17b2540b6e252eec83c02f52977dc1d43e9c45
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -70,7 +51,8 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -79,12 +61,16 @@
             "privateAssets": "all"
           }
         },
-<<<<<<< HEAD
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
-=======
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
->>>>>>> 8c17b2540b6e252eec83c02f52977dc1d43e9c45
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

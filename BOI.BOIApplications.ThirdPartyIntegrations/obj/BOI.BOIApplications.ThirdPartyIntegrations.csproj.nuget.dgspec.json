@@ -1,25 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
-    "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj": {}
-  },
-  "projects": {
-    "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
-        "projectName": "BOI.BOIApplications.ThirdPartyIntegrations",
-        "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
-        "packagesPath": "C:\\Users\\cofoma\\.nuget\\packages\\",
-        "outputPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.ThirdPartyIntegrations\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\cofoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
-=======
     "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj": {}
   },
   "projects": {
@@ -34,7 +15,6 @@
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
->>>>>>> 8c17b2540b6e252eec83c02f52977dc1d43e9c45
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -65,7 +45,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -74,11 +55,7 @@
               "privateAssets": "all"
             }
           },
-<<<<<<< HEAD
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
-=======
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
->>>>>>> 8c17b2540b6e252eec83c02f52977dc1d43e9c45
         }
       }
     }
