@@ -42,12 +42,6 @@ namespace BOI.BOIApplications.Application.Utility
         {
             try
             {
-                if (jsonString.Contains('@')) 
-                {
-                    int indexPosition = jsonString.IndexOf('@');
-                    string x = jsonString.Remove(indexPosition, 1);
-                    jsonString = x;
-                }
                 var fromJson = JsonConvert.DeserializeObject<T>(jsonString);
 
                 string jsonObject = JsonConvert.SerializeObject(fromJson, Newtonsoft.Json.Formatting.Indented);

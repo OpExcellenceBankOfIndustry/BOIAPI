@@ -28,5 +28,7 @@ namespace BOI.BOIApplications.Domain.Entities.RubikonBonitaIntegration
         public decimal TotalAssetValue { get; set; }
         public decimal AuthorisedShareCapital { get; set; }
         public decimal PaidShareCapital { get; set; }
+        public int? FaxNo { get; set; }
+        public int? PostalCode { get; set; }
     }
 }
