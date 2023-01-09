@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj": {}
+    "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj": {}
   },
   "projects": {
-    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj": {
+    "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
+        "projectUniqueName": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
         "projectName": "BOI.BOIApplications.AccountOpening",
-        "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
-        "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\obj\\",
+        "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
+        "packagesPath": "C:\\Users\\cofoma\\.nuget\\packages\\",
+        "outputPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.AccountOpening\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\cofoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,11 +31,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
-                "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj"
+              "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
+                "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj"
               },
-              "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj": {
-                "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj"
+              "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj": {
+                "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj"
               }
             }
           }
@@ -70,8 +73,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -80,21 +82,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
+    "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj",
+        "projectUniqueName": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj",
         "projectName": "BOI.BOIApplications.Application",
-        "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj",
-        "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\obj\\",
+        "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj",
+        "packagesPath": "C:\\Users\\cofoma\\.nuget\\packages\\",
+        "outputPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Application\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\cofoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -108,11 +113,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj": {
-                "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj"
+              "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj": {
+                "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj"
               },
-              "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj": {
-                "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj"
+              "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj": {
+                "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj"
               }
             }
           }
@@ -171,6 +176,10 @@
               "target": "Package",
               "version": "[6.0.0, )"
             },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[6.10.2, )"
+            },
             "MimeKit": {
               "target": "Package",
               "version": "[3.1.1, )"
@@ -178,6 +187,10 @@
             "System.Collections": {
               "target": "Package",
               "version": "[4.3.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.10.2, )"
             }
           },
           "imports": [
@@ -186,8 +199,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -196,21 +208,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj": {
+    "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj",
+        "projectUniqueName": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj",
         "projectName": "BOI.BOIApplications.Domain",
-        "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj",
-        "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\obj\\",
+        "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj",
+        "packagesPath": "C:\\Users\\cofoma\\.nuget\\packages\\",
+        "outputPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\cofoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -259,8 +274,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -269,21 +283,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj": {
+    "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
+        "projectUniqueName": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
         "projectName": "BOI.BOIApplications.Legacy.Domain",
-        "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
-        "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\obj\\",
+        "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
+        "packagesPath": "C:\\Users\\cofoma\\.nuget\\packages\\",
+        "outputPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Legacy.Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\cofoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -320,8 +337,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -330,21 +346,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj": {
+    "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj",
+        "projectUniqueName": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj",
         "projectName": "BOI.BOIApplications.Persistence",
-        "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj",
-        "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\obj\\",
+        "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj",
+        "packagesPath": "C:\\Users\\cofoma\\.nuget\\packages\\",
+        "outputPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Persistence\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\cofoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -358,11 +377,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
-                "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj"
+              "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
+                "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj"
               },
-              "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj": {
-                "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj"
+              "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj": {
+                "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj"
               }
             }
           }
@@ -424,8 +443,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -434,7 +452,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

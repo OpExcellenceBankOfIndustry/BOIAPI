@@ -5,14 +5,10 @@
       "Newtonsoft.Json/13.0.1": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {
-            "related": ".xml"
-          }
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {
-            "related": ".xml"
-          }
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       }
     }
@@ -52,19 +48,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\obalogun\\.nuget\\packages\\": {}
+    "C:\\Users\\cofoma\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
+      "projectUniqueName": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
       "projectName": "BOI.BOIApplications.Legacy.Domain",
-      "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
-      "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\obj\\",
+      "projectPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
+      "packagesPath": "C:\\Users\\cofoma\\.nuget\\packages\\",
+      "outputPath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.Legacy.Domain\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\cofoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -101,8 +101,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -111,7 +110,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -70,6 +70,49 @@ namespace BOI.BOIApplications.Persistence.Migrations.BOI3Db
                     b.ToTable("AOJobTitles");
                 });
 
+            modelBuilder.Entity("BOI.BOIApplications.Domain.Entities.BankList", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<bool>("active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("bankId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BankList");
+                });
+
             modelBuilder.Entity("BOI.BOIApplications.Domain.Entities.ThirdPartyAPI.BusinessCACResponse", b =>
                 {
                     b.Property<string>("id")

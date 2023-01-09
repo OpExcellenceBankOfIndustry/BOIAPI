@@ -8,4 +8,8 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = BOI.BOIApplications.AccountOpening
+<<<<<<< HEAD
+build_property.ProjectDir = C:\McSmart\BOI_Projects\BOI_API\BOI.BOIApplications.AccountOpening\
+=======
 build_property.ProjectDir = C:\Users\obalogun\source\repos\BOIAPI\BOI.BOIApplications.AccountOpening\
+>>>>>>> 8c17b2540b6e252eec83c02f52977dc1d43e9c45

@@ -1,4 +1,5 @@
-﻿using BOI.BOIApplications.Domain.Entities.AccountOpeningModels;
+﻿using BOI.BOIApplications.Domain.Entities;
+using BOI.BOIApplications.Domain.Entities.AccountOpeningModels;
 using BOI.BOIApplications.Domain.Entities.ThirdPartyAPI;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -31,5 +32,6 @@ namespace BOI.BOIApplications.Persistence
         public DbSet<AOEmployeesRelationship> AOEmployeesRelationships { get; set; }
         public DbSet<AOJobTitle> AOJobTitles { get; set; }
         public DbSet<AOCompanyBOIDiscover> AOCompanyBOIDiscovers { get; set; }
+        public DbSet<BankList> BankList { get; set; }
     }
 }

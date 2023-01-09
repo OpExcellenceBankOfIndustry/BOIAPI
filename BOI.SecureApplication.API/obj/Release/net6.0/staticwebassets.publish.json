@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "ffA0p2mXwegn2Vm/eyIx1u/4MawRmhHmWk9lPZPZgY0=",
+  "Source": "BOI.SecureApplication.API",
+  "BasePath": "_content/BOI.SecureApplication.API",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

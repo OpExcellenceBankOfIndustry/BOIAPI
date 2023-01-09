@@ -38,6 +38,8 @@ namespace BOI.BOIApplications.AccountOpening.Services.AccountOpening
 
         }
 
+
+
         public async Task<List<AOCompanyType>> FetchAllCompanyType()
         {
             try
