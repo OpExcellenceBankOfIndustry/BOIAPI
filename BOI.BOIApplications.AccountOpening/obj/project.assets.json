@@ -6162,11 +6162,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
+      "projectUniqueName": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
       "projectName": "BOI.BOIApplications.AccountOpening",
-      "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
+      "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
       "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\obj\\",
+      "outputPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6183,11 +6183,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
-              "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj"
+            "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
+              "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj"
             },
-            "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj": {
-              "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj"
+            "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj": {
+              "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj"
             }
           }
         }

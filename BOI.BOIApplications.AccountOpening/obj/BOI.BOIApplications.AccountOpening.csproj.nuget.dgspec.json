@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj": {}
+    "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj": {}
   },
   "projects": {
-    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj": {
+    "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
+        "projectUniqueName": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
         "projectName": "BOI.BOIApplications.AccountOpening",
-        "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
+        "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\BOI.BOIApplications.AccountOpening.csproj",
         "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\obj\\",
+        "outputPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.AccountOpening\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,11 +28,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
-                "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj"
+              "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
+                "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj"
               },
-              "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj": {
-                "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj"
+              "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj": {
+                "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj"
               }
             }
           }
@@ -84,14 +84,14 @@
         }
       }
     },
-    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
+    "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj",
+        "projectUniqueName": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj",
         "projectName": "BOI.BOIApplications.Application",
-        "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj",
+        "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj",
         "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\obj\\",
+        "outputPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -108,11 +108,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj": {
-                "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj"
+              "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj": {
+                "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj"
               },
-              "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj": {
-                "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj"
+              "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj": {
+                "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj"
               }
             }
           }
@@ -208,14 +208,14 @@
         }
       }
     },
-    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj": {
+    "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj",
         "projectName": "BOI.BOIApplications.Domain",
-        "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj",
+        "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj",
         "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\obj\\",
+        "outputPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -281,14 +281,14 @@
         }
       }
     },
-    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj": {
+    "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
         "projectName": "BOI.BOIApplications.Legacy.Domain",
-        "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
+        "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\BOI.BOIApplications.Legacy.Domain.csproj",
         "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\obj\\",
+        "outputPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Legacy.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -342,14 +342,14 @@
         }
       }
     },
-    "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj": {
+    "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj",
+        "projectUniqueName": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj",
         "projectName": "BOI.BOIApplications.Persistence",
-        "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj",
+        "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Persistence\\BOI.BOIApplications.Persistence.csproj",
         "packagesPath": "C:\\Users\\obalogun\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Persistence\\obj\\",
+        "outputPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\obalogun\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -366,11 +366,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
-                "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj"
+              "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj": {
+                "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Application\\BOI.BOIApplications.Application.csproj"
               },
-              "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj": {
-                "projectPath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj"
+              "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj": {
+                "projectPath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.BOIApplications.Domain\\BOI.BOIApplications.Domain.csproj"
               }
             }
           }

@@ -84,160 +84,18 @@ namespace BOI.BOIApplications.API.Controllers
 
             if (ModelState.IsValid)
             {
-                cache.Set("CorporateCustomerPhoneNumber", corporateAccountDetails.PhoneNumber, DateTimeOffset.Now.AddMinutes(20));
-                cache.Set("CorporateCustomerEmailAddress", corporateAccountDetails.Email, DateTimeOffset.Now.AddMinutes(20));
-                cache.Set("postalCode", corporateAccountDetails.PostalCode, DateTimeOffset.Now.AddMinutes(20));
-                cache.Set("faxNo", corporateAccountDetails.FaxNo, DateTimeOffset.Now.AddMinutes(20));
                 CorporateCustomerAccountCreation corporateCustomerAccountCreation = new CorporateCustomerAccountCreation();
                 var mappedRequest = _mapper.Map(corporateAccountDetails, corporateCustomerAccountCreation);
                 //Default values are assigned below, note that they should be changed before go live
-                mappedRequest.channelId = 121;
-                mappedRequest.serviceChannelCode = "STC029";
-                mappedRequest.serviceId = 121;
-                mappedRequest.transmissionTime = "00";
-                mappedRequest.businessUnitCodeId = "-99";
-                mappedRequest.customerCategory = "COR";
-                mappedRequest.addressCountryId = 682;
-                mappedRequest.addressPropertyTypeId = "422";
-                mappedRequest.addressTypeCd = "AT100";
-                mappedRequest.addressTypeId = 11;
-                mappedRequest.contactsList = new List<ContactsList> {
-                    new ContactsList {
-                        contactDetails = corporateAccountDetails.PhoneNumber,
-                        contactMode ="CM100",
-                        contactModeCategoryCode = "CM100",
-                        contactModeTypeId = 206,
-                        status = "A"
-                    },
-                    new ContactsList {
-                        contactDetails = corporateAccountDetails.Email,
-                        contactMode ="CM101",
-                        contactModeCategoryCode = "CM101",
-                        contactModeTypeId = 201,
-                        status = "A"
-                    }
-                };
-                mappedRequest.countryId = 682;
-                mappedRequest.countryOfBirthCd = "NGA";
-                mappedRequest.countryOfBirthId = 682;
-                mappedRequest.countryOfResidenceId = 682;
-                mappedRequest.custCountryCd = "NGA";
-                mappedRequest.customerSegmentCd = "CS107";
-                mappedRequest.customerTypeCd = "CT912";
-                mappedRequest.identificationsList = new IdentificationsList {
-                    cityOfIssue = "Abuja",
-                    countryOfIssue ="NGA",
-                    countryOfIssueId = 682,
-                    identityType = "IT108",
-                    identityTypeId = 315,
-                    strIssueDate = corporateAccountDetails.DateofIncorporation,
-                    verifiedFlag = true
-                };
-
-                mappedRequest.parentObjectCode = "CUSTOMER";
-                mappedRequest.screenTypeCode = "CUSTOM";
-                mappedRequest.subTypeId = 722;
-                mappedRequest.industryCd = "SIC014";
-                mappedRequest.industryId = 734;
-                mappedRequest.locale = "en_US";
-                mappedRequest.mainBusinessUnitCd = "001";
-                mappedRequest.mainBusinessUnitId = "-99";
-                mappedRequest.nationalityCd = "N101";
-                mappedRequest.nationalityId = 532;
-                mappedRequest.operationCurrencyCd = "NGN";
-                mappedRequest.operationCurrencyId = 732;
-                mappedRequest.primaryAddress = true;
-                mappedRequest.primaryRelationshipOfficerCd = "NEPTUNE";
-                mappedRequest.propertyTypeCd = "PT107";
-                mappedRequest.residentCountryCd = "NGA";
-                mappedRequest.residentFlag = true;
-                mappedRequest.serviceLevel = 400;
-                mappedRequest.serviceLevelId = 164;
-                mappedRequest.sourceOfFundCd = "SF002";
-                mappedRequest.sourceOfFundId = 352;
-                mappedRequest.status = "A";
-                mappedRequest.strDate = "31/05/2022"; //DateTime.Now.Date.ToString("dd/MM/yyyy");
-                mappedRequest.strFromDate = "31/05/2022"; //DateTime.Now.AddYears(4).ToString("dd/MM/yyyy");
-                mappedRequest.submitFlag = true;
-
-
-                switch (corporateAccountDetails.Title)
-                {
-                    case "MR":
-                        mappedRequest.titleCd = "T100";
-                        mappedRequest.titleId = 211;
-                        break;
-                    case "DOCTOR":
-                        mappedRequest.titleCd = "T106";
-                        mappedRequest.titleId = 213;
-                        break;
-                    case "PROFESSOR":
-                        mappedRequest.titleCd = "T107";
-                        mappedRequest.titleId = 217;
-                        break;
-                    case "MRS":
-                        mappedRequest.titleCd = "T101";
-                        mappedRequest.titleId = 212;
-                        break;
-                    case "MISS":
-                        mappedRequest.titleCd = "T102";
-                        mappedRequest.titleId = 221;
-                        break;
-                    case "CHIEF":
-                        mappedRequest.titleCd = "T113";
-                        mappedRequest.titleId = 336;
-                        break;
-                    default:
-                        mappedRequest.titleCd = "T114";
-                        mappedRequest.titleId = 347;
-                        break;
-                }
-
-                switch (corporateAccountDetails.CompanyBOIDiscover)
-                {
-                    case "RADIO":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.RADIO;
-                        break;
-                    case "FRIEND":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.FRIEND;
-                        break;
-                    case "REFERRALS":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.REFERRAL;
-                        break;
-                    case "NEWSPAPER":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.NEWSPAPER;
-                        break;
-                    case "TELEVISION":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.TELEVISION;
-                        break;
-                    case "FACEBOOK":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.FACEBOOK;
-                        break;
-                    case "INSTAGRAM":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.INSTAGRAM;
-                        break;
-                    case "INTERNET":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.INTERNET;
-                        break;
-                    case "TWITTER":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.TWITTER;
-                        break;
-                    default:
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.REFERRAL;
-                        break;
-                }
-
+                mappedRequest = GetDefaultCorporateMappedValues(mappedRequest, corporateAccountDetails);
 
                 StringBuilder createCorporateCustomerPayload = BuildCorporateCustomerPayload(mappedRequest, corporateAccountDetails);
   
                 CustomerCreationResponse response = (CustomerCreationResponse)await _rubikonBonitaRepository.CreateCustomerAccount(createCorporateCustomerPayload, mappedRequest.GetType().Name.ToString());
                 if (response != null)
                 {
-                    cache.Set("CorporateCustomerNumber", response._return.customerNumber, DateTimeOffset.Now.AddMinutes(20));
                     SubmitCustomerRequest submitCustomerRequest = new SubmitCustomerRequest { customerNo = response._return.customerNumber };
-                    var linkPersonalCustomer = await LinkPersonalCustomerToCorporateCustomer();
 
-                    var activateCustomer = await SubmitCustomerDetails(submitCustomerRequest);
                     return Ok(response);
                 }
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Success = false, Message = "Unable to create account. Please try again later." });
@@ -257,166 +115,7 @@ namespace BOI.BOIApplications.API.Controllers
             {
                 var mappedRequest = _mapper.Map<PersonalCustomerAccountCreation>(personalAccountDetails);
                 //Default values are assigned below, note that they should be changed before go live
-                mappedRequest.channelId = 121;
-                mappedRequest.serviceChannelCode = "STC029";
-                mappedRequest.serviceId = 121;
-                mappedRequest.transmissionTime = "00";
-                mappedRequest.businessUnitCodeId = "-99";
-                mappedRequest.customerCategory = "PER";
-                mappedRequest.employmentFlag = "E";
-                mappedRequest.addressCountryId = 682;
-                mappedRequest.addressPropertyTypeId = "422";
-                mappedRequest.addressTypeCd = "AT100";
-                mappedRequest.addressTypeId = 11;
-                mappedRequest.contactsList = new List<ContactsList> {
-                    new ContactsList { 
-                        contactDetails = personalAccountDetails.PhoneNumber, 
-                        contactMode ="CM100", 
-                        contactModeCategoryCode = "CM100", 
-                        contactModeTypeId = 206,
-                        status = "A"
-                    },
-                    new ContactsList {
-                        contactDetails = personalAccountDetails.Email,
-                        contactMode ="CM101",
-                        contactModeCategoryCode = "CM101",
-                        contactModeTypeId = 201,
-                        status = "A"
-                    }
-                };
-                mappedRequest.parentObjectCode = "CUSTOMER";
-                mappedRequest.screenTypeCode = "STATUTORY";
-                mappedRequest.fieldIdArray = "242";
-                mappedRequest.fieldValueArr = "15929";
-                mappedRequest.countryId = 682;
-                mappedRequest.countryOfBirthCd = "NGA";
-                mappedRequest.countryOfBirthId = 682;
-                mappedRequest.countryOfResidenceId = 682;
-                mappedRequest.custCountryCd = "NGA";
-                mappedRequest.identificationsList = new List<PersonalIdentificationList> {
-                    new PersonalIdentificationList { 
-                        cityOfIssue = "Abuja", 
-                        countryOfIssue ="NGA", 
-                        countryOfIssueId = 682, 
-                        customerName = $"{personalAccountDetails.FirstName} {personalAccountDetails.FirstName}",         
-                        identityNumber = DateTime.UtcNow.Ticks.ToString().Substring(0, 10),
-                        identityType = "IT106", 
-                        identityTypeId = 311, 
-                        strIssueDate = "", 
-                        strExpiryDate = "", 
-                        verifiedFlag = true
-                    },
-                    new PersonalIdentificationList { 
-                        cityOfIssue = "Abuja", 
-                        countryOfIssue ="NGA", 
-                        countryOfIssueId = 682, 
-                        customerName = $"{personalAccountDetails.FirstName} {personalAccountDetails.FirstName}",         
-                        identityNumber = DateTime.UtcNow.Ticks.ToString().Substring(0, 10), 
-                        identityType = "BVN", 
-                        identityTypeId = 492, 
-                        strIssueDate = "", 
-                        strExpiryDate = "", 
-                        verifiedFlag = true
-                    }
-                };
-
-                mappedRequest.customerSegmentCd = "CS107";
-                mappedRequest.customerTypeCd = "CT100";
-                mappedRequest.cityOfIssue = "LAGOS";
-                mappedRequest.countryOfIssue = "NGA";
-                mappedRequest.countryOfIssueId = "682";
-                mappedRequest.industryCd = "SIC014";
-                mappedRequest.industryId = 734;
-                mappedRequest.locale = "en_US";
-                mappedRequest.mainBusinessUnitCd = "001";
-                mappedRequest.mainBusinessUnitId = "-99";
-                mappedRequest.maritalStatus = "S";
-                mappedRequest.middleName = "CIE";
-                mappedRequest.nationalityCd = "N101";
-                mappedRequest.nationalityId = 532;
-                mappedRequest.operationCurrencyCd = "NGN";
-                mappedRequest.operationCurrencyId = 732;
-                mappedRequest.primaryAddress = true;
-                mappedRequest.primaryRelationshipOfficerCd = "NEPTUNE";
-                mappedRequest.propertyTypeCd = "PT109";
-                mappedRequest.residentCountryCd = "NGA";
-                mappedRequest.residentFlag = true;
-                mappedRequest.serviceLevel = 400;
-                mappedRequest.serviceLevelId = 164;
-                mappedRequest.sourceOfFundCd = "SF002";
-                mappedRequest.sourceOfFundId = 352;
-                mappedRequest.status = "A";
-                mappedRequest.strDate = DateTime.Now.Date.ToString("DD-MM-yyyy");
-                mappedRequest.strFromDate = DateTime.Now.AddYears(4).ToString("dd-MM-yyyy");
-                mappedRequest.submitFlag = true;
-
-                switch (personalAccountDetails.Title)
-                {
-                    case "MR":
-                        mappedRequest.titleCd = "T100";
-                        mappedRequest.titleId = 211;
-                        break;
-                    case "DOCTOR":
-                        mappedRequest.titleCd = "T106";
-                        mappedRequest.titleId = 213;
-                        break;
-                    case "PROFESSOR":
-                        mappedRequest.titleCd = "T107";
-                        mappedRequest.titleId = 217;
-                        break;
-                    case "MRS":
-                        mappedRequest.titleCd = "T101";
-                        mappedRequest.titleId = 212;
-                        break;
-                    case "MISS":
-                        mappedRequest.titleCd = "T102";
-                        mappedRequest.titleId = 221;
-                        break;
-                    case "CHIEF":
-                        mappedRequest.titleCd = "T113";
-                        mappedRequest.titleId = 336;
-                        break;
-                    default:
-                        mappedRequest.titleCd = "T114";
-                        mappedRequest.titleId = 347;
-                        break;
-                }
-                
-                
-                switch (personalAccountDetails.CompanyBOIDiscover)
-                {
-                    case "RADIO":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.RADIO;
-                        break;
-                    case "FRIEND":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.FRIEND;
-                        break;
-                    case "REFERRALS":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.REFERRAL;
-                        break;
-                    case "NEWSPAPER":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.NEWSPAPER;
-                        break;
-                    case "TELEVISION":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.TELEVISION;
-                        break;
-                    case "FACEBOOK":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.FACEBOOK;
-                        break;
-                    case "INSTAGRAM":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.INSTAGRAM;
-                        break;
-                    case "INTERNET":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.INTERNET;
-                        break;
-                    case "TWITTER":
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.TWITTER;
-                        break;
-                    default:
-                        mappedRequest.marketingCampaignId = (int)BOIDiscover.REFERRAL;
-                        break;
-                }
-                
+                mappedRequest = GetDefaultPersonalMappedValues(mappedRequest, personalAccountDetails);
 
                 StringBuilder createPersonalCustomerPayload = CustomerPayloadBuilder(mappedRequest, personalAccountDetails);
                 
@@ -434,7 +133,7 @@ namespace BOI.BOIApplications.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse { Success = false, Message = "Unable to create account. Please try again later." });
             }
             return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "Please check the details for null or empty entry" });
-        }        
+        }
 
         /// <summary>
         /// An endpoint to Link Personal Customer to Corporate Customer
@@ -442,7 +141,7 @@ namespace BOI.BOIApplications.API.Controllers
         /// <param name="accountLinkingDetails"></param>
         /// <returns></returns>
         [HttpPost("/api/RubikonBonitaIntegrationAPI/LinkPersonalCustomerToCorporateCustomer", Name = "LinkPersonalCustomerToCorporateCustomer")]
-        public async Task<ActionResult<CustomerCreationResponse>> LinkPersonalCustomerToCorporateCustomer()
+        public async Task<ActionResult<CustomerCreationResponse>> LinkPersonalCustomerToCorporateCustomer(LinkPersonalCustomerToCorporateRequest accountLinkingDetails)
         {
             if (ModelState.IsValid)
             {
@@ -456,10 +155,10 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.cityCode = "IFT";
                 mappedRequest.stateCode = "OSN";
                 mappedRequest.countryCode = "NGA";
-                mappedRequest.corporateCustNo = cache.Get("CorporateCustomerNumber").ToString();
-                mappedRequest.personalCustNo= cache.Get("PersonalCustomerNumber").ToString();
-                mappedRequest.faxNo = (int)cache.Get("faxNo");
-                mappedRequest.postalCode = (int)cache.Get("postalCode");
+                mappedRequest.corporateCustNo = accountLinkingDetails.corporateCustNo;
+                mappedRequest.personalCustNo= accountLinkingDetails.personalCustNo;
+                mappedRequest.faxNo = accountLinkingDetails.faxNo;
+                mappedRequest.postalCode = accountLinkingDetails.postalCode;
 
                 StringBuilder linkPersonalCustomerToCorporateCustomerPayload = BuildLinkPersonalCustomerToCorporateCustomerPayload(mappedRequest);
 
@@ -472,43 +171,6 @@ namespace BOI.BOIApplications.API.Controllers
                 return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Unable to link account. Please check the detail and try again" });
             }
             return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "Please check the details for null or empty entry" });
-        }
-
-        private StringBuilder BuildLinkPersonalCustomerToCorporateCustomerPayload(LinkPersonalCustomerToCorporateRequest mappedRequest)
-        {
-            StringBuilder linkPersonalCustomerToCorporateCustomerPayload = new StringBuilder();
-            linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-            linkPersonalCustomerToCorporateCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-            linkPersonalCustomerToCorporateCustomerPayload.Append("</soap:Header>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Body>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append("<ser:createOrganisationPersonalContact  \txmlns:ser=\"http://service.customer.ci.neptunesoftwareplc.com/\">");
-            linkPersonalCustomerToCorporateCustomerPayload.Append("<arg0>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessUnitId>{mappedRequest.businessUnitId}</businessUnitId>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<corporateCustNo>{mappedRequest.corporateCustNo}</corporateCustNo>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<personalCustNo>{mappedRequest.personalCustNo}</personalCustNo>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionCode>{mappedRequest.orgPositionCode}</orgPositionCode>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<addressLine1>No 12B, lAbe Ilgi Ondo Road. Ile-Ife</addressLine1>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine2>Ondo State</addressLine2>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine3>test3</addressLine3>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine4>test4</addressLine4>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<cityCode>{mappedRequest.cityCode}</cityCode>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<stateCode>{mappedRequest.stateCode}</stateCode>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<countryCode>{mappedRequest.countryCode}</countryCode>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<postalCode>{mappedRequest.postalCode}</postalCode>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<shareholdingOwnershipPercentage>10</shareholdingOwnershipPercentage>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessPhoneNo>{cache.Get("CorporateCustomerPhoneNumber").ToString()}</businessPhoneNo>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessEmailAddr>{cache.Get("CorporateCustomerEmailAddress").ToString()}</businessEmailAddr>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<faxNo>{mappedRequest.faxNo}</faxNo>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionId>{mappedRequest.orgPositionId}</orgPositionId>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append("</arg0>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append("</ser:createOrganisationPersonalContact>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Body>");
-            linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Envelope>");
-
-            return linkPersonalCustomerToCorporateCustomerPayload;
         }
 
         /// <summary>
@@ -873,6 +535,347 @@ namespace BOI.BOIApplications.API.Controllers
             createPersonalCustomerPayload.Append("</soapenv:Body>");
             createPersonalCustomerPayload.Append("\t</soapenv:Envelope>");
             return createPersonalCustomerPayload;
+        }
+        private CorporateCustomerAccountCreation GetDefaultCorporateMappedValues(CorporateCustomerAccountCreation mappedRequest, CreateCompanyInformation corporateAccountDetails)
+        {
+            mappedRequest.channelId = 121;
+            mappedRequest.serviceChannelCode = "STC029";
+            mappedRequest.serviceId = 121;
+            mappedRequest.transmissionTime = "00";
+            mappedRequest.businessUnitCodeId = "-99";
+            mappedRequest.customerCategory = "COR";
+            mappedRequest.addressCountryId = 682;
+            mappedRequest.addressPropertyTypeId = "422";
+            mappedRequest.addressTypeCd = "AT100";
+            mappedRequest.addressTypeId = 11;
+            mappedRequest.contactsList = new List<ContactsList> {
+                    new ContactsList {
+                        contactDetails = corporateAccountDetails.PhoneNumber,
+                        contactMode ="CM100",
+                        contactModeCategoryCode = "CM100",
+                        contactModeTypeId = 206,
+                        status = "A"
+                    },
+                    new ContactsList {
+                        contactDetails = corporateAccountDetails.Email,
+                        contactMode ="CM101",
+                        contactModeCategoryCode = "CM101",
+                        contactModeTypeId = 201,
+                        status = "A"
+                    }
+                };
+            mappedRequest.countryId = 682;
+            mappedRequest.countryOfBirthCd = "NGA";
+            mappedRequest.countryOfBirthId = 682;
+            mappedRequest.countryOfResidenceId = 682;
+            mappedRequest.custCountryCd = "NGA";
+            mappedRequest.customerSegmentCd = "CS107";
+            mappedRequest.customerTypeCd = "CT912";
+            mappedRequest.identificationsList = new IdentificationsList
+            {
+                cityOfIssue = "Abuja",
+                countryOfIssue = "NGA",
+                countryOfIssueId = 682,
+                identityType = "IT108",
+                identityTypeId = 315,
+                strIssueDate = corporateAccountDetails.DateofIncorporation,
+                verifiedFlag = true
+            };
+
+            mappedRequest.parentObjectCode = "CUSTOMER";
+            mappedRequest.screenTypeCode = "CUSTOM";
+            mappedRequest.subTypeId = 722;
+            mappedRequest.industryCd = "SIC014";
+            mappedRequest.industryId = 734;
+            mappedRequest.locale = "en_US";
+            mappedRequest.mainBusinessUnitCd = "001";
+            mappedRequest.mainBusinessUnitId = "-99";
+            mappedRequest.nationalityCd = "N101";
+            mappedRequest.nationalityId = 532;
+            mappedRequest.operationCurrencyCd = "NGN";
+            mappedRequest.operationCurrencyId = 732;
+            mappedRequest.primaryAddress = true;
+            mappedRequest.primaryRelationshipOfficerCd = "NEPTUNE";
+            mappedRequest.propertyTypeCd = "PT107";
+            mappedRequest.residentCountryCd = "NGA";
+            mappedRequest.residentFlag = true;
+            mappedRequest.serviceLevel = 400;
+            mappedRequest.serviceLevelId = 164;
+            mappedRequest.sourceOfFundCd = "SF002";
+            mappedRequest.sourceOfFundId = 352;
+            mappedRequest.status = "A";
+            mappedRequest.strDate = "31/05/2022"; //DateTime.Now.Date.ToString("dd/MM/yyyy");
+            mappedRequest.strFromDate = "31/05/2022"; //DateTime.Now.AddYears(4).ToString("dd/MM/yyyy");
+            mappedRequest.submitFlag = true;
+
+            switch (corporateAccountDetails.Title)
+            {
+                case "MR":
+                    mappedRequest.titleCd = "T100";
+                    mappedRequest.titleId = 211;
+                    break;
+                case "DOCTOR":
+                    mappedRequest.titleCd = "T106";
+                    mappedRequest.titleId = 213;
+                    break;
+                case "PROFESSOR":
+                    mappedRequest.titleCd = "T107";
+                    mappedRequest.titleId = 217;
+                    break;
+                case "MRS":
+                    mappedRequest.titleCd = "T101";
+                    mappedRequest.titleId = 212;
+                    break;
+                case "MISS":
+                    mappedRequest.titleCd = "T102";
+                    mappedRequest.titleId = 221;
+                    break;
+                case "CHIEF":
+                    mappedRequest.titleCd = "T113";
+                    mappedRequest.titleId = 336;
+                    break;
+                default:
+                    mappedRequest.titleCd = "T114";
+                    mappedRequest.titleId = 347;
+                    break;
+            }
+
+            switch (corporateAccountDetails.CompanyBOIDiscover)
+            {
+                case "RADIO":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.RADIO;
+                    break;
+                case "FRIEND":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.FRIEND;
+                    break;
+                case "REFERRALS":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.REFERRAL;
+                    break;
+                case "NEWSPAPER":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.NEWSPAPER;
+                    break;
+                case "TELEVISION":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.TELEVISION;
+                    break;
+                case "FACEBOOK":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.FACEBOOK;
+                    break;
+                case "INSTAGRAM":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.INSTAGRAM;
+                    break;
+                case "INTERNET":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.INTERNET;
+                    break;
+                case "TWITTER":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.TWITTER;
+                    break;
+                default:
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.REFERRAL;
+                    break;
+            }
+
+            return mappedRequest;
+        }
+
+        private PersonalCustomerAccountCreation GetDefaultPersonalMappedValues(PersonalCustomerAccountCreation mappedRequest, AOIndividualShareholder personalAccountDetails)
+        {
+            mappedRequest.channelId = 121;
+            mappedRequest.serviceChannelCode = "STC029";
+            mappedRequest.serviceId = 121;
+            mappedRequest.transmissionTime = "00";
+            mappedRequest.businessUnitCodeId = "-99";
+            mappedRequest.customerCategory = "PER";
+            mappedRequest.employmentFlag = "E";
+            mappedRequest.addressCountryId = 682;
+            mappedRequest.addressPropertyTypeId = "422";
+            mappedRequest.addressTypeCd = "AT100";
+            mappedRequest.addressTypeId = 11;
+            mappedRequest.contactsList = new List<ContactsList> {
+                    new ContactsList {
+                        contactDetails = personalAccountDetails.PhoneNumber,
+                        contactMode ="CM100",
+                        contactModeCategoryCode = "CM100",
+                        contactModeTypeId = 206,
+                        status = "A"
+                    },
+                    new ContactsList {
+                        contactDetails = personalAccountDetails.Email,
+                        contactMode ="CM101",
+                        contactModeCategoryCode = "CM101",
+                        contactModeTypeId = 201,
+                        status = "A"
+                    }
+                };
+            mappedRequest.parentObjectCode = "CUSTOMER";
+            mappedRequest.screenTypeCode = "STATUTORY";
+            mappedRequest.fieldIdArray = "242";
+            mappedRequest.fieldValueArr = "15929";
+            mappedRequest.countryId = 682;
+            mappedRequest.countryOfBirthCd = "NGA";
+            mappedRequest.countryOfBirthId = 682;
+            mappedRequest.countryOfResidenceId = 682;
+            mappedRequest.custCountryCd = "NGA";
+            mappedRequest.identificationsList = new List<PersonalIdentificationList> {
+                    new PersonalIdentificationList {
+                        cityOfIssue = "Abuja",
+                        countryOfIssue ="NGA",
+                        countryOfIssueId = 682,
+                        customerName = $"{personalAccountDetails.FirstName} {personalAccountDetails.FirstName}",
+                        identityNumber = DateTime.UtcNow.Ticks.ToString().Substring(0, 10),
+                        identityType = "IT106",
+                        identityTypeId = 311,
+                        strIssueDate = "",
+                        strExpiryDate = "",
+                        verifiedFlag = true
+                    },
+                    new PersonalIdentificationList {
+                        cityOfIssue = "Abuja",
+                        countryOfIssue ="NGA",
+                        countryOfIssueId = 682,
+                        customerName = $"{personalAccountDetails.FirstName} {personalAccountDetails.FirstName}",
+                        identityNumber = DateTime.UtcNow.Ticks.ToString().Substring(0, 10),
+                        identityType = "BVN",
+                        identityTypeId = 492,
+                        strIssueDate = "",
+                        strExpiryDate = "",
+                        verifiedFlag = true
+                    }
+                };
+
+            mappedRequest.customerSegmentCd = "CS107";
+            mappedRequest.customerTypeCd = "CT100";
+            mappedRequest.cityOfIssue = "LAGOS";
+            mappedRequest.countryOfIssue = "NGA";
+            mappedRequest.countryOfIssueId = "682";
+            mappedRequest.industryCd = "SIC014";
+            mappedRequest.industryId = 734;
+            mappedRequest.locale = "en_US";
+            mappedRequest.mainBusinessUnitCd = "001";
+            mappedRequest.mainBusinessUnitId = "-99";
+            mappedRequest.maritalStatus = "S";
+            mappedRequest.middleName = "CIE";
+            mappedRequest.nationalityCd = "N101";
+            mappedRequest.nationalityId = 532;
+            mappedRequest.operationCurrencyCd = "NGN";
+            mappedRequest.operationCurrencyId = 732;
+            mappedRequest.primaryAddress = true;
+            mappedRequest.primaryRelationshipOfficerCd = "NEPTUNE";
+            mappedRequest.propertyTypeCd = "PT109";
+            mappedRequest.residentCountryCd = "NGA";
+            mappedRequest.residentFlag = true;
+            mappedRequest.serviceLevel = 400;
+            mappedRequest.serviceLevelId = 164;
+            mappedRequest.sourceOfFundCd = "SF002";
+            mappedRequest.sourceOfFundId = 352;
+            mappedRequest.status = "A";
+            mappedRequest.strDate = DateTime.Now.Date.ToString("DD-MM-yyyy");
+            mappedRequest.strFromDate = DateTime.Now.AddYears(4).ToString("dd-MM-yyyy");
+            mappedRequest.submitFlag = true;
+
+            switch (personalAccountDetails.Title)
+            {
+                case "MR":
+                    mappedRequest.titleCd = "T100";
+                    mappedRequest.titleId = 211;
+                    break;
+                case "DOCTOR":
+                    mappedRequest.titleCd = "T106";
+                    mappedRequest.titleId = 213;
+                    break;
+                case "PROFESSOR":
+                    mappedRequest.titleCd = "T107";
+                    mappedRequest.titleId = 217;
+                    break;
+                case "MRS":
+                    mappedRequest.titleCd = "T101";
+                    mappedRequest.titleId = 212;
+                    break;
+                case "MISS":
+                    mappedRequest.titleCd = "T102";
+                    mappedRequest.titleId = 221;
+                    break;
+                case "CHIEF":
+                    mappedRequest.titleCd = "T113";
+                    mappedRequest.titleId = 336;
+                    break;
+                default:
+                    mappedRequest.titleCd = "T114";
+                    mappedRequest.titleId = 347;
+                    break;
+            }
+
+
+            switch (personalAccountDetails.CompanyBOIDiscover)
+            {
+                case "RADIO":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.RADIO;
+                    break;
+                case "FRIEND":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.FRIEND;
+                    break;
+                case "REFERRALS":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.REFERRAL;
+                    break;
+                case "NEWSPAPER":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.NEWSPAPER;
+                    break;
+                case "TELEVISION":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.TELEVISION;
+                    break;
+                case "FACEBOOK":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.FACEBOOK;
+                    break;
+                case "INSTAGRAM":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.INSTAGRAM;
+                    break;
+                case "INTERNET":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.INTERNET;
+                    break;
+                case "TWITTER":
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.TWITTER;
+                    break;
+                default:
+                    mappedRequest.marketingCampaignId = (int)BOIDiscover.REFERRAL;
+                    break;
+            }
+
+            return mappedRequest;
+        }
+        private StringBuilder BuildLinkPersonalCustomerToCorporateCustomerPayload(LinkPersonalCustomerToCorporateRequest mappedRequest)
+        {
+            StringBuilder linkPersonalCustomerToCorporateCustomerPayload = new StringBuilder();
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("</soap:Header>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Body>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<ser:createOrganisationPersonalContact  \txmlns:ser=\"http://service.customer.ci.neptunesoftwareplc.com/\">");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<arg0>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessUnitId>{mappedRequest.businessUnitId}</businessUnitId>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<corporateCustNo>{mappedRequest.corporateCustNo}</corporateCustNo>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<personalCustNo>{mappedRequest.personalCustNo}</personalCustNo>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionCode>{mappedRequest.orgPositionCode}</orgPositionCode>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<addressLine1>No 12B, lAbe Ilgi Ondo Road. Ile-Ife</addressLine1>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine2>Ondo State</addressLine2>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine3>test3</addressLine3>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine4>test4</addressLine4>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<cityCode>{mappedRequest.cityCode}</cityCode>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<stateCode>{mappedRequest.stateCode}</stateCode>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<countryCode>{mappedRequest.countryCode}</countryCode>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<postalCode>{mappedRequest.postalCode}</postalCode>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<shareholdingOwnershipPercentage>10</shareholdingOwnershipPercentage>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessPhoneNo>{mappedRequest.businessPhoneNo}</businessPhoneNo>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessEmailAddr>{mappedRequest.businessEmailAddr}</businessEmailAddr>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<faxNo>{mappedRequest.faxNo}</faxNo>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionId>{mappedRequest.orgPositionId}</orgPositionId>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("</arg0>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("</ser:createOrganisationPersonalContact>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Body>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Envelope>");
+
+            return linkPersonalCustomerToCorporateCustomerPayload;
         }
     }
 }

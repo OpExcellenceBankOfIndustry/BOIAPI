@@ -52,6 +52,6 @@ namespace BOI.BOIApplications.Application.Features.API.AccountOpening.Command.Ow
         public string? StatePoliticalOfficerRelationship { get; set; }
         public string? ContestedPoliticalOffice { get; set; }
         public string? StatePoliticalOffice { get; set; }
-    
-}
+        public List<string>? Capacity { get; set; }
+    }
 }

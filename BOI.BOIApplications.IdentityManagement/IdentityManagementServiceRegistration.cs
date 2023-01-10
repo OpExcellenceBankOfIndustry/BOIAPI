@@ -30,6 +30,7 @@ namespace BOI.BOIApplications.IdentityManagement
             services.AddMediatR(Assembly.GetExecutingAssembly());
             //services.AddDefaultIdentity<UserDetail>().AddRoles<UserRole>().AddEntityFrameworkStores<BOIDbContext>();
             services.AddDbContext<BOIDbContext>();
+            
             services.AddDefaultIdentity<UserDetail>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddRoles<UserRole>().AddEntityFrameworkStores<BOIDbContext>();
 
