@@ -24,7 +24,6 @@ namespace BOI.BOIApplications.API.Controllers
         private readonly IRubikonBonitaRepository _rubikonBonitaRepository;
         private readonly IMapper _mapper;
         public CustomerNumber customerNumber = new CustomerNumber();
-        MemoryCache cache = MemoryCache.Default;
 
         public RubikonBonitaIntegrationAPIController(IRubikonBonitaRepository rubikonBonitaRepository, IMapper mapper)
         {
@@ -123,7 +122,6 @@ namespace BOI.BOIApplications.API.Controllers
                 CustomerCreationResponse response = (CustomerCreationResponse)await _rubikonBonitaRepository.CreateCustomerAccount(createPersonalCustomerPayload, mappedRequest.GetType().Name.ToString());
                 if (response != null)
                 {
-                    cache.Set("PersonalCustomerNumber", response._return.customerNumber, DateTimeOffset.Now.AddMinutes(20));
                     SubmitCustomerRequest submitCustomerRequest = new SubmitCustomerRequest { customerNo = response._return.customerNumber };
                     var activateCustomer = await SubmitCustomerDetails(submitCustomerRequest);
                     
