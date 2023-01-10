@@ -86,6 +86,8 @@ namespace BOI.BOIApplications.API.Controllers
             {
                 cache.Set("CorporateCustomerPhoneNumber", corporateAccountDetails.PhoneNumber, DateTimeOffset.Now.AddMinutes(20));
                 cache.Set("CorporateCustomerEmailAddress", corporateAccountDetails.Email, DateTimeOffset.Now.AddMinutes(20));
+                cache.Set("postalCode", corporateAccountDetails.PostalCode, DateTimeOffset.Now.AddMinutes(20));
+                cache.Set("faxNo", corporateAccountDetails.FaxNo, DateTimeOffset.Now.AddMinutes(20));
                 CorporateCustomerAccountCreation corporateCustomerAccountCreation = new CorporateCustomerAccountCreation();
                 var mappedRequest = _mapper.Map(corporateAccountDetails, corporateCustomerAccountCreation);
                 //Default values are assigned below, note that they should be changed before go live
@@ -444,7 +446,7 @@ namespace BOI.BOIApplications.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                LinkPersonalCustomerToCorporateRequest mappedRequest = new LinkPersonalCustomerToCorporateRequest();//_mapper.Map<LinkPersonalCustomerToCorporateRequest>(accountLinkingDetails);
+                LinkPersonalCustomerToCorporateRequest mappedRequest = new LinkPersonalCustomerToCorporateRequest();
                 mappedRequest.channelId = 121;
                 mappedRequest.serviceChannelCode = "BONITA";
                 mappedRequest.transmissionTime = "00";
@@ -454,40 +456,12 @@ namespace BOI.BOIApplications.API.Controllers
                 mappedRequest.cityCode = "IFT";
                 mappedRequest.stateCode = "OSN";
                 mappedRequest.countryCode = "NGA";
-                mappedRequest.corporateCustNo = cache.Get("CorporateCustomerNumber").ToString();//HttpContext.Session.GetString("CorporateCustomerNumber");
-                mappedRequest.personalCustNo= cache.Get("PersonalCustomerNumber").ToString();//HttpContext.Session.GetString("PersonalCustomerNumber");
+                mappedRequest.corporateCustNo = cache.Get("CorporateCustomerNumber").ToString();
+                mappedRequest.personalCustNo= cache.Get("PersonalCustomerNumber").ToString();
+                mappedRequest.faxNo = (int)cache.Get("faxNo");
+                mappedRequest.postalCode = (int)cache.Get("postalCode");
 
-                StringBuilder linkPersonalCustomerToCorporateCustomerPayload = new StringBuilder();
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("</soap:Header>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Body>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<ser:createOrganisationPersonalContact  \txmlns:ser=\"http://service.customer.ci.neptunesoftwareplc.com/\">");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<arg0>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessUnitId>{mappedRequest.businessUnitId}</businessUnitId>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<corporateCustNo>{mappedRequest.corporateCustNo}</corporateCustNo>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<personalCustNo>{mappedRequest.personalCustNo}</personalCustNo>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionCode>{mappedRequest.orgPositionCode}</orgPositionCode>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<addressLine1>No 12B, lAbe Ilgi Ondo Road. Ile-Ife</addressLine1>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine2>Ondo State</addressLine2>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine3>test3</addressLine3>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine4>test4</addressLine4>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<cityCode>{mappedRequest.cityCode}</cityCode>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<stateCode>{mappedRequest.stateCode}</stateCode>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<countryCode>{mappedRequest.countryCode}</countryCode>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<postalCode>678908</postalCode>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<shareholdingOwnershipPercentage>10</shareholdingOwnershipPercentage>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessPhoneNo>{cache.Get("CorporateCustomerPhoneNumber").ToString()}</businessPhoneNo>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessEmailAddr>{cache.Get("CorporateCustomerEmailAddress").ToString()}</businessEmailAddr>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<faxNo>78523641</faxNo>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionId>{mappedRequest.orgPositionId}</orgPositionId>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("</arg0>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("</ser:createOrganisationPersonalContact>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Body>");
-                linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Envelope>");
+                StringBuilder linkPersonalCustomerToCorporateCustomerPayload = BuildLinkPersonalCustomerToCorporateCustomerPayload(mappedRequest);
 
                 string linkPersonalCustomerToCorporateCustomerRequest = linkPersonalCustomerToCorporateCustomerPayload.ToString();
                 var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<LinkPersonalCustomerToCorporateRequest, LinkPersonalCustomerToCorporateResponse>(linkPersonalCustomerToCorporateCustomerRequest, mappedRequest.GetType().Name.ToString());
@@ -498,6 +472,43 @@ namespace BOI.BOIApplications.API.Controllers
                 return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Unable to link account. Please check the detail and try again" });
             }
             return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "Please check the details for null or empty entry" });
+        }
+
+        private StringBuilder BuildLinkPersonalCustomerToCorporateCustomerPayload(LinkPersonalCustomerToCorporateRequest mappedRequest)
+        {
+            StringBuilder linkPersonalCustomerToCorporateCustomerPayload = new StringBuilder();
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("</soap:Header>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<soapenv:Body>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<ser:createOrganisationPersonalContact  \txmlns:ser=\"http://service.customer.ci.neptunesoftwareplc.com/\">");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<arg0>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<channelId>{mappedRequest.channelId}</channelId>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<serviceChannelCode>{mappedRequest.serviceChannelCode}</serviceChannelCode>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<transmissionTime>{mappedRequest.transmissionTime}</transmissionTime>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessUnitId>{mappedRequest.businessUnitId}</businessUnitId>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<corporateCustNo>{mappedRequest.corporateCustNo}</corporateCustNo>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<personalCustNo>{mappedRequest.personalCustNo}</personalCustNo>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionCode>{mappedRequest.orgPositionCode}</orgPositionCode>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<addressLine1>No 12B, lAbe Ilgi Ondo Road. Ile-Ife</addressLine1>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine2>Ondo State</addressLine2>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine3>test3</addressLine3>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("<addressLine4>test4</addressLine4>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<cityCode>{mappedRequest.cityCode}</cityCode>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<stateCode>{mappedRequest.stateCode}</stateCode>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<countryCode>{mappedRequest.countryCode}</countryCode>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<postalCode>{mappedRequest.postalCode}</postalCode>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<shareholdingOwnershipPercentage>10</shareholdingOwnershipPercentage>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessPhoneNo>{cache.Get("CorporateCustomerPhoneNumber").ToString()}</businessPhoneNo>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<businessEmailAddr>{cache.Get("CorporateCustomerEmailAddress").ToString()}</businessEmailAddr>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<faxNo>{mappedRequest.faxNo}</faxNo>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append($"<orgPositionId>{mappedRequest.orgPositionId}</orgPositionId>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("</arg0>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("</ser:createOrganisationPersonalContact>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Body>");
+            linkPersonalCustomerToCorporateCustomerPayload.Append("</soapenv:Envelope>");
+
+            return linkPersonalCustomerToCorporateCustomerPayload;
         }
 
         /// <summary>
@@ -514,27 +525,10 @@ namespace BOI.BOIApplications.API.Controllers
                 customerDetails.serviceChannelCode = "STC053";
                 customerDetails.serviceId = 121;
                 customerDetails.transmissionTime = "00";
-                StringBuilder submitCustomerPayload = new StringBuilder();
-
-                submitCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-                submitCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-                submitCustomerPayload.Append("</soap:Header>");
-                submitCustomerPayload.Append("\t<soapenv:Body>");
-                submitCustomerPayload.Append("<ser:submitCustomer  \txmlns:ser=\"http://service.customer.ci.neptunesoftwareplc.com/\">");
-                submitCustomerPayload.Append("<!--Optional:-->");
-                submitCustomerPayload.Append("<arg0>");
-                submitCustomerPayload.Append($"<channelId>{customerDetails.channelId}</channelId>");
-                submitCustomerPayload.Append($"<serviceChannelCode>{customerDetails.serviceChannelCode}</serviceChannelCode>");
-                submitCustomerPayload.Append($"<serviceId>{customerDetails.serviceId}</serviceId>");
-                submitCustomerPayload.Append($"<transmissionTime>{customerDetails.transmissionTime}</transmissionTime>");
-                submitCustomerPayload.Append($"<customerNo>{customerDetails.customerNo}</customerNo>");
-                submitCustomerPayload.Append("</arg0>");
-                submitCustomerPayload.Append("</ser:submitCustomer>");
-                submitCustomerPayload.Append("</soapenv:Body>");
-                submitCustomerPayload.Append("</soapenv:Envelope>");
+                StringBuilder submitCustomerPayload = BuildSubmitCustomerPayload(customerDetails);
 
                 string submitCustomerRequest = submitCustomerPayload.ToString();
-                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<String, String>(submitCustomerRequest, customerDetails.GetType().Name.ToString());
+                var response = await _rubikonBonitaRepository.ExecuteActionOnCustomerAccount<SubmitCustomerRequest, SubmitAccountResponse>(submitCustomerRequest, customerDetails.GetType().Name.ToString());
                 if (response != null)
                 {
                     return Ok(response);
@@ -542,6 +536,30 @@ namespace BOI.BOIApplications.API.Controllers
                 return StatusCode(StatusCodes.Status404NotFound, new BaseResponse { Success = false, Message = "Unable to submit account. Please check the detail and try again" });
             }
             return StatusCode(StatusCodes.Status400BadRequest, new BaseResponse { Success = false, Message = "Please check the details for null or empty entry" });
+        }
+
+        private StringBuilder BuildSubmitCustomerPayload(SubmitCustomerRequest customerDetails)
+        {
+            StringBuilder submitCustomerPayload = new StringBuilder();
+
+            submitCustomerPayload.Append("<soapenv:Envelope  \txmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            submitCustomerPayload.Append("<soap:Header  \txmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            submitCustomerPayload.Append("</soap:Header>");
+            submitCustomerPayload.Append("\t<soapenv:Body>");
+            submitCustomerPayload.Append("<ser:submitCustomer  \txmlns:ser=\"http://service.customer.ci.neptunesoftwareplc.com/\">");
+            submitCustomerPayload.Append("<!--Optional:-->");
+            submitCustomerPayload.Append("<arg0>");
+            submitCustomerPayload.Append($"<channelId>{customerDetails.channelId}</channelId>");
+            submitCustomerPayload.Append($"<serviceChannelCode>{customerDetails.serviceChannelCode}</serviceChannelCode>");
+            submitCustomerPayload.Append($"<serviceId>{customerDetails.serviceId}</serviceId>");
+            submitCustomerPayload.Append($"<transmissionTime>{customerDetails.transmissionTime}</transmissionTime>");
+            submitCustomerPayload.Append($"<customerNo>{customerDetails.customerNo}</customerNo>");
+            submitCustomerPayload.Append("</arg0>");
+            submitCustomerPayload.Append("</ser:submitCustomer>");
+            submitCustomerPayload.Append("</soapenv:Body>");
+            submitCustomerPayload.Append("</soapenv:Envelope>");
+
+            return submitCustomerPayload;
         }
 
         private StringBuilder BuildCorporateCustomerPayload(CorporateCustomerAccountCreation mappedRequest, CreateCompanyInformation corporateAccountDetails)

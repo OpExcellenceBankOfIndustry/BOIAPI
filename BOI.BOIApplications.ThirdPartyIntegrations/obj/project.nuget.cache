@@ -1,14 +1,15 @@
 {
   "version": 2,
-<<<<<<< HEAD
-  "dgSpecHash": "rkvUOpy3hVLjCwaNMXCwKDLUPNCEJL95MKR/pT3SGi7dAYL/+GEHX8Y6pkIFp7zL/6wjwbeiFQQPweUzGkIzgg==",
-  "success": true,
-  "projectFilePath": "C:\\McSmart\\BOI_Projects\\BOI_API\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
-=======
   "dgSpecHash": "Zm3XxK5H4BHTofOHo0a6DFqzKpISmhPkLgD4uYoTAEEAHm2GT53v8DAFOI1LHVi3R19cuoAG2VdyVzYEI+SN3Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\BOI.BOIApplications.ThirdPartyIntegrations.csproj",
->>>>>>> 8c17b2540b6e252eec83c02f52977dc1d43e9c45
   "expectedPackageFiles": [],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.BOIApplications.ThirdPartyIntegrations\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
