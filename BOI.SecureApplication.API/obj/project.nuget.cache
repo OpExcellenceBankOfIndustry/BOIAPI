@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "n78yrR219YL2LpbiTx2aosxFPAKpmN46wsl4Qt2GTFgCdlq2H6OJ2CYngf4vP5mAT0HbQybhBjPp8i6GS4yMzw==",
+  "dgSpecHash": "49JD/MeQOVybuW2P6Vbn5aRZEfjh0RxGdU+hSWgyi+HvpQlFgiXvZPhjiI4O2mGZgjcAxplGGpg35R7wYJGqPA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\obalogun\\Source\\Repos\\BOIAPI\\BOI.SecureApplication.API\\BOI.SecureApplication.API.csproj",
+  "projectFilePath": "C:\\Users\\obalogun\\source\\repos\\BOIAPI\\BOI.SecureApplication.API\\BOI.SecureApplication.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\obalogun\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\obalogun\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
