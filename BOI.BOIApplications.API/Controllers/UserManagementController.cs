@@ -1,4 +1,4 @@
-﻿using BOI.BOIApplications.Application.Features.API.MicrosoftIdentity.UserManagement.Command.ConfirmEmail;
+﻿    using BOI.BOIApplications.Application.Features.API.MicrosoftIdentity.UserManagement.Command.ConfirmEmail;
 using BOI.BOIApplications.Application.Features.API.MicrosoftIdentity.UserManagement.Command.UserDetails;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

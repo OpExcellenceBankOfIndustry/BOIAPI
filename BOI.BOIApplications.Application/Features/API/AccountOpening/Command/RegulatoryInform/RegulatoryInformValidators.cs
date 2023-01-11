@@ -15,9 +15,9 @@ namespace BOI.BOIApplications.Application.Features.API.AccountOpening.Command.Re
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull().WithMessage("{PropertyName} cannot be null.");
 
-            RuleFor(p => p.CompanyRegistrationNumber)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull().WithMessage("{PropertyName} cannot be null.");
+            //RuleFor(p => p.CompanyRegistrationNumber)
+            //    .NotEmpty().WithMessage("{PropertyName} is required.")
+            //    .NotNull().WithMessage("{PropertyName} cannot be null.");
 
             RuleFor(p => p.SCUMLNumber)
                .NotEmpty().WithMessage("{PropertyName} is required.")

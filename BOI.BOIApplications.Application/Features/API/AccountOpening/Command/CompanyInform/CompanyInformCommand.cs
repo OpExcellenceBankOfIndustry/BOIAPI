@@ -24,7 +24,7 @@ namespace BOI.BOIApplications.Application.Features.API.AccountOpening.Command.Co
         public string? State { get; set; }
         public string? LGA { get; set; }
         public string? TownCity { get; set; }
-
+        public string? CompanyRegistrationNumber { get; set; }
         public string? PhoneNumber { get; set; }
         public string? EmailAddress { get; set; }
         public string? Website { get; set; }

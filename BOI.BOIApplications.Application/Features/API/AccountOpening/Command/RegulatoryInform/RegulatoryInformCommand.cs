@@ -14,7 +14,6 @@ namespace BOI.BOIApplications.Application.Features.API.AccountOpening.Command.Re
         public long UserId { get; set; }
         public string? UserEmail { get; set; }
         public string? RefNumber { get; set; }
-        public string? CompanyRegistrationNumber { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateOfIncorporationRegistration { get; set; }
